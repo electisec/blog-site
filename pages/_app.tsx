@@ -3,6 +3,7 @@ import type { AppProps } from "next/app";
 import Navbar from '../components/Navbar';
 import { Space_Grotesk } from 'next/font/google'
 import { Metadata } from "next";
+import Footer from "@/components/Footer";
 
 const spaceGrotesk = Space_Grotesk({
   subsets: ['latin'],
@@ -42,6 +43,7 @@ export default function App({ Component, pageProps }: AppProps) {
     <main className={spaceGrotesk.className}>
       <Navbar />
       <Component {...pageProps} />
+      <Footer />
     </main>
   );
 }

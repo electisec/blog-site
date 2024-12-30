@@ -22,40 +22,39 @@ export default function ReportPage({
   author,
 }: ReportPageProps) {
   return (
-    <main className="bg-gray-50 flex flex-col min-h-screen">
-      <div className=" bg-gray-50 mt-10 mx-auto">
-        <Link href="/"><h2 className="text-xl mb-4 text-black">← Back to Blogs</h2></Link>
+    <main className="min-h-screen bg-gray-50">
+      <article className="max-w-7xl mx-auto px-4 py-10">
+        <Link href="/" className="inline-block mb-4">
+          <h2 className="text-xl text-black">← Back to Blogs</h2>
+        </Link>
 
-        <div className="max-w-7xl bg-white shadow py-6 sm:px-6 flex flex-row text-black justify-between items-center">
-          {/* <h1 className="text-3xl font-bold ">{title}</h1> */}
-          {/* <div className="mt-2 flex items-center text-sm text-gray-500"> */}
+        <div className="bg-white shadow p-6 sm:px-6">
+          <header className="flex flex-row justify-between items-center mb-6">
             <span>By {author}</span>
-            {/* <span className="mx-2">•</span> */}
             <span>
               {new Date(date).toLocaleDateString("en-US", {
                 year: "numeric",
                 month: "long",
               })}
             </span>
-          {/* </div> */}
-          <div className="flex flex-wrap gap-2">
-            {tags.map((tag, index) => (
-              <span
-                key={index}
-                className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-emeraldlight bg-opacity-25 text-darkgreen"
-              >
-                {tag}
-              </span>
-            ))}
-          </div>
-        </div>
-        <div className="max-w-7xl bg-white shadow py-6 mt-4 sm:px-6">
+            <div className="flex flex-wrap gap-2">
+              {tags.map((tag, index) => (
+                <span
+                  key={index}
+                  className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-emeraldlight bg-opacity-25 text-darkgreen"
+                >
+                  {tag}
+                </span>
+              ))}
+            </div>
+          </header>
+
           <div
             className="prose prose-lg max-w-none prose-table:shadow-lg prose-table:border prose-td:p-2 prose-th:p-2 prose-th:bg-gray-100"
             dangerouslySetInnerHTML={{ __html: content }}
           />
         </div>
-      </div>
+      </article>
     </main>
   );
 }

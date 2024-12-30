@@ -4,6 +4,12 @@ import html from 'remark-html';
 import remarkGfm from 'remark-gfm';
 import { Node } from 'unist';
 import { visit } from 'unist-util-visit';
+import { clsx, type ClassValue } from "clsx"
+import { twMerge } from "tailwind-merge"
+
+export function cn(...inputs: ClassValue[]) {
+  return twMerge(clsx(inputs))
+}
 
 export function extractDate(filename: string): string | null {
   // Match pattern: "MM-YYYY" from the start of the string
