@@ -2,7 +2,7 @@
 layout: post
 title: Small Steps in Automating Security
 subtitle: Detecting Incorrect Interface Definitions (in Vyper!)
-gh-repo: YAcademy-Residents/research-blog
+gh-repo: electisec/blog-site
 gh-badge: [follow]
 tags: [tools, vyper, interfaces]
 comments: true
@@ -21,17 +21,18 @@ A very brief background summary: contracts interact with other contracts using e
 
 Many variations of incorrect interface definitions can occur. We tried to organize these variations into a table to provide a high-level overview. Each pattern mentioned in this table is expanded on later in this post. Examples are provided in Solidity and Vyper.
 
-|                                    | Interface Imported | Interface Not Imported|
-|:----------------------------------:|:------------------:|:---------------------:|
-| **Function Exists and Called**     | OK!                | Pattern 1             |
-| **Function Exists and Not Called** | Pattern 3          | OK!                   |
-| **Function Doesn't Exist**         | Pattern 2A and 2B  | OK!                   |
+|                                    | Interface Imported | Interface Not Imported |
+| :--------------------------------: | :----------------: | :--------------------: |
+|   **Function Exists and Called**   |        OK!         |       Pattern 1        |
+| **Function Exists and Not Called** |     Pattern 3      |          OK!           |
+|     **Function Doesn't Exist**     | Pattern 2A and 2B  |          OK!           |
 
 ### Pattern 1
 
 Consider a scenario where the called contract implements a function but the interface is not imported into the caller contract before making the external call. This pattern can be named "called but not imported". This pattern is caught by the Solidity and Vyper compilers, which raise an error ("Error (7920): Identifier not found or not unique" is the Solidity compiler error and "vyper.exceptions.UnknownAttribute: Exchange has no member 'totalSupply'." is the Vyper compiler error), so this issue should never appear on-chain.
 
 **Vault.sol**
+
 ```solidity
 import {transfer, transferFrom} from "src/interfaces/IERC20.sol";
 
@@ -43,6 +44,7 @@ uint256 currentSupply = IERC20(_token).totalSupply();
 ---
 
 **Vault.vy**
+
 ```python
 interface IERC20:
     def transfer(_to: address, _value: uint256) -> bool: nonpayable
@@ -58,6 +60,7 @@ currentSupply: uint256 = IERC20(_token).totalSupply()
 Another problematic pattern that exists is when the interface is imported in the caller contract but doesn't exist in the called contract. This pattern can be a result of the function name changing in the called contract but the interface import in the caller contract was not modified to match the updated code. The compiler does not catch this type of issue because there is no linking between an interface in the caller contract and the called contract. In many cases, the called contract may not even be in the same code repository as the caller contract, such as cases where a protocol is interacting with other external protocols. The solution in this case is to make sure the caller and called contract interfaces match properly.
 
 **VaultCaller.sol**
+
 ```solidity
 interface IVault {
     function get_price() external returns (uint256);
@@ -65,6 +68,7 @@ interface IVault {
 ```
 
 **Vault.sol**
+
 ```solidity
 function get_current_price() external {
     ...
@@ -74,12 +78,14 @@ function get_current_price() external {
 ---
 
 **VaultCaller.vy**
+
 ```python
 interface Vault:
     def get_price() -> uint256: view
 ```
 
 **Vault.vy**
+
 ```python
 def get_current_price() -> uint256:
 ```
@@ -89,6 +95,7 @@ def get_current_price() -> uint256:
 There is another variation of this same issue where the interface is imported in the caller contract but doesn't exist in the called contract. This variation exists when an interface in the caller contract is overloaded and is used for interactions with multiple called contracts. For example, consider a vault contract calling multiple strategy contracts, or a vault manager contract calling different vaults. If there are differences in the interfaces of the called contracts, it may be incorrect to use the same interface in the caller contract when interacting with all of the called contracts. If the caller contract tests do not test the integrations with all of the called contracts, this issue may not be caught until after deployment. This variation highlights the importance of testing all logic paths with all possible external calls, instead of assuming that testing one external call is enough to make assumptions about all other external calls.
 
 **TokenIntegrator.sol**
+
 ```solidity
 interface ICustomToken {
     function transferWithInfo(address to, uint256 amount, uint8 info) external returns (bool);
@@ -96,6 +103,7 @@ interface ICustomToken {
 ```
 
 **CustomTokenOld.sol**
+
 ```solidity
 function transferWithInfo(address to, uint256 amount, uint8 info) external returns (bool) {
     ...
@@ -103,6 +111,7 @@ function transferWithInfo(address to, uint256 amount, uint8 info) external retur
 ```
 
 **CustomTokenNew.sol**
+
 ```solidity
 function transferWithInfo(address to, uint256 amount, uint8 info, bool hasInfo) external returns (bool) {
     ...
@@ -112,17 +121,20 @@ function transferWithInfo(address to, uint256 amount, uint8 info, bool hasInfo) 
 ---
 
 **TokenIntegrator.vy**
+
 ```python
 interface CustomToken:
     def transferWithInfo(to: address, amount: uint256, info: uint8) -> bool: nonpayable
 ```
 
 **CustomTokenOld.vy**
+
 ```python
 def transferWithInfo(to: address, amount: uint256, info: uint8) -> bool:
 ```
 
 **CustomTokenNew.vy**
+
 ```python
 def transferWithInfo(to: address, amount: uint256, info: uint8, hasInfo: bool) -> bool:
 ```
@@ -130,6 +142,7 @@ def transferWithInfo(to: address, amount: uint256, info: uint8, hasInfo: bool) -
 The suggested solution in this case is to use two different interfaces in order to handle the slight implementation differences in the external contracts. This solution is demonstrated below.
 
 **TokenIntegrator.sol**
+
 ```solidity
 interface ICustomNewToken {
     function transferWithInfo(address to, uint256 amount, uint8 info, bool hasInfo) external returns (bool);
@@ -143,6 +156,7 @@ interface ICustomOldToken {
 ---
 
 **TokenIntegrator.vy**
+
 ```python
 interface CustomNewToken:
     def transferWithInfo(to: address, amount: uint256, info: uint8, hasInfo: bool) -> bool: nonpayable
@@ -156,6 +170,7 @@ interface CustomOldToken:
 Finally, perhaps the least impactful interface issue pattern is where an interface is imported but not used. This does not cause any issue when compiling or interacting with the contracts, but simplifying code in a contract to keep it clean is generally a good idea. The suggested approach here is to remove the unnecessary interface import.
 
 **Vault.sol**
+
 ```solidity
 import {price} from "src/interfaces/PriceOracle.sol";
 
@@ -165,6 +180,7 @@ import {price} from "src/interfaces/PriceOracle.sol";
 ---
 
 **Vault.vy**
+
 ```python
 interface PriceOracle:
     def price() -> uint256: view

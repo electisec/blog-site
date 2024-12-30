@@ -2,7 +2,7 @@
 layout: post
 title: Are Inverse TWAP Prices Inaccurate?
 subtitle: Price Data is Hard - Part 1
-gh-repo: YAcademy-Residents/research-blog
+gh-repo: electisec/blog-site
 gh-badge: [follow]
 tags: [oracles, prices, price data, precision, arithmetic]
 comments: true

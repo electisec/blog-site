@@ -2,7 +2,7 @@
 layout: post
 title: Security notes on ERC4337 and smart wallets
 subtitle: An analysis of the security aspects of Account Abstraction
-gh-repo: YAcademy-Residents/research-blog
+gh-repo: electisec/blog-site
 gh-badge: [follow]
 tags: [ERC4337, account abstraction]
 comments: true

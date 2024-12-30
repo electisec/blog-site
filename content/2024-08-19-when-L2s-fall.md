@@ -2,7 +2,7 @@
 layout: post
 title: When L2s Fall
 subtitle: Newsflash - single points of failure can fail
-gh-repo: YAcademy-Residents/research-blog
+gh-repo: electisec/blog-site
 gh-badge: [follow]
 tags: [L2, sequencer, blockchain, architecture]
 comments: true

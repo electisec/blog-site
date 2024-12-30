@@ -28,8 +28,8 @@ interface ImageNode extends Node {
 }
 
 function replaceImageUrls() {
-  const REPO_OWNER = 'abdul-majeed-khan'; // Replace with your GitHub username
-  const REPO_NAME = 'reports-website';
+  const REPO_OWNER = 'electisec'; // Replace with your GitHub username
+  const REPO_NAME = 'blog-website';
   const BRANCH = 'main';
 
   return (tree: Node) => {
