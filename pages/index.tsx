@@ -1,7 +1,7 @@
 import { useState, useMemo } from "react";
 import { GetStaticProps } from "next";
 import SearchBar from "../components/SearchBar";
-import ReportCard from "../components/ReportCard";
+import ReportCard from "../components/BlogCard";
 import matter from "gray-matter";
 import path from "path";
 import fs from "fs";
@@ -17,29 +17,29 @@ interface Blog {
 }
 
 interface HomeProps {
-  reports: Blog[];
+  blogs: Blog[];
 }
 
-export default function Home({ reports }: HomeProps) {
+export default function Home({ blogs }: HomeProps) {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
 
-  const tags = reports.map((report) => report.tags).flat();
+  const tags = blogs.map((report) => report.tags).flat();
 
-  const filteredReports = useMemo(() => {
+  const filteredBlogs = useMemo(() => {
     const query = searchQuery?.toLowerCase();
-    return reports
+    return blogs
       .filter(
-        (report) =>
-          report?.title?.toLowerCase().includes(query) ||
-          report?.subtitle?.toLowerCase().includes(query) ||
-          report?.tags?.some((tag) => tag.toLowerCase().includes(query))
+        (blog) =>
+          blog?.title?.toLowerCase().includes(query) ||
+          blog?.subtitle?.toLowerCase().includes(query) ||
+          blog?.tags?.some((tag) => tag.toLowerCase().includes(query))
       )
-      .filter((report) => {
+      .filter((blog) => {
         if (selectedTags.length === 0) return true;
-        return report.tags.some((tag) => selectedTags.includes(tag));
+        return blog.tags.some((tag) => selectedTags.includes(tag));
       });
-  }, [searchQuery, reports, selectedTags]);
+  }, [searchQuery, blogs, selectedTags]);
 
   const handleSearch = (query: string) => {
     setSearchQuery(query);
@@ -75,16 +75,16 @@ export default function Home({ reports }: HomeProps) {
         </div>
 
         <div className="mt-8 grid gap-6 px-4 sm:px-0 grid-cols-1">
-          {filteredReports.length > 0 ? (
-            filteredReports.map((report, index) => (
+          {filteredBlogs.length > 0 ? (
+            filteredBlogs.map((report, index) => (
               <ReportCard key={index} {...report} />
             ))
           ) : (
             <div className="col-span-full text-center py-12">
               <p className="text-gray-500">
                 {searchQuery
-                  ? "No reports found matching your search."
-                  : "No reports available."}
+                  ? "No blogs found matching your search."
+                  : "No blogs available."}
               </p>
             </div>
           )}
@@ -96,13 +96,13 @@ export default function Home({ reports }: HomeProps) {
 
 export const getStaticProps: GetStaticProps = async () => {
   try {
-    const reportsDirectory = path.join(process.cwd(), "content");
-    const filenames = fs.readdirSync(reportsDirectory);
+    const blogsDirectory = path.join(process.cwd(), "content");
+    const filenames = fs.readdirSync(blogsDirectory);
 
-    const reports = filenames
+    const blogs = filenames
       .filter((filename) => filename.endsWith(".md"))
       .map((filename) => {
-        const filePath = path.join(reportsDirectory, filename);
+        const filePath = path.join(blogsDirectory, filename);
         const fileContent = fs.readFileSync(filePath, "utf8");
         const { data: frontmatter } = matter(fileContent);
 
@@ -123,16 +123,16 @@ export const getStaticProps: GetStaticProps = async () => {
 
     return {
       props: {
-        reports,
+        blogs,
       },
       // Revalidate every hour
       revalidate: 3600,
     };
   } catch (error) {
-    console.error("Error fetching reports:", error);
+    console.error("Error fetching blogs:", error);
     return {
       props: {
-        reports: [],
+        blogs: [],
       },
       revalidate: 3600,
     };

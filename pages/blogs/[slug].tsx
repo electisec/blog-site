@@ -14,6 +14,7 @@ interface ReportPageProps {
 }
 
 export default function ReportPage({
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   title,
   content,
   date,
@@ -26,7 +27,7 @@ export default function ReportPage({
         <Link href="/"><h2 className="text-xl mb-4 text-black">← Back to Blogs</h2></Link>
 
         <div className="max-w-7xl bg-white shadow py-6 sm:px-6 flex flex-row text-black justify-between items-center">
-          <h1 className="text-3xl font-bold ">{title}</h1>
+          {/* <h1 className="text-3xl font-bold ">{title}</h1> */}
           {/* <div className="mt-2 flex items-center text-sm text-gray-500"> */}
             <span>By {author}</span>
             {/* <span className="mx-2">•</span> */}
@@ -37,7 +38,7 @@ export default function ReportPage({
               })}
             </span>
           {/* </div> */}
-          <div className="mt-4 flex flex-wrap gap-2">
+          <div className="flex flex-wrap gap-2">
             {tags.map((tag, index) => (
               <span
                 key={index}
@@ -60,8 +61,8 @@ export default function ReportPage({
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const reportsDirectory = path.join(process.cwd(), "content");
-  const filenames = fs.readdirSync(reportsDirectory);
+  const blogsDirectory = path.join(process.cwd(), "content");
+  const filenames = fs.readdirSync(blogsDirectory);
 
   const paths = filenames
     .filter((file): file is NonNullable<typeof file> => file !== null)
@@ -78,8 +79,8 @@ export const getStaticPaths: GetStaticPaths = async () => {
 export const getStaticProps: GetStaticProps = async ({ params }) => {
   try {
     const slug = params?.slug as string;
-    const reportsDirectory = path.join(process.cwd(), "content");
-    const filePath = path.join(reportsDirectory, `${slug}.md`);
+    const blogsDirectory = path.join(process.cwd(), "content");
+    const filePath = path.join(blogsDirectory, `${slug}.md`);
     const fileContent = fs.readFileSync(filePath, "utf8");
     const { frontMatter, content } = await processMarkdown(fileContent);
 

@@ -40,13 +40,14 @@ const Navbar = () => {
             <Button text="Members" />
           </Link>
           <Link href="https://reports.electisec.tech/">
-            <button className="px-6 py-3 rounded-xl text-sm hover:text-darkgreen text-bold text-emeraldlight duration-700">
-              Reports
-            </button>
+            <Button text="Reports" />
           </Link>
           <Link href="https://blog.electisec.tech/">
-            <Button text="Blog" />
+            <button className="px-6 py-3 rounded-xl text-sm hover:text-darkgreen text-bold text-emeraldlight duration-700">
+              Blog
+            </button>
           </Link>
+          
           <Link href="https://electisec.tech/fellowships">
             <Button text="Fellowships" />
           </Link>
