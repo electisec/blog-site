@@ -29,7 +29,7 @@ export default function ReportPage({
         </Link>
 
         <div className="bg-white shadow p-6 sm:px-6">
-          <header className="flex flex-row justify-between items-center mb-6">
+          <header className="flex flex-row justify-between items-center mb-6 text-black">
             <span>By {author}</span>
             <span>
               {new Date(date).toLocaleDateString("en-US", {
