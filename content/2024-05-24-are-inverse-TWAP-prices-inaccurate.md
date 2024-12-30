@@ -40,7 +40,7 @@ $$ TWAP = {(19*12) + (20*12) + (22*12) + (22*12) \over (12+12+12+12)} = 20.75 $$
 
 This price action and the average can be seen in this chart. The red lines indicate the price during each block and the green line indicates the average price over the blocks. All the code to generate these example charts is included in [this repository](https://github.com/YAcademy-Residents/Inverse-TWAP-plots).
 
-![Example Price Chart](../assets/img/inverse-twap/plot-example.png)
+![Example Price Chart](https://raw.githubusercontent.com/electisec/blog-site/refs/heads/main/public/inverse-twap/plot-example.png)
 
 Now consider the case of an inverse TWAP that stored the inverse price at each point in time. This would be the exchange rate in the opposite direction, when swapping a USD-based stablecoin for the token. The inverse TWAP would store:
 
@@ -56,21 +56,22 @@ $$ {1 \over 20.75} = 0.048192771 \ne 0.048385167 $$
 
 The inverse price data and the average inverse price can be seen in this chart. Similar to the previous chart, the red lines indicate the inverse price during each block. The blue line indicates the average of the inverse price TWAP (the more accurate average) while the green line shows the inverse price of the standard TWAP (the less accurate average).
 
-![Example Inverse Price Chart](../assets/img/inverse-twap/inverse-example.png)
+![Example Inverse Price Chart](https://raw.githubusercontent.com/electisec/blog-site/refs/heads/main/public/inverse-twap/inverse-example.png)
 
 There is a roughly 0.4% difference between using an inverse TWAP and inverting the result of a standard TWAP in this example. This large of a difference can have noticeable impacts for certain use cases. However, this demonstration of the core issue used example numbers rather than real on-chain data.
 
 ## Impact of Volatility
 
 When considering the real-world inaccuracy when using an inverse TWAP price, volatility plays a large factor. Let's consider some basic examples that illustrate this intuitively:
+
 - If a stablecoin remains stable at exactly $1 for a long period of time, the average price is $1 and the inverse is also $1
 - The averaging math that creates a delta between the price of an inverse TWAP and the inverse result of a standard TWAP is due to the variation in price data across time. More volatile assets have a greater variation in price data over time relative to total value, so the delta should be expected to be larger for more volatile assets.
 
 An example of the difference in the inverse TWAP price and the inverse standard TWAP price is demonstrated with some hypothetical example numbers from a low volatility stablecoin. The price is at .997 for one block, .995 for the 2nd block, and 1 for the 3rd and 4th blocks. The delta between the inverse TWAP price and the inverse of the standard TWAP is only around 0.0004%. Even though Python is drawing a blue line and a green line, they overlap so only one color is visible in the first plot. Only after zooming in, in the second plot, are the two lines (barely) distinct.
 
-![Example Stablecoin Price Chart](../assets/img/inverse-twap/stable-example.png)
+![Example Stablecoin Price Chart](https://raw.githubusercontent.com/electisec/blog-site/refs/heads/main/public/inverse-twap/stable-example.png)
 
-![Example Stablecoin Price Chart](../assets/img/inverse-twap/stable-example-zoomed.png)
+![Example Stablecoin Price Chart](https://raw.githubusercontent.com/electisec/blog-site/refs/heads/main/public/inverse-twap/stable-example-zoomed.png)
 
 But instead of using made-up data sets to examine the impact of inverting a standard TWAP, examining real-world price data will provide a more useful takeaway. But first, let's examine actual TWAP data sources in existing protocols.
 
@@ -78,7 +79,7 @@ But instead of using made-up data sets to examine the impact of inverting a stan
 
 The Uniswap v2 documentation is so clear that the easiest way to explain how the Uniswap v2 TWAP mathematics works is by sharing this illustration from [their docs](https://docs.uniswap.org/contracts/v2/concepts/core-concepts/oracles).
 
-![Uniswap v2 TWAP](../assets/img/inverse-twap/univ2-twap.png)
+![Uniswap v2 TWAP](https://raw.githubusercontent.com/electisec/blog-site/refs/heads/main/public/inverse-twap/univ2-twap.png)
 
 The data is stored in the variables `price0CumulativeLast` and `price1CumulativeLast` with [this code](https://github.com/Uniswap/v2-core/blob/ee547b17853e71ed4e0101ccfd52e70d5acded58/contracts/UniswapV2Pair.sol#L76-L80).
 
@@ -113,7 +114,7 @@ You may have noticed in the previous code snippet that Uniswap v2 actually has 2
 
 Despite Uniswap v2 focusing on these details in TWAP design, Uniswap v3 only stores one TWAP price instead of two different TWAP prices. Another difference is that the Uniswap v3 TWAP [only stores historic tick data](https://docs.uniswap.org/sdk/v3/guides/advanced/price-oracle#calculating-the-average-price). So what impact do these decisions have for Uniswap v3?
 
-The first key difference is that Uniswap v3 TWAP stores the *geometric mean* while Uniswap v2 stores the *arithmetic mean*. The issue highlighted in the Uniswap v2 whitepaper, where the inverse of an average value is not equal to the average of the inverse values, is only relevant for the *arithmetic mean*. Consider this brief example of the geometric mean:
+The first key difference is that Uniswap v3 TWAP stores the _geometric mean_ while Uniswap v2 stores the _arithmetic mean_. The issue highlighted in the Uniswap v2 whitepaper, where the inverse of an average value is not equal to the average of the inverse values, is only relevant for the _arithmetic mean_. Consider this brief example of the geometric mean:
 
 $$ \text { inverse of geometric mean price } \stackrel{?}{=} \text { geometric mean of inverse prices } $$
 
@@ -133,17 +134,18 @@ In summary, the TWAP value in Uniswap v3 can be inverted without the problems in
 
 ## Visualizing On-Chain Data
 
-To achieve our goal of understanding what the higher end of this price inaccuracy looks like, we examine the PEPE token as an example of a higher volatility token. This visualizing exercise will use on-chain price data from the PEPE/ETH Uniswap v3 pool on mainnet at [0x11950d141ecb863f01007add7d1a342041227b58](https://info.uniswap.org/#/pools/0x11950d141ecb863f01007add7d1a342041227b58) but use Uniswap v2 arithmetic mean math for comparing the inverse of an average value to the average of the inverse values.  While this is mixing Uniswap v2 and v3, it was easier to gather the data this way.
+To achieve our goal of understanding what the higher end of this price inaccuracy looks like, we examine the PEPE token as an example of a higher volatility token. This visualizing exercise will use on-chain price data from the PEPE/ETH Uniswap v3 pool on mainnet at [0x11950d141ecb863f01007add7d1a342041227b58](https://info.uniswap.org/#/pools/0x11950d141ecb863f01007add7d1a342041227b58) but use Uniswap v2 arithmetic mean math for comparing the inverse of an average value to the average of the inverse values. While this is mixing Uniswap v2 and v3, it was easier to gather the data this way.
 
 A period of high volatility was chosen by manually looking at the PEPE/ETH price chart to identify blocks 19641300 to 19641400 as having a particularly rapid price change (about a 12% price drop). The chart of the price data is shown below.
 
-![PEPE Price Chart](../assets/img/inverse-twap/pepe_price.png)
+![PEPE Price Chart](https://raw.githubusercontent.com/electisec/blog-site/refs/heads/main/public/inverse-twap/pepe_price.png)
 
 Next, the inverse of each price data point was calculated and graphed. Also in the graph is the inverse of the standard TWAP average (green) and the average of the inverse TWAP (blue). The delta between the two averages is roughly 0.35%, which is not far from the 0.4% inaccuracy calculated with example data previously. The individual steps used to collect this data are listed after the chart.
 
-![Inverse PEPE Prices with Averages](../assets/img/inverse-twap/pepe_data_with_averages.png)
+![Inverse PEPE Prices with Averages](https://raw.githubusercontent.com/electisec/blog-site/refs/heads/main/public/inverse-twap/pepe_data_with_averages.png)
 
 Data collection steps:
+
 1. Check price graph to identify a highly volatile period
 2. Identify the block numbers that align to this time period (manual effort)
 3. Pull price data into a CSV with sothis: `sothis --mode fast_track --source_rpc http://127.0.0.1:3000 --contract_address 0x11950d141ecb863f01007add7d1a342041227b58 --storage_slot 0 --origin_block 19641300 --terminal_block 19641400 --filename pepe-eth-price-data.json`

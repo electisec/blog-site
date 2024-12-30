@@ -13,9 +13,9 @@ author: engn33r
 
 What if I told you that what is examined in a standard smart contract security review or audit is different from the protocol operating on-chain? What if the standard smart contract security process in 2024 has a blind spot that can lead to overlooked bugs?
 
-![Morpheus](../assets/img/post-deployment/this-is-fine.png)
+![Morpheus](https://raw.githubusercontent.com/electisec/blog-site/refs/heads/main/public/post-deployment/this-is-fine.png)
 
-Smart contract code is intended to be deployed on-chain. The full on-chain context is not available *before* the code is deployed on-chain. Most code is not deployed on-chain without a proper security review, so the security review happens *before* deployment. This means security audits are consistently being performed with incomplete context.
+Smart contract code is intended to be deployed on-chain. The full on-chain context is not available _before_ the code is deployed on-chain. Most code is not deployed on-chain without a proper security review, so the security review happens _before_ deployment. This means security audits are consistently being performed with incomplete context.
 
 This incomplete context is a problem that can lead to overlooked vulnerabilities or inaccurate assumptions during the code review process. There are many known examples of smart contract code being secure in some contexts but not in others. Common examples are Compound Finance forks (adding an incorrect ERC20 token makes the protocol insecure) and UUPS proxies (an uninitalized proxy is insecure).
 
@@ -31,7 +31,7 @@ Public audit reports are another source demonstrating that deployment scripts ar
 
 To further demonstrate how deployment scripts are ignored in security reviews, deployment scripts are often among the last files to be finalized before the protocol is deployed. Deployment scripts are often not finished when the security review begins, and this is no doubt reinforced by this mindset that only smart contracts are important files that should be in-scope for the security review. Even if the deployment scripts are considered finalized, the idea of modifying a deployment script at the last minute without a security review is not considered a major error. In contrast, most security-conscious developers would recognize that modifying smart contract code without a proper security review is a major error.
 
-![Deployment script todo](../assets/img/post-deployment/todo.png)
+![Deployment script todo](https://raw.githubusercontent.com/electisec/blog-site/refs/heads/main/public/post-deployment/todo.png)
 
 The logic from the developer standpoint is that it’s better to finalize the smart contract code first so that the security work can begin, allowing the deployment scripts to be finalized in parallel. But the hidden risk with this approach is that if the deployment scripts are not finalized at the time of the security review, it is impossible to test the contract deployment in a way that mimics the finalized deployment. The inability to get a clear view of the final on-chain deployed state during the security review is crucial to the next point.
 
@@ -39,7 +39,7 @@ The logic from the developer standpoint is that it’s better to finalize the sm
 
 Constructors and access-controlled functions can sometimes be skimmed quickly in security reviews because it’s often hard to find anything inherently wrong in the simple logic of these lines of code. The core idea is that the deployer or admin of the contract is setting the value of a state variable. In theory, not much can go wrong. The problem is that, without a finalized deployment script, the values passed into these functions are unknown, even though they play a key role in the protocol.
 
-![Magnifier](../assets/img/post-deployment/magnifier.png)
+![Magnifier](https://raw.githubusercontent.com/electisec/blog-site/refs/heads/main/public/post-deployment/magnifier.png)
 
 Inaccurate assumptions about these values relative to how the protocol operates on-chain can cause the security review to miss possible issues. For instance, take the common case of a setter function that can only be called by the protocol admin. An example of this could be a function like `setFactory(address)` or `setOracle(address)`. The report from the security review can often contain an issue if there is a problem passing the zero address as input to this function. But what about an admin-controlled setter function named `setFeePercentage(uint256)` that takes a uint256 input argument? What values will be passed to this function and what protections should be in place? Different logical checks are needed if the function expects the value 3% (perhaps the percentage should always be less than or equal to 100) or 103% (perhaps the percentage should always be greater than or equal to 100).
 

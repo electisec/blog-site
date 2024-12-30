@@ -19,11 +19,11 @@ The whitepaper summaries below are not intended to replace reading the actual wh
 
 ## Paper 1: [Toxic Liquidation Spirals](https://arxiv.org/abs/2212.07306)
 
-If you are going to read only one of these papers fully, it should be this one. This paper is relevant for any borrowing/lending protocol. It expands on an idea first mentioned in a “Counterproductive Incentives” high risk finding from a [2019 OpenZeppelin audit of Compound Finance](https://blog.openzeppelin.com/compound-audit) and examines real data from the November 2022 CRV bad debt attack on Aave by Avi Eisenberg. This paper describes how *every* lending protocol with a liquidation incentive (Aave, Compound Finance, and all their forks) has a risk of accumulating bad debt. The paper demonstrates why this liquidation incentive poses a risk to lending protocols and examines how best to handle toxic liquidation spirals should they occur.
+If you are going to read only one of these papers fully, it should be this one. This paper is relevant for any borrowing/lending protocol. It expands on an idea first mentioned in a “Counterproductive Incentives” high risk finding from a [2019 OpenZeppelin audit of Compound Finance](https://blog.openzeppelin.com/compound-audit) and examines real data from the November 2022 CRV bad debt attack on Aave by Avi Eisenberg. This paper describes how _every_ lending protocol with a liquidation incentive (Aave, Compound Finance, and all their forks) has a risk of accumulating bad debt. The paper demonstrates why this liquidation incentive poses a risk to lending protocols and examines how best to handle toxic liquidation spirals should they occur.
 
 The chart below illustrates several different approaches that Aave could have taken to the November 2022 bad debt scenario assuming different protocol design choices. The worst case scenario in the chart is what actually happened (in red), while the other lines are alternative design choice solutions for the same scenario. The chart makes it clear that good design choices in extreme edge cases can have a real impact on keeping user funds safe.
 
-![Aave bad debt](../assets/img/economics/aave-bad-debt.png)
+![Aave bad debt](https://raw.githubusercontent.com/electisec/blog-site/refs/heads/main/public/economics/aave-bad-debt.png)
 
 ## Paper 2: [Mitigating Decentralized Finance Liquidations with Reversible Call Options](https://eprint.iacr.org/2023/254)
 
@@ -31,7 +31,7 @@ Similar to the first paper, this paper proposes an alternate design to handle li
 
 The diagram below shows a possible implementation of MIQADO on top of an existing liquidation mechanism. When the health factor drops to an extreme level, the position can be liquidated as usual (orange color), but prior to that point, a supporter S receives an incentive (in the form of a reversible call option) to provide additional collateral to improve the health of the borrowing position (blue color).
 
-![Reversible call option payoff](../assets/img/economics/miqado.png)
+![Reversible call option payoff](https://raw.githubusercontent.com/electisec/blog-site/refs/heads/main/public/economics/miqado.png)
 
 ## Paper 3: [Attacks on Dynamic DeFi Interest Rate Curves](https://arxiv.org/abs/2307.13139)
 
@@ -43,7 +43,7 @@ The chart below demonstrates an example of manipulating a proportionally control
 2. The strategic user deposits assets to increase supply while decreasing demand. This is done in a way to keep the interest rate high.
 3. The attacker can return the utilization to the same level prior to time s, but with more deposited assets in the protocol. This causes the attacker to receive "extra" yield on their increased supply at the expense of other "inactive" lenders.
 
-![Interest rate spike](../assets/img/economics/interest-rate-spike.png)
+![Interest rate spike](https://raw.githubusercontent.com/electisec/blog-site/refs/heads/main/public/economics/interest-rate-spike.png)
 
 ## Paper 4: [Shill-Proof Auctions](https://arxiv.org/abs/2404.00475)
 
@@ -51,13 +51,14 @@ This paper is relevant for any protocol involving an auction. While certain part
 
 The chart below shows whether an auction is efficient (whether the auction winner is the real bidder with the highest valuation), whether an auction format is strategy-proof, or whether an auction format is strongly or weakly shill-proof. Dutch auctions are a better choice based on these specific criteria and I would expect to see greater adoption of this auction format once these results are shared more broadly.
 
-![Shill-Proof Auctions Summary](../assets/img/economics/shill-proof-table.png)
+![Shill-Proof Auctions Summary](https://raw.githubusercontent.com/electisec/blog-site/refs/heads/main/public/economics/shill-proof-table.png)
 
 ## Paper 5: [Automated Market Making and Loss-Versus-Rebalancing](https://arxiv.org/abs/2208.06046)
 
 Last but not least, this excellent paper is relevant for any protocol (or users) that are liquidity providers to an AMM. In a similar way to how the pricing of options was most famously quantified with the Black-Scholes model, this paper provides a "Black-Scholes for AMMs" equation. The key term is the "loss-versus-rebalancing" (LVR) performance gap, which is the difference between a "rebalancing strategy" that replicates the AMM trades at market prices in a CEX (this assumes a CEX with infinite liquidity, so trades have no price impact) compared to holding a LP position. A comparison of the two strategies shows that holding the LP position returns a worse result due to price slippage on each trade. It is therefore in the interest of AMM designers to reduce this LVR gap as much as possible to improve capital efficiency.
 
 Of particular interest to DeFi natives is section 8 discussing the differences between "impermanent loss" (termed "loss-versus-holding" (LVH) in the paper) and LVR. Differences include:
+
 - LVH and LVR are strictly non-negative values, but LVH can revert (return to zero) while LVR is strictly increasing
 - LVH depends on the initial pool position at time t = 0. Two LPs will realize different and unrelated LVH if they did not deposit at times when the pool had identical holdings. In comparison, all LPs experience the same LVR over the same time period.
 - LVH is path independent while LVR is path dependent
@@ -66,13 +67,13 @@ A final remark in this section addresses the common assumption that there is no 
 
 The key equation in this paper is the LVR equation. LVR is dependent on the variables of volatility (`σ`), asset price (`P`), value of the pool (`x∗'(P)`), and time (`t`).
 
-![LVR Equation](../assets/img/economics/LVR.png)
+![LVR Equation](https://raw.githubusercontent.com/electisec/blog-site/refs/heads/main/public/economics/LVR.png)
 
 ## Conclusion
 
 The field that I call DeFi Risk Modelling is so new that it doesn’t have a clear and distinct name yet (Tokenomics Research? DeFi Economics?), so the implications of these papers are not as well-known to the protocol developer and security ecosystem as they should be. But as protocols increase in complexity and interconnectedness, it becomes more important to understand the side effects from each design decision and how different variables in a protocol relate to one another. Progress in protocol design can happen much faster if supported by strong fundamentals and good design, as opposed to choosing suboptimal decisions without thorough analysis.
 
-In the future, I hope to see more and more protocols sharing economic analysis *at the start of the contract security code review* in order for the implications of certain protocol design decisions to be better understood when the code is getting a close examination. If a complex new protocol does not do robust modelling under a wide variety of extreme market conditions, unknown unknowns can hide in the protocol's design until it's too late.
+In the future, I hope to see more and more protocols sharing economic analysis _at the start of the contract security code review_ in order for the implications of certain protocol design decisions to be better understood when the code is getting a close examination. If a complex new protocol does not do robust modelling under a wide variety of extreme market conditions, unknown unknowns can hide in the protocol's design until it's too late.
 
 ## Acknowledgements
 

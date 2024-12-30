@@ -13,7 +13,7 @@ author: adriro
 
 ## Account abstraction
 
-Account abstraction is an extensive topic, but at a very high level, the idea is to abstract the concept of an account into a smart contract (the *smart wallet*) that allows a lot more flexibility than an EOA (externally owned account) which most people use today while interacting with the blockchain. Among some of the benefits are:
+Account abstraction is an extensive topic, but at a very high level, the idea is to abstract the concept of an account into a smart contract (the _smart wallet_) that allows a lot more flexibility than an EOA (externally owned account) which most people use today while interacting with the blockchain. Among some of the benefits are:
 
 - Improved security: implement [social recovery](https://vitalik.ca/general/2021/01/11/recovery.html) in case access is lost. Authorization keys can be rotated without the need to move assets.
 - Sponsored transactions: the user doesn't need to have ETH, third-party entities (called paymasters) can sponsor transaction fees.
@@ -27,8 +27,8 @@ Once decoupled from the limitations of an EOA, the flexibility of an account is 
 The proposed standard to implement account abstraction in Ethereum is defined in [EIP-4337](https://eips.ethereum.org/EIPS/eip-4337).
 
 <figure class="mt-5">
-    <a class="image-link" href="../assets/img/erc4337/erc4337-redguild.png">
-      <img src="../assets/img/erc4337/erc4337-redguild.png" alt="erc4337 diagram">
+    <a class="image-link" href="https://raw.githubusercontent.com/electisec/blog-site/refs/heads/main/public/erc4337/erc4337-redguild.png">
+      <img src="https://raw.githubusercontent.com/electisec/blog-site/refs/heads/main/public/erc4337/erc4337-redguild.png" alt="erc4337 diagram">
     </a>
     <figcaption style="text-align:center"><small>This is probably the best diagram depicting ERC-4337 out there, kudos to <a href="https://theredguild.org/" target="_blank">The Red Guild</a>.</small></figcaption>
 </figure>
@@ -38,7 +38,7 @@ The proposed standard to implement account abstraction in Ethereum is defined in
 Actions are represented by objects called user operations.
 
 <p>
-  <img style="max-width: 500px;" class="mx-auto d-block" src="../assets/img/erc4337/userop.png" alt="userop">
+  <img style="max-width: 500px;" class="mx-auto d-block" src="https://raw.githubusercontent.com/electisec/blog-site/refs/heads/main/public/erc4337/userop.png" alt="userop">
 </p>
 
 A detailed explanation of each can be found [here](https://eips.ethereum.org/EIPS/eip-4337#entrypoint-definition), but we can see some familiar names that are also part of Ethereum transactions: `sender`, `nonce`, `callData`, `gasFees` (packs `maxFeePerGas` and `maxPriorityFeePerGas`). The signature attribute is an arbitrary payload that will be used by the wallet implementation.
@@ -93,7 +93,7 @@ In short, the Entrypoint does the following:
 
 We can clerly see this pattern in the [reference implementation](https://github.com/eth-infinitism/account-abstraction/blob/04ee30e3130dc1145ad7032318cf841909a8bc71/contracts/core/EntryPoint.sol#L90-L110):
 
-![loop](../assets/img/erc4337/loop.png)
+![loop](https://raw.githubusercontent.com/electisec/blog-site/refs/heads/main/public/erc4337/loop.png)
 
 Note how the loop works here: validations are done all together in a separate loop. We don't want the execution of an operation to interfere with the validation of another.
 
@@ -101,7 +101,7 @@ Having a central Entrypoint contract orchestrating the process is what allows th
 
 <figure>
     <div>
-      <img src="../assets/img/erc4337/execute.png" alt="execute">
+      <img src="https://raw.githubusercontent.com/electisec/blog-site/refs/heads/main/public/erc4337/execute.png" alt="execute">
     </div>
     <figcaption style="text-align:center">
       <small class="mx-auto d-block w-75">
@@ -118,13 +118,13 @@ An important detail is that paymasters are also allowed to execute after the mai
 
 The solution to this problem is quite interesting due to its simplicity, we call the paymaster’s `postOp()` twice. The first call happens in the inner context along with the main execution of the operation. If this first call reverts, then the operation is also reverted, and a second call gets triggered, now with the effects of the operation nullified.
 
-![postop](../assets/img/erc4337/postop.png)
+![postop](https://raw.githubusercontent.com/electisec/blog-site/refs/heads/main/public/erc4337/postop.png)
 
 Factories not only enable deterministic deployment but also offer stronger guarantees to the various actors. Rather than dealing with a shallow string of bytecode, the existence of a concrete and known factory allows better visibility and analysis, while providing additional security. For example, a paymaster can decide whether to sponsor the wallet creation by simply checking the target factory. For bundlers, the complexity of the simulation is greatly reduced by having a well-known implementation that ensures no on-chain reverts. Additionally, it provides better security for users, as a factory contract address is easier to analyze than an arbitrary initialization code, enabling better tooling and user experience.
 
 <figure>
     <div>
-      <img src="../assets/img/erc4337/factory.png" alt="factory">
+      <img src="https://raw.githubusercontent.com/electisec/blog-site/refs/heads/main/public/erc4337/factory.png" alt="factory">
     </div>
     <figcaption style="text-align:center">
       <small class="mx-auto d-block w-75">
