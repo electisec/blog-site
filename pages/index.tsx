@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { GetStaticProps } from "next";
 import SearchBar from "../components/SearchBar";
 import ReportCard from "../components/BlogCard";
@@ -23,9 +23,26 @@ interface HomeProps {
 export default function Home({ blogs }: HomeProps) {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
-
+  
   const tags = blogs.map((report) => report.tags).flat();
-
+  
+  // Enhanced useEffect to handle multiple URL tags
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const tagParam = params.get('tag');
+    
+    if (tagParam) {
+      // Split the tag parameter by commas and filter out any invalid tags
+      const urlTags = tagParam.split(',')
+        .map(tag => tag.trim())
+        .filter(tag => tags.includes(tag));
+      
+      if (urlTags.length > 0) {
+        setSelectedTags(urlTags);
+      }
+    }
+  }, [tags]);
+  
   const filteredBlogs = useMemo(() => {
     const query = searchQuery?.toLowerCase();
     return blogs
@@ -40,9 +57,35 @@ export default function Home({ blogs }: HomeProps) {
         return blog.tags.some((tag) => selectedTags.includes(tag));
       });
   }, [searchQuery, blogs, selectedTags]);
-
+  
   const handleSearch = (query: string) => {
     setSearchQuery(query);
+  };
+  
+  // Enhanced tag selection handler for multiple tags
+  const handleTagSelection = (tag: string) => {
+    setSelectedTags((prevTags) => {
+      const newTags = prevTags.includes(tag)
+        ? prevTags.filter((t) => t !== tag)
+        : [...prevTags, tag];
+      
+      // Update URL with all selected tags
+      const params = new URLSearchParams(window.location.search);
+      if (newTags.length > 0) {
+        params.set('tag', newTags.join(','));
+      } else {
+        params.delete('tag');
+      }
+      
+      // Update URL without refreshing the page
+      window.history.replaceState(
+        {},
+        '',
+        `${window.location.pathname}${newTags.length ? `?${params.toString()}` : ''}`
+      );
+      
+      return newTags;
+    });
   };
 
   return (
@@ -60,20 +103,14 @@ export default function Home({ blogs }: HomeProps) {
                     ? " bg-emerald bg-opacity-25 text-darkgreen"
                     : "")
                 }
-                onClick={() =>
-                  setSelectedTags((prevTags) =>
-                    prevTags.includes(tag)
-                      ? prevTags.filter((t) => t !== tag)
-                      : [...prevTags, tag]
-                  )
-                }
+                onClick={() => handleTagSelection(tag)}
               >
                 {tag} {selectedTags.includes(tag) && "x"}
               </button>
             ))}
           </div>
         </div>
-
+        
         <div className="mt-8 grid gap-6 px-4 sm:px-0 grid-cols-1">
           {filteredBlogs.length > 0 ? (
             filteredBlogs.map((report, index) => (
