@@ -36,8 +36,8 @@ const Navbar = () => {
 
         {/* Desktop menu */}
         <div className="hidden lg:flex flex-row items-center gap-1 lg:mr-[15vw]">
-          <Link href="https://electisec.tech/members">
-            <Button text="Members" />
+          <Link href="https://electisec.tech/team">
+            <Button text="Team" />
           </Link>
           <Link href="https://reports.electisec.tech/">
             <Button text="Reports" />
@@ -72,12 +72,12 @@ const Navbar = () => {
             >
               <CloseCircleOutlined style={{ fontSize: "2rem" }} />
             </button>
-            <Link href="https://electisec.tech/members">
+            <Link href="https://electisec.tech/team">
               <button
                 onClick={() => setMenuOpen(false)}
                 className="p-6 rounded-xl w-full text-xl text-zinc-400 hover:text-emeraldlight hover:bg-white hover:bg-opacity-5 duration-700"
               >
-                Members
+                Team
               </button>
             </Link>
             <Link href="https://reports.electisec.tech/">

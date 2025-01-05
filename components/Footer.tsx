@@ -1,17 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
 
-export default function Footer() {
-  return (
-    <div className="h-full flex flex-col bg-gray-100 justify-center p-16 items-center relative">
-      <img alt="" src="/logo.svg" className="h-[5rem]"/>
-      <DockDemo />
-      <p className="text-sm text-zinc-500 mt-10 text-center">
-        Copyright © 2025 Electisec. All rights reserved.
-      </p>
-    </div>
-  );
-}
-
 import React from "react";
 import { CalendarIcon, MailIcon, PencilIcon, BookCopyIcon } from "lucide-react";
 
@@ -25,6 +13,20 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { Dock, DockIcon } from "@/components/ui/dock";
+
+
+export default function Footer() {
+  return (
+    <div className="h-full flex flex-col bg-gray-100 justify-center p-16 items-center relative">
+      <img alt="" src="/logo.svg" className="h-[5rem]" />
+      <DockDemo />
+      <p className="text-sm text-zinc-500 mt-10 text-center">
+        Copyright © 2025 Electisec. All rights reserved.
+      </p>
+    </div>
+  );
+}
+
 
 export type IconProps = React.HTMLAttributes<SVGElement>;
 
@@ -70,28 +72,23 @@ export const Icons = {
       ></path>
     </svg>
   ),
+  telegram: (props: IconProps) => (
+    <svg
+      viewBox="0 0 24 24"
+      width="50px"
+      height="50px"
+      xmlns="http://www.w3.org/2000/svg"
+      {...props}
+    >
+      <path
+        fill="currentColor"
+        d="M19.2,4.4L2.9,10.7c-1.1,0.4-1.1,1.1-0.2,1.3l4.1,1.3l1.6,4.8c0.2,0.5,0.1,0.7,0.6,0.7c0.4,0,0.6-0.2,0.8-0.4
+	c0.1-0.1,1-1,2-2l4.2,3.1c0.8,0.4,1.3,0.2,1.5-0.7l2.8-13.1C20.6,4.6,19.9,4,19.2,4.4z M17.1,7.4l-7.8,7.1L9,17.8L7.4,13l9.2-5.8
+	C17,6.9,17.4,7.1,17.1,7.4z"
+      ></path>
+    </svg>
+  ),
 };
-
-{
-  /* <Icon
-          src="discord.png"
-          alt="Discord"
-          href="https://discord.gg/xd4j4pePPm"
-          width="25"
-        />
-        <Icon
-          src="gitcoin.png"
-          alt="Gitcoin"
-          href="https://explorer.gitcoin.co/#/round/10/0x2871742b184633f8dc8546c6301cbc209945033e/0x2871742b184633f8dc8546c6301cbc209945033e-229"
-          width="25"
-        />
-        <Icon
-          src="snapshot.png"
-          alt="Snapshot"
-          href="https://snapshot.org/"
-          width="25"
-        /> */
-}
 
 const DATA = {
   navbar: [
@@ -109,11 +106,11 @@ const DATA = {
         url: "https://www.github.com/electisec",
         icon: Icons.github,
       },
-      // LinkedIn: {
-      //   name: "LinkedIn",
-      //   url: "#",
-      //   icon: Icons.linkedin,
-      // },
+      Telegram: {
+        name: "Telegram",
+        url: "https://t.me/electisec",
+        icon: Icons.telegram,
+      },
       X: {
         name: "X",
         url: "https://www.x.com/electisec",
@@ -135,7 +132,7 @@ const DATA = {
 
 export function DockDemo() {
   return (
-    <div className="relative flex flex-col items-center justify-center">
+    <div className="relative flex flex-col items-center justify-center text-black">
       <TooltipProvider>
         <Dock direction="middle">
           {DATA.navbar.map((item) => (
@@ -148,7 +145,7 @@ export function DockDemo() {
                     aria-label={item.label}
                     className={cn(
                       buttonVariants({ variant: "ghost", size: "icon" }),
-                      "size-12 rounded-full"
+                      "size-14 rounded-full"
                     )}
                   >
                     <item.icon className="size-4" />
