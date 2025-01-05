@@ -4,7 +4,7 @@ title: Post-deployment Security
 subtitle: Fixing a Smart Contract Security Blind Spot
 gh-repo: electisec/blog-site
 gh-badge: [follow]
-tags: [post-deployment, process, guide]
+tags: []
 comments: true
 author: engn33r
 ---
