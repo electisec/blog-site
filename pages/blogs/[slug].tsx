@@ -23,7 +23,7 @@ export default function ReportPage({
 }: ReportPageProps) {
   return (
     <main className="min-h-screen bg-gray-50">
-      <article className="max-w-7xl mx-auto px-4 py-10">
+      <article className="max-w-6xl mx-auto px-4 py-10">
         <Link href="/" className="inline-block mb-4">
           <h2 className="text-xl text-black">← Back to Blogs</h2>
         </Link>
