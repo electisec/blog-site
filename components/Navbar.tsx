@@ -36,9 +36,6 @@ const Navbar = () => {
 
         {/* Desktop menu */}
         <div className="hidden lg:flex flex-row items-center gap-1 lg:mr-[15vw]">
-          <Link href="https://electisec.tech/team">
-            <Button text="Team" />
-          </Link>
           <Link href="https://reports.electisec.tech/">
             <Button text="Reports" />
           </Link>
@@ -53,6 +50,9 @@ const Navbar = () => {
           </Link>
           <Link href="https://electisec.tech/services">
             <Button text="Services" />
+          </Link>
+          <Link href="https://electisec.tech/team">
+            <Button text="Team" />
           </Link>
           <Link href="https://electisec.tech/contact-us">
             <button className="px-8 py-3 rounded-xl text-md text-darkgreen text-bold bg-emeraldlight bg-opacity-25 hover:bg-opacity-5 hover:text-emeraldlight duration-700">
@@ -72,14 +72,7 @@ const Navbar = () => {
             >
               <CloseCircleOutlined style={{ fontSize: "2rem" }} />
             </button>
-            <Link href="https://electisec.tech/team">
-              <button
-                onClick={() => setMenuOpen(false)}
-                className="p-6 rounded-xl w-full text-xl text-zinc-400 hover:text-emeraldlight hover:bg-white hover:bg-opacity-5 duration-700"
-              >
-                Team
-              </button>
-            </Link>
+
             <Link href="https://reports.electisec.tech/">
               <button className="p-6 rounded-xl w-full text-xl text-zinc-400 hover:text-emeraldlight hover:bg-darkgreen hover:bg-opacity-5 duration-700">
                 Reports
@@ -104,6 +97,14 @@ const Navbar = () => {
                 className="p-6 rounded-xl w-full text-xl text-zinc-400 hover:text-emeraldlight hover:bg-white hover:bg-opacity-5 duration-700"
               >
                 Services
+              </button>
+            </Link>
+            <Link href="https://electisec.tech/team">
+              <button
+                onClick={() => setMenuOpen(false)}
+                className="p-6 rounded-xl w-full text-xl text-zinc-400 hover:text-emeraldlight hover:bg-white hover:bg-opacity-5 duration-700"
+              >
+                Team
               </button>
             </Link>
             <Link href="https://electisec.tech/contact-us">
