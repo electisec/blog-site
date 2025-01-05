@@ -7,10 +7,7 @@ export default function Document() {
       <Head>
         {/* Basic Metadata */}
         <meta charSet="utf-8" />
-        <meta
-          name="title"
-          content="Electisec Blogs (previously yAcademy & yAudit)"
-        />
+        
         <meta name="description" content="ZK & Smart Contract Security" />
         <meta
           name="keywords"
