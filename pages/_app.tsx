@@ -20,13 +20,13 @@ export const metadata: Metadata = {
   robots: "follow, index",
   openGraph: {
     type: "website",
-    url: "https://blogs.electisec.tech",
+    url: "https://blog.electisec.tech",
     title: "Electisec (previously yAcademy & yAudit)",
     description: "ZK & Smart Contract Security",
     siteName: "Electisec",
     images: [
       {
-        url: "https://blogs.electisec.tech/logo.svg",
+        url: "https://blog.electisec.tech/logo.svg",
       },
     ],
   },

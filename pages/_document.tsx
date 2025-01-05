@@ -22,7 +22,7 @@ export default function Document() {
 
         {/* Open Graph */}
         <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://blogs.electisec.tech" />
+        <meta property="og:url" content="https://blog.electisec.tech" />
         <meta
           property="og:title"
           content="Electisec (previously yAcademy & yAudit)"
@@ -34,7 +34,7 @@ export default function Document() {
         <meta property="og:site_name" content="Electisec" />
         <meta
           property="og:image"
-          content="https://blogs.electisec.tech/logo.svg"
+          content="https://blog.electisec.tech/logo.svg"
         />
 
         {/* Twitter */}
