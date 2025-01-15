@@ -26,10 +26,9 @@ Once decoupled from the limitations of an EOA, the flexibility of an account is 
 
 The proposed standard to implement account abstraction in Ethereum is defined in [EIP-4337](https://eips.ethereum.org/EIPS/eip-4337).
 
+![erc4337 diagram](../public/erc4337/erc4337-redguild.png)
+
 <figure class="mt-5">
-    <a class="image-link" href="../public/erc4337/erc4337-redguild.png">
-      <img src="../public/erc4337/erc4337-redguild.png" alt="erc4337 diagram">
-    </a>
     <figcaption style="text-align:center"><small>This is probably the best diagram depicting ERC-4337 out there, kudos to <a href="https://theredguild.org/" target="_blank">The Red Guild</a>.</small></figcaption>
 </figure>
 
@@ -37,9 +36,7 @@ The proposed standard to implement account abstraction in Ethereum is defined in
 
 Actions are represented by objects called user operations.
 
-<p>
-  <img style="max-width: 500px;" class="mx-auto d-block" src="../public/erc4337/userop.png" alt="userop">
-</p>
+![userop](../public/erc4337/userop.png)
 
 A detailed explanation of each can be found [here](https://eips.ethereum.org/EIPS/eip-4337#entrypoint-definition), but we can see some familiar names that are also part of Ethereum transactions: `sender`, `nonce`, `callData`, `gasFees` (packs `maxFeePerGas` and `maxPriorityFeePerGas`). The signature attribute is an arbitrary payload that will be used by the wallet implementation.
 
@@ -99,10 +96,9 @@ Note how the loop works here: validations are done all together in a separate lo
 
 Having a central Entrypoint contract orchestrating the process is what allows the different actors to verify that others are behaving correctly. Upon execution, the account just needs to check the caller is the Entrypoint as it can trust the Entrypoint has previously validated the operation. Splitting validation and execution wouldn’t be possible without this trusted entity.
 
+![execute](../public/erc4337/execute.png)
+
 <figure>
-    <div>
-      <img src="../public/erc4337/execute.png" alt="execute">
-    </div>
     <figcaption style="text-align:center">
       <small class="mx-auto d-block w-75">
         Account execution simply checks the caller is the Entrypoint, as it can trust the operation has been previously validated. Example from <a href="https://github.com/eth-infinitism/account-abstraction/blob/04ee30e3130dc1145ad7032318cf841909a8bc71/contracts/samples/SimpleAccount.sol#L67-L70" target="_blank">SimpleAccount.sol</a>.
@@ -122,10 +118,9 @@ The solution to this problem is quite interesting due to its simplicity, we call
 
 Factories not only enable deterministic deployment but also offer stronger guarantees to the various actors. Rather than dealing with a shallow string of bytecode, the existence of a concrete and known factory allows better visibility and analysis, while providing additional security. For example, a paymaster can decide whether to sponsor the wallet creation by simply checking the target factory. For bundlers, the complexity of the simulation is greatly reduced by having a well-known implementation that ensures no on-chain reverts. Additionally, it provides better security for users, as a factory contract address is easier to analyze than an arbitrary initialization code, enabling better tooling and user experience.
 
+![factory](../public/erc4337/factory.png)
+
 <figure>
-    <div>
-      <img src="../public/erc4337/factory.png" alt="factory">
-    </div>
     <figcaption style="text-align:center">
       <small class="mx-auto d-block w-75">
         Account are created in the validation phase using a factory. Snippet from <a href="https://github.com/eth-infinitism/account-abstraction/blob/04ee30e3130dc1145ad7032318cf841909a8bc71/contracts/core/SenderCreator.sol#L15-L27" target="_blank">SenderCreator.sol</a>.
