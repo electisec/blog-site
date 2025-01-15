@@ -17,7 +17,6 @@
 body {
   color: var(--foreground);
   background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
 }
 
 pre {
@@ -28,20 +27,54 @@ pre code {
   color: black !important;
 }
 
-a {
-  word-wrap: break-word;
-  overflow-wrap: break-word;
-  word-break: break-all;
-  hyphens: auto;
+a, code, p {
+  white-space: pre-wrap;      /* Preserves spaces and allows wraps */
+  overflow-wrap: break-word;  /* Breaks words only if absolutely necessary */
+  word-break: normal;         /* Use normal word breaking rules */
+  hyphens: none;             /* Remove hyphenation */
   max-width: 100%;
   display: inline-block;
 }
 
-code {
-  word-wrap: break-word;
-  overflow-wrap: break-word;
-  word-break: break-all;
-  hyphens: auto;
-  max-width: 100%;
-  display: inline-block;
+.prose a {
+  text-decoration: none;
 }
+
+.prose a:hover {
+  text-decoration: underline;
+}
+.prose table {
+
+  table-layout: auto;
+  font-size: 0.875rem; /* text-sm */
+}
+
+.prose table th {
+  background-color: #f9fafb; /* bg-gray-50 */
+  color: #1f2937; /* text-gray-900 */
+  font-weight: 500; /* font-medium */
+}
+
+.prose table td {
+  border-top: 1px solid #e5e7eb; /* border-gray-200 */
+}
+
+/* For very small screens */
+ @media (max-width: 450px) {
+  .prose table {
+    font-size: 0.75rem; /* text-xs */
+  }
+
+  .prose h1 {
+    font-size: 2rem !important; 
+    line-height: normal !important;
+  }
+  
+  .prose table td,
+  .prose table th {
+    padding-left: 0.5rem; /* px-2 */
+    padding-right: 0.5rem; /* px-2 */
+    padding-top: 0.25rem; /* py-1 */
+    padding-bottom: 0.25rem; /* py-1 */
+  }
+} 
