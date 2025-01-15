@@ -23,7 +23,7 @@ If you are going to read only one of these papers fully, it should be this one. 
 
 The chart below illustrates several different approaches that Aave could have taken to the November 2022 bad debt scenario assuming different protocol design choices. The worst case scenario in the chart is what actually happened (in red), while the other lines are alternative design choice solutions for the same scenario. The chart makes it clear that good design choices in extreme edge cases can have a real impact on keeping user funds safe.
 
-![Aave bad debt](https://raw.githubusercontent.com/electisec/blog-site/refs/heads/main/public/economics/aave-bad-debt.png)
+![Aave bad debt](../public/economics/aave-bad-debt.png)
 
 ## Paper 2: [Mitigating Decentralized Finance Liquidations with Reversible Call Options](https://eprint.iacr.org/2023/254)
 
@@ -31,7 +31,7 @@ Similar to the first paper, this paper proposes an alternate design to handle li
 
 The diagram below shows a possible implementation of MIQADO on top of an existing liquidation mechanism. When the health factor drops to an extreme level, the position can be liquidated as usual (orange color), but prior to that point, a supporter S receives an incentive (in the form of a reversible call option) to provide additional collateral to improve the health of the borrowing position (blue color).
 
-![Reversible call option payoff](https://raw.githubusercontent.com/electisec/blog-site/refs/heads/main/public/economics/miqado.png)
+![Reversible call option payoff](../public/economics/miqado.png)
 
 ## Paper 3: [Attacks on Dynamic DeFi Interest Rate Curves](https://arxiv.org/abs/2307.13139)
 
@@ -43,7 +43,7 @@ The chart below demonstrates an example of manipulating a proportionally control
 2. The strategic user deposits assets to increase supply while decreasing demand. This is done in a way to keep the interest rate high.
 3. The attacker can return the utilization to the same level prior to time s, but with more deposited assets in the protocol. This causes the attacker to receive "extra" yield on their increased supply at the expense of other "inactive" lenders.
 
-![Interest rate spike](https://raw.githubusercontent.com/electisec/blog-site/refs/heads/main/public/economics/interest-rate-spike.png)
+![Interest rate spike](../public/economics/interest-rate-spike.png)
 
 ## Paper 4: [Shill-Proof Auctions](https://arxiv.org/abs/2404.00475)
 
@@ -51,7 +51,7 @@ This paper is relevant for any protocol involving an auction. While certain part
 
 The chart below shows whether an auction is efficient (whether the auction winner is the real bidder with the highest valuation), whether an auction format is strategy-proof, or whether an auction format is strongly or weakly shill-proof. Dutch auctions are a better choice based on these specific criteria and I would expect to see greater adoption of this auction format once these results are shared more broadly.
 
-![Shill-Proof Auctions Summary](https://raw.githubusercontent.com/electisec/blog-site/refs/heads/main/public/economics/shill-proof-table.png)
+![Shill-Proof Auctions Summary](../public/economics/shill-proof-table.png)
 
 ## Paper 5: [Automated Market Making and Loss-Versus-Rebalancing](https://arxiv.org/abs/2208.06046)
 
@@ -67,7 +67,7 @@ A final remark in this section addresses the common assumption that there is no 
 
 The key equation in this paper is the LVR equation. LVR is dependent on the variables of volatility (`σ`), asset price (`P`), value of the pool (`x∗'(P)`), and time (`t`).
 
-![LVR Equation](https://raw.githubusercontent.com/electisec/blog-site/refs/heads/main/public/economics/LVR.png)
+![LVR Equation](../public/economics/LVR.png)
 
 ## Conclusion
 

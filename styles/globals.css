@@ -27,3 +27,21 @@ pre {
 pre code {
   color: black !important;
 }
+
+a {
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  word-break: break-all;
+  hyphens: auto;
+  max-width: 100%;
+  display: inline-block;
+}
+
+code {
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  word-break: break-all;
+  hyphens: auto;
+  max-width: 100%;
+  display: inline-block;
+}

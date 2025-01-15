@@ -13,7 +13,7 @@ author: engn33r
 
 The goal of L2 protocols is to provide a better blockchain user experience by reducing costs and latency compared to transacting on L1 mainnet Ethereum. If you've spent any time in the blockchain space, you know about the blockchain trilemma.
 
-![trilemma](https://raw.githubusercontent.com/electisec/blog-site/refs/heads/main/public/L2_sequencer/trilemma.jpg)
+![trilemma](../public/L2_sequencer/trilemma.jpg)
 
 Most, if not all, L2 chains built on mainnet Ethereum focus on scalability at the cost of decentralization. In contrast to mainnet Ethereum, top L2 chains require all transactions to pass through a single bottleneck, the L2 sequencer. The role of the L2 sequencer is to take L2 transactions, build L2 blocks, and submit the L2 blocks onto the L1 chain. The sequencer role is crucial to L2 uptime, and if the sequencer or associated system components goes down, the chain goes down. This article investigates instances of major L2 downtime events across different L2 chains. Minor downtime events of under 30 minutes were not included, because these minor incidents are more common and harder to identify.
 
@@ -29,7 +29,7 @@ In an effort to highlight the risks of such centralized design, this is the firs
 
 For clarification, a common example of L2 chain downtime that is not examined is planned maintenance downtime. Some examples of this include the OP Bedrock upgrade, which had an expected downtime of [4 hours](https://gov.optimism.io/t/bedrock-downtime-what-to-know/5792), and the Arbitrum Nova upgrade, which had an expected downtime of [2-4 hours](https://x.com/arbitrum/status/1564370880880381952).
 
-# L2 Downtime Incidents (ordered chronologically)
+## L2 Downtime Incidents (ordered chronologically)
 
 ## Arbitrum: September 14, 2021
 
@@ -67,7 +67,7 @@ This incident resulted in over 4 hours of downtime, but the fix for the issue on
 
 While the sequencer remained online, [this two-hour incident](https://github.com/ethereum-optimism/optimism/blob/f5221f4d1fae6f3da1bd4d1647e45f40e2b055c4/docs/postmortems/2023-04-26-transaction-delays.md) was caused by a sudden 10x increase in transactions that resulted in delayed inclusion of transactions due to longer delays in Optimism's read-only replica. Users experienced transaction confirmations delays of several minutes, even though the transactions had been processed. The solutions to handle this going forward were to add monitoring for such events and to design the then-upcoming Bedrock upgrade to handle such scenarios. Bedrock handles this scenario better by using a fixed two-second block time (instead of building a new block for every transaction) and replacing the read-only replica design with a more efficient way of indexing blocks using a P2P gossip network. Despite this incident having a [postmortem writeup by Optimism](https://github.com/ethereum-optimism/optimism/blob/f5221f4d1fae6f3da1bd4d1647e45f40e2b055c4/docs/postmortems/2023-04-26-transaction-delays.md), the incident is not listed as an incident on the [Optimism status page](https://status.optimism.io/).
 
-![OP 2023 postmortem](https://raw.githubusercontent.com/electisec/blog-site/refs/heads/main/public/L2_sequencer/OP_incident_April_2023.png)
+![OP 2023 postmortem](../public/L2_sequencer/OP_incident_April_2023.png)
 
 _The y-axis indicates the delay (in seconds) for indexing of blocks after the sequencer processed them. Note the increase on April 26._
 
@@ -91,7 +91,7 @@ To resolve the issue, a new sequencer build was deployed and the servers that ra
 
 A separate issue that resulted from this incident was [an imbalance in the gas pricing mechanism](https://github.com/ArbitrumFoundation/docs/blob/50ee88b406e6e5f3866b32d147d05a6adb0ab50e/postmortems/15_Dec_2023.md#l1-gas-pricing-issue). Users paid too little gas at the start of the surge of transactions, and the resulting imbalance caused gas fees to jump in an effort to compensate. The Arbitrum Foundation decided to pay off the gas fees deficit and investigate improvements to their gas pricing mechanics. For curious readers, a deeper technical examination of this incident was performed by [Dedaub](https://dedaub.com/blog/arbitrum-sequencer-outage/).
 
-![Arbitrum Dec 15 2023 backlog](https://raw.githubusercontent.com/electisec/blog-site/refs/heads/main/public/L2_sequencer/Arbitrum_15_Dec_2023_backlog.png)
+![Arbitrum Dec 15 2023 backlog](../public/L2_sequencer/Arbitrum_15_Dec_2023_backlog.png)
 
 _After the sequencer fix was applied, the backlog was able to return to high levels without problems._
 
@@ -127,7 +127,7 @@ This downtime incident of about 90 minutes may be the first known example of a p
 
 If a researcher wishes to identify L2 downtime events using only on-chain data, there are a couple of options. The easiest shortcut available is to use the Average Block Time Chart that is found on some L2 etherscan pages. Some chains (Optimism, Arbitrum) do not have this chart currently (although [Arbitrum used to](https://web.archive.org/web/20240809144629/https://arbiscan.io/charts) earlier this month, so maybe it's only temporarily gone?). If the L2 etherscan site does have this data, anomalies in the chart will normally be caused by downtime incidents. One example is shown below, where the [Polygon chart](https://polygonscan.com/chart/blocktime) shows the increased block times due to downtime on March 10-11 2022.
 
-![Polygon downtime](https://raw.githubusercontent.com/electisec/blog-site/refs/heads/main/public/L2_sequencer/Polygon-blocktime.png)
+![Polygon downtime](../public/L2_sequencer/Polygon-blocktime.png)
 
 A second option to identifying downtime events can rely on data collection from public blockchain RPC endpoints. The basic idea is to query the timestamp of a sequence of blocks and check whether the difference in block timestamps is outside of the normal range. The difficulty here is in identifying what the normal range is. Even mainnet Ethereum does not generate a block every 12 seconds like clockwork. If mainnet Ethereum [misses a slot](https://blog.ethereum.org/2021/11/29/how-the-merge-impacts-app-layer#block-time), there might be a 24 second difference between block timestamps, or even more if multiple slots are missed in sequence. For readers that prefer hard proof, missed slots are visualized as red squares on [beaconcha.in](https://beaconcha.in/). Two examples are mainnet Ethereum blocks [19521620](https://etherscan.io/block/19521620) and [19522751](https://etherscan.io/block/19522751) which have a gap of 36 seconds from the previous block. These blocks were identified using [this small custom script](https://gist.github.com/yacademy/1883784c1771b3f47271413ede7d8b52) that proved very useful in identifying the relevant block numbers for each incident below. A more advanced tool to find block timestamp anomalies is [here](https://github.com/shotaronowhere/special-l2-relativity) and mentioned in [this detailed twitter thread](https://x.com/shotaronowhere/status/1666720771421671426).
 

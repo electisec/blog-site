@@ -1,8 +1,8 @@
 import matter from 'gray-matter';
-import { remark } from 'remark';
+import { unified } from "unified";
+import remarkParse from "remark-parse";
 import html from 'remark-html';
 import remarkGfm from 'remark-gfm';
-import { Node } from 'unist';
 import { visit } from 'unist-util-visit';
 import { clsx, type ClassValue } from "clsx"
 import { twMerge } from "tailwind-merge"
@@ -26,50 +26,53 @@ export function extractDate(filename: string): string | null {
   return new Date().toISOString();
 }
 
-interface ImageNode extends Node {
-  type: 'image';
-  url: string;
-  title: string | null;
-  alt: string | null;
-}
-
-function replaceImageUrls() {
-  const REPO_OWNER = 'electisec'; // Replace with your GitHub username
-  const REPO_NAME = 'blog-website';
-  const BRANCH = 'main';
-
-  return (tree: Node) => {
-    visit(tree, 'image', (node: ImageNode) => {
-      const url = node.url;
-      if (url.startsWith('./') || url.startsWith('/')) {
-        // Remove leading slash and 'content/reports' from path
-        const cleanPath = url
-          .replace(/^\//, '')
-          .replace(/^\.\//, '')
-          .replace(/^content\/reports\//, '');
-          
-        node.url = `https://raw.githubusercontent.com/${REPO_OWNER}/${REPO_NAME}/${BRANCH}/content/reports/${cleanPath}`;
-      }
-    });
-  };
-}
-
 export async function processMarkdown(content: string) {
   // Parse frontmatter
   const { data, content: markdownContent } = matter(content);
 
-  // Process markdown and replace image URLs
-  const processedContent = await remark()
-    .use(remarkGfm) // Add GitHub Flavored Markdown support
-    .use(replaceImageUrls)
-    .use(html, { 
-      sanitize: false, // Allow all HTML
-      allowDangerousHtml: true // Required for some GFM features
+  // Process markdown with all plugins including image URL replacement
+  const processedContent = await unified()
+    .use(remarkParse)
+    .use(remarkGfm)
+    .use(remarkReplaceImageUrls)  // Add the image URL replacement plugin
+    .use(html, {
+      sanitize: false,
+      allowDangerousHtml: true
     })
     .process(markdownContent);
 
   return {
     frontMatter: data,
     content: processedContent.toString()
+  };
+}
+
+// Interface for image nodes in the AST
+interface ImageNode {
+  type: 'image';
+  url: string;
+  title: string | null;
+  alt: string | null;
+}
+
+// Plugin to replace image URLs
+function remarkReplaceImageUrls() {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  return (tree: any) => {
+    visit(tree, 'image', (node: ImageNode) => {
+      const url = node.url;
+      
+      // Handle paths that start with ../public/assets/
+      if (url.startsWith('../public/')) {
+        // Remove ../public/assets/ prefix and convert to /assets/
+        node.url = url.replace('../public/', '/');
+      }
+      
+      // Handle paths that might already start with /assets/
+      else if (url.startsWith('/')) {
+        // Keep as is
+        node.url = url;
+      }
+    });
   };
 }
