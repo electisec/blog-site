@@ -1,3 +1,14 @@
+---
+layout: post
+title: From a failing test to calling SEAL911
+subtitle: A small detail influencing major cryptographic libraries
+gh-repo: electisec/blog-site
+gh-badge: [follow]
+tags: [cryptography, RFC6979]
+comments: true
+author: Oba
+---
+
 # From a failing test to calling SEAL911
 
 *This article assumes knowledge of ECDSA and familiarity with RFC6979 (see [ecdsa section from the cryptobook](https://cryptobook.nakov.com/digital-signatures/ecdsa-sign-verify-messages) and [rfc6979](https://datatracker.ietf.org/doc/html/rfc6979)). This is also my first long-form post. Any feedback will be hugely appreciated. A huge thank you to [merkleplant](http://merkleplant.xyz/) for the support during the investigation and during the writing of this article.*  
