@@ -7,6 +7,7 @@ gh-badge: [follow]
 tags: [L2, sequencer, blockchain, architecture]
 comments: true
 author: engn33r
+twitter: https://x.com/bl4ckb1rd71
 ---
 
 # When L2s Fall

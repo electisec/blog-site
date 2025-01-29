@@ -7,6 +7,7 @@ gh-badge: [follow]
 tags: [ERC4337, account abstraction]
 comments: true
 author: adriro
+twitter: https://x.com/adrianromero
 ---
 
 # Security notes on ERC4337 and smart wallets

@@ -11,6 +11,7 @@ interface ReportPageProps {
   date: string;
   tags: string[];
   author: string;
+  twitter: string;
 }
 
 export default function ReportPage({
@@ -20,6 +21,7 @@ export default function ReportPage({
   date,
   tags,
   author,
+  twitter
 }: ReportPageProps) {
   return (
     <main className="min-h-screen bg-gray-50">
@@ -30,7 +32,7 @@ export default function ReportPage({
 
         <div className="bg-white shadow p-6 sm:px-6">
           <header className="flex lg:flex-row md:flex-row flex-col justify-between lg:items-center md:items-center gap-2 items-left mb-6 text-black">
-            <span>By {author}</span>
+            <span>By <a href={twitter} target="_blank" className="font-semibold text-darkgreen hover:underline">{author}</a></span>
             <span>
               {new Date(date).toLocaleDateString("en-US", {
                 year: "numeric",
@@ -90,6 +92,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
         date: extractDate(slug) || new Date(),
         tags: Array.isArray(frontMatter.tags) ? frontMatter.tags : [],
         author: frontMatter.author || "Anonymous",
+        twitter: frontMatter.twitter || "",
       },
       revalidate: 3600, // Revalidate every hour
     };

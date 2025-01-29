@@ -7,6 +7,7 @@ gh-badge: [follow]
 tags: [cryptography, RFC6979]
 comments: true
 author: Oba
+twitter: https://x.com/obatirou
 ---
 
 # From a failing test to calling SEAL911

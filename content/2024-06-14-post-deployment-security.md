@@ -7,6 +7,7 @@ gh-badge: [follow]
 tags: []
 comments: true
 author: engn33r
+twitter: https://x.com/bl4ckb1rd71
 ---
 
 # Post-deployment Security: Fixing a Smart Contract Security Blind Spot

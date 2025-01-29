@@ -7,7 +7,7 @@ gh-badge: [follow]
 tags: [oracles, prices, price data, precision, arithmetic]
 comments: true
 author: engn33r
-usemathjax: true
+twitter: https://x.com/bl4ckb1rd71
 ---
 
 # Are Inverse TWAP Prices Inaccurate?

@@ -7,6 +7,7 @@ gh-badge: [follow]
 tags: [economics]
 comments: true
 author: engn33r
+twitter: https://x.com/bl4ckb1rd71
 ---
 
 # DeFi Design Takeaways from DeFi Risk Modelling
