@@ -1,5 +1,5 @@
 import type { Config } from "tailwindcss";
-import typography from '@tailwindcss/typography'
+import typography from "@tailwindcss/typography";
 
 export default {
   content: [
@@ -19,7 +19,14 @@ export default {
       },
     },
   },
-  plugins: [
-    typography
+  safelist: [
+    "math",
+    "math-inline",
+    "math-display",
+    "katex",
+    "katex-display",
+    "katex-html",
+    "katex-mathml",
   ],
+  plugins: [typography],
 } satisfies Config;

@@ -64,7 +64,7 @@ There is a roughly 0.4% difference between using an inverse TWAP and inverting t
 
 When considering the real-world inaccuracy when using an inverse TWAP price, volatility plays a large factor. Let's consider some basic examples that illustrate this intuitively:
 
-- If a stablecoin remains stable at exactly $1 for a long period of time, the average price is $1 and the inverse is also $1
+- If a stablecoin remains stable at exactly `$1` for a long period of time, the average price is `$1` and the inverse is also `$1`
 - The averaging math that creates a delta between the price of an inverse TWAP and the inverse result of a standard TWAP is due to the variation in price data across time. More volatile assets have a greater variation in price data over time relative to total value, so the delta should be expected to be larger for more volatile assets.
 
 An example of the difference in the inverse TWAP price and the inverse standard TWAP price is demonstrated with some hypothetical example numbers from a low volatility stablecoin. The price is at .997 for one block, .995 for the 2nd block, and 1 for the 3rd and 4th blocks. The delta between the inverse TWAP price and the inverse of the standard TWAP is only around 0.0004%. Even though Python is drawing a blue line and a green line, they overlap so only one color is visible in the first plot. Only after zooming in, in the second plot, are the two lines (barely) distinct.
@@ -126,9 +126,13 @@ This explains why Uniswap v3 does not store two separate values like Uniswap v2 
 
 The other choice made by Uniswap, storing the tick instead of the price, is slightly less ideal. [Uniswap v3 documentation states](https://blog.uniswap.org/uniswap-v3-math-primer#how-does-tick-and-tick-spacing-relate-to-sqrtpricex96) that the tick data is not as accurate as the actual current price. While liquidity can only be added into tick ranges, which is a set of 10 ticks in a 5 bps pool, the price data can use individual ticks. The actual precision of these ticks is roughly 0.01%, which relates to the fact that 1.0001 is the exponent base used for tick math. Naturally, this 0.01% precision loss is a greater dollar figure for more valuable tokens. Consider the difference between one tick at different prices of the WETH/USDC pool:
 
-$$ \text {Price at tick 196700} - \text {Price at tick 196701} = {1\over{1.0001^{196700}*10^{-12}}} - {1\over{1.0001^{196701}*10^{-12}}} $$
+$$ 
+\text{Price at tick 196700} - \text{Price at tick 196701} = \frac{1}{1.0001^{196700} \cdot 10^{-12}} - \frac{1}{1.0001^{196701} \cdot 10^{-12}}
+$$
 
-$$ = 0.2869532935787902 \text { (roughly 0.01% delta)} $$
+$$ 
+= 0.2869532935787902 \text{ (roughly 0.01 percent delta)}
+$$
 
 In summary, the TWAP value in Uniswap v3 can be inverted without the problems involved with inverting an arithmetic mean, but there is a consistent (though minor) pricing inaccuracy due to storing less precise ticks. On the other hand, Uniswap v2 costs more gas to use and therefore Uniswap v2 pools may get updated less often than Uniswap v3 by arbitrageurs, which could decrease price data accuracy in Uniswap v2.
 

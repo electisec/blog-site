@@ -37,7 +37,7 @@ a, code, p {
 }
 
 .prose a {
-  text-decoration: none;
+  color: #15803d;
 }
 
 .prose a:hover {
@@ -78,3 +78,34 @@ a, code, p {
     padding-bottom: 0.25rem; /* py-1 */
   }
 } 
+
+p:has(.katex) {
+  display: block;
+  text-align: center;
+  margin: 1rem auto;
+  max-width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  white-space: normal;
+  clear: both;
+}
+
+/* Ensure equations within paragraphs are centered and properly spaced */
+p .katex {
+  display: inline-block;
+  text-align: center;
+  font-size: 1.5rem;
+  line-height: 1.4;
+}
+
+/* Handle long equations */
+p .katex-display {
+  overflow-x: auto;
+  overflow-y: hidden;
+  margin: 0 !important;  /* Override default margins */
+}
+
+/* Adjust vertical alignment of equation components */
+p .katex .vlist-t {
+  display: inline-table;
+}
