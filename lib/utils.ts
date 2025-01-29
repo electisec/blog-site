@@ -41,6 +41,27 @@ function remarkCodeBlocks() {
   };
 }
 
+function remarkTrimBackticks() {
+  return (tree: any) => {
+    visit(tree, 'inlineCode', (node: any) => {
+      // Convert the node to plain text if it starts and ends with backticks
+      const value = node.value;
+      if (value.startsWith('`') && value.endsWith('`') && value.startsWith('```') === false) {
+        console.log(value);
+        
+        node.value = value.slice(1, -1);
+      }
+      console.log(node.value);
+      
+      // Add classes for styling
+      node.data = node.data || {};
+      node.data.hProperties = {
+        className: 'inline-code-block'
+      };
+    });
+  };
+}
+
 export async function processMarkdown(content: string) {
   const { data, content: markdownContent } = matter(content);
   
@@ -52,6 +73,7 @@ export async function processMarkdown(content: string) {
     .use(remarkGfm)
     .use(remarkReplaceImageUrls)
     .use(remarkMath)
+    .use(remarkTrimBackticks) 
     .use(remarkCodeBlocks)
     .use(remarkRehype, {
       allowDangerousHtml: true,
