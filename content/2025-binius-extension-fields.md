@@ -635,23 +635,15 @@ we see that $a=11$ and $b=10$
 
 When representing higher extensions, things become a bit confusing. Vitalik wrote an example in [his article on Binius](https://vitalik.eth.limo/general/2024/04/29/binius.html#binaryfields):
 
-![Screenshot 2024-11-06 at 22.34.57.png](From%200%20to%20Bi(ge)nius%20part1%20Basic%20maths%20139688fe089b80249a51e5be939ff790/Screenshot_2024-11-06_at_22.34.57.png)
+![vitalik example](../public/binius-article/vitalik-extension.png)
 
 We’re here in $\tau_3$ we can write the full value like this:
 
-$\color{red}(
-\color{aqua}(\color{black}
-(x_0 + 1)x_1 + x_0 + 1
-\color{aqua})\color{black}x_2
-+ (0x_0 + 0)x_1 + 0x_0 + 1
-\color{red})\color{black}x_3
-
-+ \color{blue}(\color{black}
+$(((x_0 + 1)x_1 + x_0 + 1
+)x_2 + (0x_0 + 0)x_1 + 0x_0 + 1
+)x_3 + (
 (0x_0 + 1)x_1 + 0x_0 + 1
-\color{blue})\color{black}x_2
-+ (0x_0 + 0)x_1 + x_0 + 1$
-
-I added a bit of color so that you can see better (sorry if it’s ugly).
+)x_2 + (0x_0 + 0)x_1 + x_0 + 1$
 
 If you look at the coefficient (in reverse), you can see that it corresponds to the coefficients in the example: 1100101010001111
 
@@ -659,15 +651,9 @@ From there you can easily understand how it’s expanded and the bit-string keep
 
 - First you split the $(...)x_3$ part and the rest:
 
-$((
-(x_0 + 1)x_1 + x_0 + 1
-)x_2
-+ (0x_0 + 0)x_1 + 0x_0 + 1
-)x_3$ → 10001111
+$(((x_0 + 1)x_1 + x_0 + 1)x_2 + (0x_0 + 0)x_1 + 0x_0 + 1)x_3$ → 10001111
 
-$((0x_0 + 1)x_1 + 0x_0 + 1
-)x_2
-+ (0x_0 + 0)x_1 + x_0 + 1$ → 11001010
+$((0x_0 + 1)x_1 + 0x_0 + 1)x_2 + (0x_0 + 0)x_1 + x_0 + 1$ → 11001010
 
 - Then, in both parts, we split again over $(...)x_2$:
 
@@ -735,7 +721,7 @@ Again, it checks out with the XOR
 
 Table for $\tau_2$
 
-![table_t2.png](From%200%20to%20Bi(ge)nius%20part1%20Basic%20maths%20139688fe089b80249a51e5be939ff790/table_t2.png)
+![table_t2.png](../public/binius-article/table_t2.png)
 
 I used Sage to print that table:
 
