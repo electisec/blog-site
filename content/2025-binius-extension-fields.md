@@ -1,7 +1,7 @@
 ---
 layout: post
-title:
-subtitle:
+title: From 0 to Bi(ge)nius
+subtitle: "𝔽₂ and Beyond: A Gentle Guide to Field Extensions"
 gh-repo: electisec/blog-site
 gh-badge: [follow]
 tags: [cryptography, algebra]
@@ -793,3 +793,5 @@ If something in the article is wrong, or if you have any question, I’ll be hap
 [https://blog.bitlayer.org/Binius_STARKs_Analysis_and_Its_Optimization/](https://blog.bitlayer.org/Binius_STARKs_Analysis_and_Its_Optimization/)
 
 [https://blog.icme.io/small-fields-for-zero-knowledge/](https://blog.icme.io/small-fields-for-zero-knowledge/)
+
+[https://eprint.iacr.org/2023/1784.pdf](https://eprint.iacr.org/2023/1784.pdf)
