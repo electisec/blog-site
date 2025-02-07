@@ -1,6 +1,6 @@
 ---
 layout: post
-title: From 0 to Bi(ge)nius
+title: "From 0 to Bi(ge)nius: \"Basic maths\""
 subtitle: "𝔽₂ and Beyond: A Gentle Guide to Field Extensions"
 gh-repo: electisec/blog-site
 gh-badge: [follow]
@@ -91,7 +91,7 @@ The idea is that every number (the coefficients) stays in the base field, so opt
 Just to warn you: I’m going to use `u` instead of `x` in when representing polynomials. It doesn’t change anything, but it will make things more clear for when we introduce new variables later in the article (yes, it’s going to get more complicated…). So instead of writing $ax^2+bx+c$ , I will write $au^2+bu+c$ . Basically I want to use $u, v , w$ for variables instead of $x, y, z$.  
 Let’s see a real example to see how that works.
 
-## Our first extension: quadratic$^2$
+## Our first extension: quadratic $^2$
 
 We are going to create a quadratic (degree 2) extension. Our extended field is now $\mathbb{F}_{7^2}$ and you guessed it, you can now fit 49 values in there 🤩  
 **If `m` is the degree of our extension, then the maximum degree of each polynomial is `m - 1`.**  
@@ -393,6 +393,7 @@ Here’s what our a succession of extensions (tower) looks like:
 - $\tau_1 = \mathbb{F}[x_0]/({x_0}^2+x_0+1)$
 
 <aside>
+
 in $\tau_1$ we have 4 elements:  
 - $0+0x_0$ → 00
 - $1+0x_0$ → 10
@@ -404,6 +405,7 @@ we can easily put the elements of $\mathbb{F}_2$ in the extension:
 1 over $\tau_0$ → 10 over $\tau_1$  
 If we have $a \in \tau_0 , b \in \tau_1$ → $a*b=a*b_0+a*b_1*x$
 We’re going to come back on bit representation
+
 </aside>
 
 - $\tau_2 = \tau_1/({x_1}^2+x_0x_1+1)=\mathbb{F}_2[x_0,x_1]/({x_0}^2+x_0+1,{x_1}^2+x_0x_1+1)$
