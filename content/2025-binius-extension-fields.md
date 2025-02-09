@@ -57,7 +57,7 @@ If we reduce our field to the binary field $\mathbb{F}_2$, which is what Binius 
 
 ## How practical are binary fields?
 
-Ok great, but we might still need to use bigger values. We don’t want to lose precision. Let’s say we are working with a modulo `p = 101` but we want to express a list of salaries, so we need our values to go up to $10000, it would be a shame to reduce everything mod 101.  
+Ok great, but we might still need to use bigger values. We don’t want to lose precision. Let’s say we are working with a modulo `p = 101` but we want to express a list of salaries, so we need our values to go up to \$10000, it would be a shame to reduce everything mod 101.  
 So what is usually done is to use “limbs”, which means we divide our “big” number into an array of smaller numbers. An example?  
 We want to express 5863: [5, 58]  
 Each limb is `mod p` and we just have to multiply each limb by $p^i$ (where i is the index).  
