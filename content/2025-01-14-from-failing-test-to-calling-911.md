@@ -1,32 +1,31 @@
 ---
-layout: post
 title: From a failing test to calling SEAL911
 subtitle: A small detail influencing major cryptographic libraries
 gh-repo: electisec/blog-site
-gh-badge: [follow]
+
 tags: [cryptography, RFC6979]
-comments: true
+
 author: Oba
 twitter: https://x.com/obatirou
 ---
 
 # From a failing test to calling SEAL911
 
-*This article assumes knowledge of ECDSA and familiarity with RFC6979 (see [ecdsa section from the cryptobook](https://cryptobook.nakov.com/digital-signatures/ecdsa-sign-verify-messages) and [rfc6979](https://datatracker.ietf.org/doc/html/rfc6979)). This is also my first long-form post. Any feedback will be hugely appreciated. A huge thank you to [merkleplant](http://merkleplant.xyz/) for the support during the investigation and during the writing of this article.*  
-***TLDR**: go directly to the [PoC repository](https://github.com/obatirou/RFC6979-implementation-analysis), there is everything you need to understand the issue and the outcome.*
+_This article assumes knowledge of ECDSA and familiarity with RFC6979 (see [ecdsa section from the cryptobook](https://cryptobook.nakov.com/digital-signatures/ecdsa-sign-verify-messages) and [rfc6979](https://datatracker.ietf.org/doc/html/rfc6979)). This is also my first long-form post. Any feedback will be hugely appreciated. A huge thank you to [merkleplant](http://merkleplant.xyz/) for the support during the investigation and during the writing of this article._  
+**\*TLDR**: go directly to the [PoC repository](https://github.com/obatirou/RFC6979-implementation-analysis), there is everything you need to understand the issue and the outcome.\*
 
 ## Contributing To crysol
 
-In my free time, I like to learn about cryptography and zero knowledge. I decided to not stay in theory and wanted to contribute to an open source repository. I found [crysol](https://github.com/verklegarden/crysol) by [merkleplant](http://merkleplant.xyz/) (go follow and contribute). It is a secp256k1 elliptic curve cryptography library in pure Solidity. I thought it was fun. I chose [an issue](https://github.com/verklegarden/crysol/issues/23) and got to work. Let's take something simple to begin with, improving tests: *Add test vectors from Paul Miller's noble-curves*.
+In my free time, I like to learn about cryptography and zero knowledge. I decided to not stay in theory and wanted to contribute to an open source repository. I found [crysol](https://github.com/verklegarden/crysol) by [merkleplant](http://merkleplant.xyz/) (go follow and contribute). It is a secp256k1 elliptic curve cryptography library in pure Solidity. I thought it was fun. I chose [an issue](https://github.com/verklegarden/crysol/issues/23) and got to work. Let's take something simple to begin with, improving tests: _Add test vectors from Paul Miller's noble-curves_.
 
-For context, [noble-curves](https://github.com/paulmillr/noble-curves) is an audited & minimal JS implementation of elliptic curve cryptography. This library is widely used with projects such as Metamask depending on it. This can be considered as a reference implementation. It makes sense to use the test vectors from this repo to ensure `crysol` has the right behavior. It seemed perfect, the tags were *effort low* and *good first issue*. The first part was indeed simple, not low effort due to edge cases but everything went well. I added the test vectors for point validity and de/encoding which [led to catching a bug](https://github.com/verklegarden/crysol/pull/32). Confident, I went for the second part: adding the ECDSA signatures vectors. This is where I fell in a rabbit hole.
+For context, [noble-curves](https://github.com/paulmillr/noble-curves) is an audited & minimal JS implementation of elliptic curve cryptography. This library is widely used with projects such as Metamask depending on it. This can be considered as a reference implementation. It makes sense to use the test vectors from this repo to ensure `crysol` has the right behavior. It seemed perfect, the tags were _effort low_ and _good first issue_. The first part was indeed simple, not low effort due to edge cases but everything went well. I added the test vectors for point validity and de/encoding which [led to catching a bug](https://github.com/verklegarden/crysol/pull/32). Confident, I went for the second part: adding the ECDSA signatures vectors. This is where I fell in a rabbit hole.
 
 ## The Failing Test
 
 The idea of the issue is that valid `noble-curves` signatures should also be valid when verified with `crysol` which uses [foundry](https://github.com/foundry-rs/foundry)'s vm capabilities under the hood for signature generation. Both `noble-curves` and `foundry` follow RFC6979 which defines a deterministic nonce derivation procedure, ensuring that signatures for the same input are identical. Particularly, signatures from the same private key for the same message should be identical in both implementations. Now, how to verify `noble-curves` signatures with `crysol`?
 
-The encoding of `noble-curves` test vectors is specific: the recovery bit is not serialized into the compact or [DER format](https://wiki.openssl.org/index.php/DER) (look at the [small comment in README.md](https://github.com/paulmillr/noble-curves/tree/main?tab=readme-ov-file#ecdsa-public-key-recovery--extra-entropy)). 
-There are 4 fields: 
+The encoding of `noble-curves` test vectors is specific: the recovery bit is not serialized into the compact or [DER format](https://wiki.openssl.org/index.php/DER) (look at the [small comment in README.md](https://github.com/paulmillr/noble-curves/tree/main?tab=readme-ov-file#ecdsa-public-key-recovery--extra-entropy)).
+There are 4 fields:
 
 - `description`: no need for this one, we will remove it
 - `d`: the private key
@@ -35,10 +34,10 @@ There are 4 fields:
 
 ```json
 {
-    "description": "Everything should be made as simple as possible, but not simpler.",
-    "d": "0000000000000000000000000000000000000000000000000000000000000001",
-    "m": "06ef2b193b83b3d701f765f1db34672ab84897e1252343cc2197829af3a30456",
-    "signature": "33a69cd2065432a30f3d1ce4eb0d59b8ab58c74f27c41a7fdb5696ad4e6108c96f807982866f785d3f6418d24163ddae117b7db4d5fdf0071de069fa54342262"
+  "description": "Everything should be made as simple as possible, but not simpler.",
+  "d": "0000000000000000000000000000000000000000000000000000000000000001",
+  "m": "06ef2b193b83b3d701f765f1db34672ab84897e1252343cc2197829af3a30456",
+  "signature": "33a69cd2065432a30f3d1ce4eb0d59b8ab58c74f27c41a7fdb5696ad4e6108c96f807982866f785d3f6418d24163ddae117b7db4d5fdf0071de069fa54342262"
 }
 ```
 
@@ -131,9 +130,9 @@ I began to form hypotheses:
 
 - At what step does the problem arise during signature generation?
 - Is there a problem in `crysol`?
-`foundry` is doing the signature. Is the problem in `foundry` then?
+  `foundry` is doing the signature. Is the problem in `foundry` then?
 - Is there a problem in `noble-curves`?
-The codebase is pretty complex and we will need to dive in.
+  The codebase is pretty complex and we will need to dive in.
 
 Although both signatures passed the test and were considered valid by `crysol`, the fact remains that the signatures are different for the same message and private key. My gut feeling pushed me to look into the nonce `k` generation.
 
@@ -254,7 +253,7 @@ where
 }
 ```
 
-Ok, that's great, we now know which function is called to generate `k`  in `foundry`. Let's find how `noble-curves` is implementing this function and compare both implementations.
+Ok, that's great, we now know which function is called to generate `k` in `foundry`. Let's find how `noble-curves` is implementing this function and compare both implementations.
 
 ### Noble Curves
 
@@ -279,16 +278,23 @@ Ok, so how do we sign a message?
 Let’s look at the [weierstrass.ts](https://github.com/paulmillr/noble-curves/blob/abd50acd384ef43a206514bfa25a3cb0c6a77f65/src/abstract/weierstrass.ts#L1104) file:
 
 ```jsx
-function sign(msgHash: Hex, privKey: PrivKey, opts = defaultSigOpts): RecoveredSignature {
-    const { seed, k2sig } = prepSig(msgHash, privKey, opts); // Steps A, D of RFC6979 3.2.
-    const C = CURVE;
-    const drbg = ut.createHmacDrbg<RecoveredSignature>(C.hash.outputLen, C.nByteLength, C.hmac);
-    return drbg(seed, k2sig); // Steps B, C, D, E, F, G
-  }
+function sign(
+  msgHash: Hex,
+  privKey: PrivKey,
+  opts = defaultSigOpts
+): RecoveredSignature {
+  const { seed, k2sig } = prepSig(msgHash, privKey, opts); // Steps A, D of RFC6979 3.2.
+  const C = CURVE;
+  const drbg =
+    ut.createHmacDrbg <
+    RecoveredSignature >
+    (C.hash.outputLen, C.nByteLength, C.hmac);
+  return drbg(seed, k2sig); // Steps B, C, D, E, F, G
+}
 ```
 
 The function `sign` depends on 2 functions: `prepSig` and `createHmacDrbg`.
-Let’s take a step back. We omitted to explain how *exactly* the `k` is generated from a theoretical standpoint. It is obtained by feeding the private key `sk` and message `m` into HMAC-DRGB ([Deterministic Random Bit Generator](https://www.rfc-editor.org/rfc/rfc6979#section-3.1)) which is specified in [NIST SP 800-90A](https://csrc.nist.gov/pubs/sp/800/90/a/r1/final). The formula from RFC6979:
+Let’s take a step back. We omitted to explain how _exactly_ the `k` is generated from a theoretical standpoint. It is obtained by feeding the private key `sk` and message `m` into HMAC-DRGB ([Deterministic Random Bit Generator](https://www.rfc-editor.org/rfc/rfc6979#section-3.1)) which is specified in [NIST SP 800-90A](https://csrc.nist.gov/pubs/sp/800/90/a/r1/final). The formula from RFC6979:
 
 ```rust
      K = HMAC_K(V || 0x00 || int2octets(x) || bits2octets(h1))
@@ -303,6 +309,7 @@ Let’s take a step back. We omitted to explain how *exactly* the `k` is generat
 
 How is it implemented in `noble-curves`?
 After reading the code I do not know how many times, I understood that the seed from the `prepSig` function is in fact the concatenation of the values we want for the input of the HMAC ([link to code](https://github.com/paulmillr/noble-curves/blob/abd50acd384ef43a206514bfa25a3cb0c6a77f65/src/abstract/weierstrass.ts#L1062)).
+
 ```jsx
 const h1int = bits2int_modN(msgHash);
 const d = normPrivateKeyToScalar(privateKey); // validate private key, convert to bigint
@@ -311,7 +318,7 @@ const seedArgs = [int2octets(d), int2octets(h1int)];
 if (ent != null && ent !== false) {
   // K = HMAC_K(V || 0x00 || int2octets(x) || bits2octets(h1) || k')
   const e = ent === true ? randomBytes(Fp.BYTES) : ent; // generate random bytes OR pass as-is
-  seedArgs.push(ensureBytes('extraEntropy', e)); // check for being bytes
+  seedArgs.push(ensureBytes("extraEntropy", e)); // check for being bytes
 }
 const seed = ut.concatBytes(...seedArgs); // Step D of RFC6979 3.2
 ```
@@ -337,11 +344,11 @@ export function createHmacDrbg<T>(
   // Step B, Step C: set hashLen to 8*ceil(hlen/8)
   let v = u8n(hashLen); // Minimal non-full-spec HMAC-DRBG from NIST 800-90 for RFC6979 sigs.
   let k = u8n(hashLen); // Steps B and C
-  
+
   ...
 ```
 
-The comments help clarify how to create an instance of the HMAC-DRGB and, by extension, how to generate `k`.  To get here, as I am far from fluent in js/ts, it was long.
+The comments help clarify how to create an instance of the HMAC-DRGB and, by extension, how to generate `k`. To get here, as I am far from fluent in js/ts, it was long.
 
 Ok, that's great, we now know which function is called to generate `k` in `noble-curves`.
 
@@ -379,7 +386,7 @@ We now have everything we need to compare those `k` and confirm (or not) if my g
 The idea is to run tests of problematic vectors in all three implementations and compare not only the resulting `k`, but also the inversion of `k` and computation of `R` (in case the problem lies in other parts of the signature computation). The code below is a modified version from the [repo for the PoC](https://github.com/obatirou/RFC6979-implementation-analysis/tree/main) to get the idea.
 
 ```jsx
-// noble-curves 
+// noble-curves
 const k = drbg(concatBytes(test.privateKey, test.message), (bytes) => {
     const num = bytesToNumberBE(bytes);
     if (num <= 0n || num >= CURVE.n) return;
@@ -401,7 +408,7 @@ print(f"k_inv: {hex(k_inv)}")
 R = fast_multiply(G, k)
 print(f"Rx: {hex(R[0])}")
 
-// RustCrypto 
+// RustCrypto
 let k =
     generate_k::<Sha256, U32>(&private_key.into(), &modulus.into(), &message.into(), b"");
 println!("k: {}", hex::encode(k));
@@ -429,19 +436,19 @@ Let’s compare the functions `sign` to ensure we are not crazy:
 
 ```jsx
 // RustCrypto and eth-keys
-r: 0xccedf9058419be4bf0d0aaf55b20072bcf6acb16621ac4ab90a3ed20b83a85ce
-s: 0x6c2444f18d6069e828b3ce0e4e5f2f20a2d7e701042bb4bf9361b228f0091ac6
+r: 0xccedf9058419be4bf0d0aaf55b20072bcf6acb16621ac4ab90a3ed20b83a85ce;
+s: 0x6c2444f18d6069e828b3ce0e4e5f2f20a2d7e701042bb4bf9361b228f0091ac6;
 
 // noble-curves
-r: 0x919026f3e239ea52cf530eb6d345dc2b56ef0928f1e9ad20d8f360284dc65048
-s: 0x14395e7137e2204f15b69239010f3c34fbb3c858a29b0d106b1fa65bc0047263
+r: 0x919026f3e239ea52cf530eb6d345dc2b56ef0928f1e9ad20d8f360284dc65048;
+s: 0x14395e7137e2204f15b69239010f3c34fbb3c858a29b0d106b1fa65bc0047263;
 ```
 
 Where is the problem then? Why are these `k` values identical across the three implementations in PoC, but the signature is different for `noble-curves`?
 
 ## The root cause
 
-In fact, after diving again in the code, the problem lies in the input of the HMAC function and the message hash particularly: ***for `noble-curves` it is reduced mod curve order but for `RustCrypto` and `eth-keys`, it is not!***
+In fact, after diving again in the code, the problem lies in the input of the HMAC function and the message hash particularly: **_for `noble-curves` it is reduced mod curve order but for `RustCrypto` and `eth-keys`, it is not!_**
 
 ```rust
 // noble-curves
@@ -462,7 +469,7 @@ let k = Scalar::<C>::from_repr(rfc6979::generate_k::<D, _>(
 .unwrap();
 ```
 
-And now, realizing that the 3 problematic vectors defined earlier have a message hash greater or equal to the curve order `n = fffffffffffffffffffffffffffffffebaaedce6af48a03bbfd25e8cd0364141`  you understand that it will generate different inputs after reducing them `mod n`. Why wasn’t this discrepancy reflected in the PoC? It was a bit naive as the inputs were not preprocessed, we passed the same input values.
+And now, realizing that the 3 problematic vectors defined earlier have a message hash greater or equal to the curve order `n = fffffffffffffffffffffffffffffffebaaedce6af48a03bbfd25e8cd0364141` you understand that it will generate different inputs after reducing them `mod n`. Why wasn’t this discrepancy reflected in the PoC? It was a bit naive as the inputs were not preprocessed, we passed the same input values.
 
 So, you have 3 really important libraries that do not respect a critical RFC. What do you do? What are the implication of this finding?
 
@@ -500,7 +507,7 @@ This is exactly what `noble-curves` does. In fact, it is `RustCrypto` and `eth-k
 - [eth-keys/issues/101](https://github.com/ethereum/eth-keys/issues/101)
 
 `RustCrypto` has already implemented the fix on the [master branch](https://github.com/RustCrypto/signatures/pull/777/files) but has not yet release it. `foundry` [is still using](https://github.com/foundry-rs/foundry/blob/4923529c743f25a0f37503a7bcf7c68caa6901f1/Cargo.lock#L2909) the tag `ecdsa/0.16.9` which is affected by the issue. A [tracking issue](https://github.com/foundry-rs/foundry/issues/9499) was created.
-Although it is not a security vulnerability in the sense of forgeable signature or the like, the issue remains that the signature is not deterministic in all cases. 
+Although it is not a security vulnerability in the sense of forgeable signature or the like, the issue remains that the signature is not deterministic in all cases.
 
 ## Conclusion
 

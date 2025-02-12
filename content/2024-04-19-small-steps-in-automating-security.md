@@ -1,11 +1,10 @@
 ---
-layout: post
 title: Small Steps in Automating Security
 subtitle: Detecting Incorrect Interface Definitions (in Vyper!)
 gh-repo: electisec/blog-site
-gh-badge: [follow]
+
 tags: [tools, vyper]
-comments: true
+
 author: engn33r
 twitter: https://x.com/bl4ckb1rd71
 ---

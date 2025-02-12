@@ -79,15 +79,14 @@ export async function processMarkdown(content: string) {
       allowDangerousHtml: true,
     })
     .use(rehypeKatex, {
-      strict: false,  // Disable strict mode
-      trust: true,    // Trust the input
+      strict: false,
+      trust: true,
       macros: {
-        // Add any custom macros here if needed
-        "\\eqref": "\\href{#1}{}",   // Example macro
+        "\\eqref": "\\href{#1}{}",
       },
       errorColor: ' #cc0000',
       throwOnError: false,
-      displayMode: true,  // Force display mode for all equations
+      displayMode: false,  // Change to false to respect inline vs display math
     })
     .use(rehypeHighlight)
     .use(rehypeStringify, { allowDangerousHtml: true })

@@ -2,7 +2,7 @@ import { GetStaticProps, GetStaticPaths } from "next";
 
 import path from "path";
 import fs from "fs";
-import { extractDate, processMarkdown } from "../../lib/utils";
+import { extractDate, processMarkdown } from "../lib/utils";
 import Link from "next/link";
 
 interface ReportPageProps {

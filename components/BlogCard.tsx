@@ -34,11 +34,11 @@ const ReportCard: React.FC<BlogCardProps> = ({
   return (
     <div
       className="bg-white flex flex-row justify-between rounded-lg shadow hover:shadow-lg transition-shadow duration-200 overflow-hidden hover:cursor-pointer duration-700"
-      onClick={() => router.push(`/blogs/${slug}`)}
+      onClick={() => router.push(`/${slug}`)}
     >
       <div className="p-6 flex flex-col">
         <div className="flex items-center justify-between mb-2">
-          <Link href={`/blogs/${slug}`}>
+          <Link href={`/${slug}`}>
             <h2 className="text-xl font-semibold text-black">{title}</h2>
           </Link>
         </div>
