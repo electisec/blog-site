@@ -294,7 +294,7 @@ print("result:", G(r))
 That was awesome! 😍  
 So now we have polynomials, and 2 modulos (7 for our base field, and $u^2+u+3$ for our quadratic extension). And we can easily move from our base field to our extension.
 
-# Let’s go further: Tower of fields
+## Let’s go further: Tower of fields
 
 Now things start to get a bit more complicated: Tower of fields 😭  
 If we want an even bigger field, we could just increase our field extension and instead of a degree 2 extension, use a degree 15, which means we would now have $7^{15}$ values to chose from. Easy!  
