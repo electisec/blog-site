@@ -16,19 +16,6 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
 
-export function extractDate(filename: string): string | null {
-  const match = filename.match(/^(\d{4})-(\d{2})-(\d{2})/);
-  
-  if (match) {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const [_, year, month, day] = match;
-    const date = new Date(parseInt(year), parseInt(month) - 1, parseInt(day));
-    return date.toISOString();
-  }
-  
-  return new Date().toISOString();
-}
-
 // Updated function to clean LaTeX comments while preserving both types of code blocks
 function cleanLatexComments(content: string): string {
   // First, let's create unique markers for code blocks

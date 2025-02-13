@@ -5,7 +5,6 @@ import ReportCard from "../components/BlogCard";
 import matter from "gray-matter";
 import path from "path";
 import fs from "fs";
-import { extractDate } from "@/lib/utils";
 
 interface Blog {
   title: string;
@@ -24,7 +23,7 @@ export default function Home({ blogs }: HomeProps) {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
 
-  const tags = blogs.map((report) => report.tags).flat();
+  const tags = useMemo(() => [...new Set(blogs.map((report) => report.tags).flat())], [blogs]);
 
   // Enhanced useEffect to handle multiple URL tags
   useEffect(() => {
@@ -150,7 +149,7 @@ export const getStaticProps: GetStaticProps = async () => {
           slug: filename.replace(".md", ""),
           title: frontmatter.title,
           date:
-            extractDate(filename.replace(".md", "")) ||
+            new Date(frontmatter.date).toISOString() ||
             new Date().toISOString(),
           subtitle: frontmatter.subtitle || null,
           tags: frontmatter.tags || [],

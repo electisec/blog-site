@@ -2,7 +2,7 @@ import { GetStaticProps, GetStaticPaths } from "next";
 
 import path from "path";
 import fs from "fs";
-import { extractDate, processMarkdown } from "../lib/utils";
+import { processMarkdown } from "../lib/utils";
 import Link from "next/link";
 
 interface ReportPageProps {
@@ -89,7 +89,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
       props: {
         title: frontMatter.title,
         content: content || "",
-        date: extractDate(slug) || new Date(),
+        date: new Date(frontMatter.date).toISOString(),
         tags: Array.isArray(frontMatter.tags) ? frontMatter.tags : [],
         author: frontMatter.author || "Anonymous",
         twitter: frontMatter.twitter || "",

@@ -2,11 +2,10 @@
 title: DeFi Design Takeaways from DeFi Risk Modelling
 subtitle: Summarizing economic implications for good designs
 gh-repo: electisec/blog-site
-
 tags: [economics]
-
 author: engn33r
 twitter: https://x.com/bl4ckb1rd71
+date: 2024-05-03
 ---
 
 # DeFi Design Takeaways from DeFi Risk Modelling

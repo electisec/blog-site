@@ -2,11 +2,10 @@
 title: Are Inverse TWAP Prices Inaccurate?
 subtitle: Price Data is Hard - Part 1
 gh-repo: electisec/blog-site
-
-tags: [oracles, prices, price data, precision, arithmetic]
-
+tags: [oracles, uniswap-v3]
 author: engn33r
 twitter: https://x.com/bl4ckb1rd71
+date: 2024-05-24
 ---
 
 # Are Inverse TWAP Prices Inaccurate?
