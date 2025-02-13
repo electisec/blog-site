@@ -11,7 +11,7 @@ date: 2025-02-13
 # From 0 to Bi(ge)nius: \"Basic maths\"
 
 _Thanks a lot to [Oba](https://x.com/obatirou), Nuliel, [Hyunmin](https://x.com/qpzmly), [Ali](https://x.com/0xalizk), [Nico](https://x.com/nico_mnbl) and [Jim](https://x.com/jimpo_potamus) for the review ❤️_  
-_Feel free to DM me on [Twitter](https://twitter.com/0xteddav) if you find mistakes in this article or if you have any question._
+_Feel free to DM me on Twitter: [@0xteddav](https://twitter.com/0xteddav) if you find mistakes in this article or if you have any question._
 
 Binius is a new way to build SNARKs by Benjamin Diamond and Jim Posen (from Irreducible). It uses “towers of binary fields” (yes, it sounds complicated but it should become obvious by the end of this article) and a variation of the Hyperplonk IOP over binary fields, combined with the Brakedown polynomial commitment scheme for better prover efficiency.  
 Here’s the paper: [Succinct Arguments over Towers of Binary Fields](https://eprint.iacr.org/2023/1784.pdf).  
