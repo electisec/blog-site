@@ -5,6 +5,7 @@ gh-repo: electisec/blog-site
 tags: [cryptography, algebra]
 author: teddav
 twitter: https://x.com/0xteddav
+date: 2025-02-13
 ---
 
 # From 0 to Bi(ge)nius: \"Basic maths\"
