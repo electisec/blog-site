@@ -29,6 +29,46 @@ export function extractDate(filename: string): string | null {
   return new Date().toISOString();
 }
 
+// Updated function to clean LaTeX comments while preserving both types of code blocks
+function cleanLatexComments(content: string): string {
+  // First, let's create unique markers for code blocks
+  const markers = {
+    fenced: '___FENCED_CODE_BLOCK___',
+    inline: '___INLINE_CODE___'
+  };
+  
+  // Store code blocks
+  const codeBlocks: string[] = [];
+  const inlineBlocks: string[] = [];
+  
+  // Replace fenced code blocks with markers
+  content = content.replace(/```[\s\S]*?```/g, (match) => {
+    codeBlocks.push(match);
+    return markers.fenced + (codeBlocks.length - 1);
+  });
+  
+  // Replace inline code blocks with markers
+  content = content.replace(/`[^`\n]+`/g, (match) => {
+    inlineBlocks.push(match);
+    return markers.inline + (inlineBlocks.length - 1);
+  });
+  
+  // Clean LaTeX comments from remaining content
+  content = content.replace(/(%[^\n]*$)/gm, '');
+  
+  // Restore inline code blocks
+  content = content.replace(new RegExp(markers.inline + '(\\d+)', 'g'), (_, index) => {
+    return inlineBlocks[parseInt(index)];
+  });
+  
+  // Restore fenced code blocks
+  content = content.replace(new RegExp(markers.fenced + '(\\d+)', 'g'), (_, index) => {
+    return codeBlocks[parseInt(index)];
+  });
+  
+  return content;
+}
+
 function remarkCodeBlocks() {
   return (tree: any) => {
     visit(tree, 'code', (node: any) => {
@@ -47,11 +87,8 @@ function remarkTrimBackticks() {
       // Convert the node to plain text if it starts and ends with backticks
       const value = node.value;
       if (value.startsWith('`') && value.endsWith('`') && value.startsWith('```') === false) {
-        console.log(value);
-        
         node.value = value.slice(1, -1);
       }
-      console.log(node.value);
       
       // Add classes for styling
       node.data = node.data || {};
@@ -65,15 +102,15 @@ function remarkTrimBackticks() {
 export async function processMarkdown(content: string) {
   const { data, content: markdownContent } = matter(content);
   
-  // Clean up LaTeX comments before processing
-  const cleanedContent = markdownContent.replace(/(%[^\n]*$)/gm, '');
+  // Clean up LaTeX comments while preserving code blocks
+  const cleanedContent = cleanLatexComments(markdownContent);
   
   const processedContent = await unified()
     .use(remarkParse)
     .use(remarkGfm)
     .use(remarkReplaceImageUrls)
     .use(remarkMath)
-    .use(remarkTrimBackticks) 
+    .use(remarkTrimBackticks)
     .use(remarkCodeBlocks)
     .use(remarkRehype, {
       allowDangerousHtml: true,
@@ -86,7 +123,7 @@ export async function processMarkdown(content: string) {
       },
       errorColor: ' #cc0000',
       throwOnError: false,
-      displayMode: false,  // Change to false to respect inline vs display math
+      displayMode: false,
     })
     .use(rehypeHighlight)
     .use(rehypeStringify, { allowDangerousHtml: true })
