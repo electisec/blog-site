@@ -20,6 +20,15 @@ const nextConfig: NextConfig = {
     });
     return config;
   },
+  async redirects() {
+    return [
+      {
+        source: '/blogs/:date-:slug',
+        destination: '/:slug',
+        permanent: true,
+      },
+    ];
+  },
 };
 
 export default nextConfig;
