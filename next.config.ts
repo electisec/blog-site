@@ -23,7 +23,7 @@ const nextConfig: NextConfig = {
   async redirects() {
     return [
       {
-        source: '/blogs/:date-:slug',
+        source: '/blogs/:year(\\d{4})-:month(\\d{2})-:day(\\d{2})-:slug',
         destination: '/:slug',
         permanent: true,
       },
