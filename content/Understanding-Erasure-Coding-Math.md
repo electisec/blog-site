@@ -2,7 +2,7 @@
 title: 'Understanding Erasure Coding'
 subtitle: "A Deep Dive into Mathematical Foundations"
 gh-repo: electisec/blog-site
-tags: [Erasure-coding, Reed-Solomon-Codes, Ethereum, Danksharding, Scalability, Product-Code, algebraic-coding-theory, Data-Extraction, Data-Interpolation, Missing-Value-Analysis, Coefficient-Extraction, Error-Correction, Generalized-Reed-Solomon-Codes]
+tags: [Erasure-coding, Reed-Solomon-Codes, Error-Correction]
 author: Nagu
 twitter: https://x.com/0xNagu
 date: 2025-02-21
