@@ -7,6 +7,8 @@ twitter: https://x.com/0xteddav
 date: 2025-02-24
 ---
 
+# Reed-Solomon Codes: The Math Behind Error Correction and Zero-Knowledge Proofs
+
 What are Reed-Solomon codes? What even is a “code” in this context??? That’s the question I kept asking myself.
 
 I had no idea what “coding theory” was… yet I kept coming across those “RS codes”. So I decided to dig in.
