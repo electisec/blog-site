@@ -697,8 +697,10 @@ $$
 
 We recover 
 
-$$\begin{bmatrix}2\\
-2\end{bmatrix}$$ 
+$$
+\begin{bmatrix}2\\
+2\end{bmatrix}
+$$ 
 
 exactly—our original data vector.
 
