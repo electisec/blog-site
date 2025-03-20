@@ -290,6 +290,12 @@ def ext_to_bytes(v: EXT) -> bytes:
 
 This ensures that values from the extension can be consistently **hashed** and included in the Merkle tree.
 
+### Layer 0 openings must be in $\mathbb{F}_{97}$
+
+One important detail: while we sample $\alpha$ from the **extension field**, the original polynomial f(x) is still defined over the **base field** $\mathbb{F}$. This means that when the verifier checks the first layer (layer 0) of the Merkle tree, the **openings** at queried positions must remain in $\mathbb{F}$ and **not** in the extension field.
+
+Once the FRI folding process begins, we allow intermediate polynomials to have coefficients in the **extension field**, but we always ensure that the **initial values** stay in $\mathbb{F}$, keeping the system sound and verifiable.
+
 ## Bonus: STARK trace polynomial
 
 If we take a step back, where did f(x) come from?
