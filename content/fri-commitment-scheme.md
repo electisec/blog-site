@@ -144,6 +144,14 @@ alpha = 5
 F1 = Fe + alpha*Fo
 ```
 
+### Pick $\alpha$ from a larger domain
+
+If the base field we’re using is small, challenge $\alpha$ needs to be sampled from a **field extension**. This prevents the prover from exploiting the small field structure to cheat.
+
+If you need a refresher on field extensions, check out my previous [article on extension fields](https://blog.electisec.tech/binius-1-extension-fields).
+
+We'll first introduce the rest of the FRI process using only the **base field**. This will help build intuition about how degree reduction and verification work. Later, I'll revisit how the process changes when alpha **is sampled from a field extension**, and why this is necessary for security when working over small fields.
+
 ## Step 2: Query
 
 Now that the prover has committed to the polynomial in multiple rounds, the verifier needs to ensure that the prover didn’t cheat. To do this, the verifier picks a random point `z` and queries $f_i(z)$ and $f_i(-z)$.
@@ -164,10 +172,6 @@ assert(F0(-z) == Fe(z^2) - z*Fo(z^2))
 ```
 
 By querying these two values, the verifier ensures that the prover has correctly followed the folding process from $f_{i-1}$ to $f_i$. We’ll see how in the next part, because remember that the verifier doesn’t have access to the even and odd parts.
-
-### Pick z from a larger domain
-
-If the evaluation domain used in FRI is small, the verifier picks `z` from a **larger field extension** to make the proof sound. This prevents the prover from exploiting small-domain properties to cheat. If you need a refresher on field extensions, check out this [article on extension fields](https://blog.electisec.tech/binius-1-extension-fields).
 
 Finally, the prover also provides a **Merkle proof** for the queried values at z, allowing the verifier to check their consistency with the original commitment.
 
@@ -261,7 +265,30 @@ This step is crucial because without it, a dishonest prover could return fake va
 
 ## Sage script
 
-Of course, you know me, I made a Sage script for the entire process. It should make everything easier to understand: [https://github.com/teddav/fri_sage/blob/main/fri.sage](https://github.com/teddav/fri_sage/blob/main/fri.sage)
+Of course, you know me, I made a Sage script for the entire process. It should make everything easier to understand: https://github.com/teddav/fri_sage/blob/main/fri.sage
+
+## Small fields
+
+Earlier, I mentioned that when working over **small fields**, the challenge $\alpha$ should be sampled from an **extension field** rather than the base field. This ensures sufficient randomness and prevents certain attacks.
+
+To illustrate this, I wrote another **Sage script**, which is very similar to the first one, but this time, $\alpha$ is sampled from an **extension field**: 🔗 [fri_ext.sage](https://github.com/teddav/fri_sage/blob/main/fri_ext.sage)
+
+In this script, I construct a **quadratic extension** over $\mathbb{F}_{97}$, defining the field $\mathbb{F}_{{97}^2}$ using the irreducible polynomial
+
+$$
+x^2 + 96x + 5
+$$
+
+Since we’re now working with field elements that have two coefficients (like `ax + b`), we need a way to **convert these elements into bytes**, for hashing in the Merkle tree.
+
+I added a function `ext_to_bytes` to handle this conversion. It takes an element `v` from the extension field and extracts its coefficients, storing them in **reverse order** (so the constant term `b` comes first, followed by `a`): `b|a`
+
+```python
+def ext_to_bytes(v: EXT) -> bytes:
+    return "|".join([str(c) for c in v.polynomial().coefficients()]).encode()
+```
+
+This ensures that values from the extension can be consistently **hashed** and included in the Merkle tree.
 
 ## Bonus: STARK trace polynomial
 
@@ -289,6 +316,6 @@ The prover commits to these polynomials using **Merkle trees**, then applies FRI
 
 STARKs use FRI because it provides a **succinct and efficient way** to verify that the committed polynomials satisfy the required constraints, without relying on trusted setups or quantum-vulnerable cryptographic assumptions. This makes them ideal for **scalable** and **post-quantum secure** proof systems.
 
-## Stark by Hand
+### Stark by Hand
 
-If you want to dive deeper into STARKs, I highly recommend the [STARK by Hand tutorial by Risc0](https://dev.risczero.com/proof-system/stark-by-hand), it’s a fantastic resource! And, of course, to make things even easier to understand and experiment with, I made a Sage script again 😊: [https://github.com/teddav/stark_by_hand/blob/main/stark_by_hand.sage](https://github.com/teddav/stark_by_hand/blob/main/stark_by_hand.sage)
+If you want to dive deeper into STARKs, I highly recommend the [STARK by Hand tutorial by Risc0](https://dev.risczero.com/proof-system/stark-by-hand), it’s a fantastic resource! And, of course, to make things even easier to understand and experiment with, I made a Sage script again 😊: https://github.com/teddav/stark_by_hand/blob/main/stark_by_hand.sage

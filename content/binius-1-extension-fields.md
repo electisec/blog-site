@@ -1,5 +1,5 @@
 ---
-title: 'From 0 to Bi(ge)nius: "Basic maths"'
+title: "From 0 to Bi(ge)nius: field extensions"
 subtitle: "𝔽₂ and Beyond: A Gentle Guide to Field Extensions"
 gh-repo: electisec/blog-site
 tags: [cryptography, algebra]
@@ -8,7 +8,7 @@ twitter: https://x.com/0xteddav
 date: 2025-02-13
 ---
 
-# From 0 to Bi(ge)nius: \"Basic maths\"
+# From 0 to Bi(ge)nius: field extensions
 
 _Thanks a lot to [Oba](https://x.com/obatirou), Nuliel, [Hyunmin](https://x.com/qpzmly), [Ali](https://x.com/0xalizk), [Nico](https://x.com/nico_mnbl) and [Jim](https://x.com/jimpo_potamus) for the review ❤️_  
 _Feel free to DM me on Twitter: [@0xteddav](https://twitter.com/0xteddav) if you find mistakes in this article or if you have any question._
