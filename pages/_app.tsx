@@ -5,6 +5,7 @@ import { Space_Grotesk } from "next/font/google";
 import Head from "next/head";
 import Footer from "@/components/Footer";
 import { useEffect } from "react";
+import MermaidInitializer from "@/components/MermaidRenderer";
 
 const spaceGrotesk = Space_Grotesk({
   subsets: ["latin"],
@@ -31,6 +32,7 @@ export default function App({ Component, pageProps }: AppProps) {
         <Navbar />
         <Component {...pageProps} />
         <Footer />
+        <MermaidInitializer />
       </main>
     </>
   );
