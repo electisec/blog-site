@@ -11,7 +11,7 @@ import rehypeStringify from 'rehype-stringify';
 import { visit } from 'unist-util-visit';
 import { clsx, type ClassValue } from "clsx"
 import { twMerge } from "tailwind-merge"
-// import remarkMermaid from 'remark-mermaidjs';
+import remarkMermaid from 'remark-mermaidjs';
 
 
 export function cn(...inputs: ClassValue[]) {
@@ -99,9 +99,9 @@ export async function processMarkdown(content: string) {
     .use(remarkGfm)
     .use(remarkReplaceImageUrls)
     .use(remarkMath)
-    // .use(remarkMermaid, {
-    //   // mermaidConfig: { startOnLoad: false, theme: 'default' }
-    // })
+    .use(remarkMermaid, {
+      // mermaidConfig: { startOnLoad: false, theme: 'default' }
+    })
     .use(remarkTrimBackticks)
     .use(remarkCodeBlocks)
     .use(remarkRehype, {
