@@ -5,11 +5,13 @@ gh-repo: electisec/blog-site
 tags: [Erasure-coding, Reed-Solomon-Codes, Error-Correction]
 author: Nagu
 twitter: https://x.com/0xNagu
-date: 2025-02-21
+date: 2025-03-25
 ---
 
 
-# Introduction
+# Understanding Erasure Coding
+
+## Introduction
 
 Imagine you’re part of a new decentralized blockchain aiming to store massive amounts of data on-chain—think NFT artwork, transaction histories, and user-generated archives. Each node in the network hosts only a slice of the total ledger. Some nodes go offline unexpectedly; others might be malicious. Directly replicating every byte multiple times is costly and slows down the entire blockchain.  
    
