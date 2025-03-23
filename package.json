@@ -4,8 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
-    "start": "yarn playwright install chromium && next start",
+    "build": "yarn playwright install chromium && next build",
+    "start": "next start",
     "lint": "next lint"
   },
   "dependencies": {
