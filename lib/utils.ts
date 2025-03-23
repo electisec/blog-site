@@ -99,9 +99,9 @@ export async function processMarkdown(content: string) {
     .use(remarkGfm)
     .use(remarkReplaceImageUrls)
     .use(remarkMath)
-    .use(remarkMermaid, {
-      // mermaidConfig: { startOnLoad: false, theme: 'default' }
-    })
+    // .use(remarkMermaid, {
+    //   // mermaidConfig: { startOnLoad: false, theme: 'default' }
+    // })
     .use(remarkTrimBackticks)
     .use(remarkCodeBlocks)
     .use(remarkRehype, {

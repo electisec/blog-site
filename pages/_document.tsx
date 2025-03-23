@@ -69,6 +69,8 @@ export default function Document() {
             }
           `}
         </Script>
+        <Script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js" />
+
 
         <Script
           strategy="afterInteractive"
