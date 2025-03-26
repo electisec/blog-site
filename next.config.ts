@@ -21,27 +21,37 @@ const nextConfig: NextConfig = {
       },
     });
     
-    // Force webpack to bundle @fortawesome/fontawesome-free instead of treating it as external
+    // Fix Font Awesome dependency for mermaid-isomorphic
     if (isServer) {
-      const originalExternals = config.externals;
+      // Using the newer format for externals functions to avoid deprecation warning
+      const originalExternals = [...(config.externals || [])];
       config.externals = [
-        (context: any, request: string | string[], callback: () => any) => {
-          // Do not externalize @fortawesome/fontawesome-free
+        ({ context, request }: any, callback: any)  => {
           if (request.includes('@fortawesome/fontawesome-free')) {
             return callback();
           }
-          // For all other externals, maintain the original behavior
-          if (typeof originalExternals === 'function') {
-            return originalExternals(context, request, callback);
-          } else if (Array.isArray(originalExternals)) {
-            for (const external of originalExternals) {
-              if (typeof external === 'function') {
-                const result = external(context, request, callback);
-                if (result !== undefined) return result;
-              }
+          
+          // Pass the request through the original externals
+          if (originalExternals.length === 0) {
+            return callback();
+          }
+          
+          let handled = false;
+          for (const external of originalExternals) {
+            if (typeof external === 'function') {
+              external({ context, request }, (err: any, result: any) => {
+                if (!handled && !err) {
+                  handled = true;
+                  callback(null, result);
+                }
+              });
             }
           }
-          return callback();
+          
+          // If not handled by any of the externals, do not externalize
+          if (!handled) {
+            callback();
+          }
         }
       ];
     }
