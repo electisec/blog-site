@@ -363,7 +363,36 @@ For a $[3,2]$ Erasure code, each data block has size $K=2$. Break the 6-note seq
 
 #### Choose an Encoder Matrix (N=3, K=2)
 
-We need an $3 \times 2$ matrix $E$ in $GF(2^3)$ whose every $2\times 2$ submatrix is invertible. A common approach is to pick or adapt a Cauchy-like matrix. For example, we can use:
+We need an $3 \times 2$ matrix $E$ in GF($2^3$) whose every $2 \times 2$ submatrix is invertible. That’s the key requirement for a successful $[3,2]$ erasure code: any 2 shards should suffice to reconstruct the 2 original data chunks.
+
+A classic way, as noted above, is to build a Cauchy matrix by picking distinct $\{x_1,\dots,x_N\}$ and $\{y_1,\dots,y_K\}$ in our field and letting
+
+$$
+C_{i,j} = \frac{1}{x_i - y_j}.
+$$
+
+However, sometimes a matrix that is “Cauchy-like” or otherwise carefully chosen also works—so long as it meets the invertibility criteria. In this example, we use:
+
+$$
+E \;=\; 
+\begin{bmatrix}
+1 & 1\\
+2 & 3\\
+4 & 5
+\end{bmatrix}
+\quad \text{in } GF(2^3).
+$$
+
+Here’s why it’s valid:
+- Distinct Elements: Each row has unique field elements (like `001`, `010`, `011`, `100`, `101` in binary).  
+- Submatrix Invertibility: If you take *any* two rows (giving a $2\times2$ submatrix) and compute its determinant in GF($2^3$), you’ll get a non-zero result—meaning it’s invertible.  
+
+> *In practice, you can verify submatrix invertibility by calculating each pair’s determinant via finite-field arithmetic. This step is typically done offline or via code, ensuring you have a guaranteed invertible matrix without having to rely strictly on the $\frac{1}{x_i - y_j}$ formula.*
+
+Thus, while you can explicitly construct a matrix using the formal Cauchy definition, it’s enough to ensure all $2\times2$ minors are invertible. Our example $\begin{bmatrix}1 & 1\\2 & 3\\4 & 5\end{bmatrix}$ meets that condition, so it serves as a valid $[3,2]$ encoder.
+
+
+Hence, we can use:
 
 $$
 E \;=\; 
