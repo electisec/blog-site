@@ -47,13 +47,6 @@ export default function Document() {
           rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css"
         />
-        <link 
-          rel="stylesheet" 
-          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" 
-          integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" 
-          crossOrigin="anonymous" 
-          referrerPolicy="no-referrer" 
-        />
       </Head>
       <body>
         <Main />
@@ -76,9 +69,6 @@ export default function Document() {
             }
           `}
         </Script>
-        <Script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js" />
-
-
         <Script
           strategy="afterInteractive"
           src="https://www.googletagmanager.com/gtag/js?id=G-Q647YTPGSE"
