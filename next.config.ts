@@ -25,7 +25,7 @@ const nextConfig: NextConfig = {
     if (isServer) {
       const originalExternals = config.externals;
       config.externals = [
-        (context, request, callback) => {
+        (context: any, request: string | string[], callback: () => any) => {
           // Do not externalize @fortawesome/fontawesome-free
           if (request.includes('@fortawesome/fontawesome-free')) {
             return callback();
