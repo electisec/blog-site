@@ -1,6 +1,6 @@
 import React from "react";
 import Link from "next/link";
-import { useRouter } from "next/router";
+// import { useRouter } from "next/router";
 
 interface BlogCardProps {
   title: string;
@@ -29,12 +29,15 @@ const ReportCard: React.FC<BlogCardProps> = ({
     });
   };
 
-  const router = useRouter();
+  // const router = useRouter();
 
   return (
     <div
       className="bg-white flex flex-row justify-between rounded-lg shadow hover:shadow-lg transition-shadow duration-200 overflow-hidden hover:cursor-pointer duration-700"
-      onClick={() => router.push(`/${slug}`)}
+      onClick={() => {
+        // router.push(`/${slug}`)
+        window.location.replace(`/${slug}`)
+      }}
     >
       <div className="p-6 flex flex-col">
         <div className="flex items-center justify-between mb-2">

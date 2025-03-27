@@ -11,7 +11,6 @@ const spaceGrotesk = Space_Grotesk({
 });
 
 export default function App({ Component, pageProps }: AppProps) {
-  
   return (
     <>
       <Head>
