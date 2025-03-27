@@ -4,7 +4,6 @@ import Navbar from "../components/Navbar";
 import { Space_Grotesk } from "next/font/google";
 import Head from "next/head";
 import Footer from "@/components/Footer";
-import { useEffect } from "react";
 
 const spaceGrotesk = Space_Grotesk({
   subsets: ["latin"],

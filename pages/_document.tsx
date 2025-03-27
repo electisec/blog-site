@@ -69,6 +69,13 @@ export default function Document() {
             }
           `}
         </Script>
+        <Script type="module" id="mermaid-init" src='https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs'>
+        {`
+            window.onload = function() {
+              mermaid.initialize({ startOnLoad: true });
+            }
+          `}
+        </Script>
         <Script
           strategy="afterInteractive"
           src="https://www.googletagmanager.com/gtag/js?id=G-Q647YTPGSE"

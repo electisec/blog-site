@@ -60,11 +60,21 @@ function cleanLatexComments(content: string): string {
 function remarkCodeBlocks() {
   return (tree: any) => {
     visit(tree, 'code', (node: any) => {
-      // Add a pre class that highlight.js can target
+      // Set up data structure if it doesn't exist
       node.data = node.data || {};
-      node.data.hProperties = {
-        className: `language-${node.lang || 'text'}`,
-      };
+      node.data.hProperties = node.data.hProperties || {};
+      
+      // Special handling for mermaid code blocks
+      if (node.lang === 'mermaid') {
+        // For mermaid, we need to transform this differently
+        // Mark this node as a mermaid diagram for special handling in rehype
+        node.data.mermaidDiagram = true;
+        // Set the class to mermaid without the language- prefix
+        node.data.hProperties.className = 'mermaid no-highlight';
+      } else {
+        // Standard handling for other code blocks
+        node.data.hProperties.className = `language-${node.lang || 'text'}`;
+      }
     });
   };
 }
