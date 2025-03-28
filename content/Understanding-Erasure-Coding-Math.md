@@ -289,44 +289,152 @@ We pick an irreducible polynomial $y^3 + y + 1 = 0$. Label each of the 8 element
 | 7         | $1y^2 + 1y + 1$ | `111`               |
 
 
-
 ### Arithmetic in $GF(2^3)$
 
 Now, lets understand how arithmetic operations work in $GF(2^3)$.
 
-- Addition  
+**Addition**
    - Performed as bitwise XOR on the 3-bit representation.  
    - Polynomial view: Coefficients are added modulo 2.  
    - Example: $6 + 7$ in binary is `110` $\oplus$ `111` = `001` (which is 1).
 
-- Subtraction  
+**Subtraction**
    - Same as addition in characteristic 2 (since each element is its own negative).  
    - Example: $6 - 6 = 110 \oplus 110 = 000 = 0$.
 
-- Multiplication  
+**Multiplication**
    - Multiply the polynomials, then reduce modulo $y^3 + y + 1$.  
    - Example: $6 \times 7$ means  
      
      $$
        (y^2 + y) \;\times\; (y^2 + y + 1)
+       = (y^4 + y^3 + y^2) + (y^3 + y^2 + y)
+       =(y^4 +  y)
+      $$ 
+      
+      $$ = y*(y^3 + 1) = y*(y + 1 + 1) = y*y = y^2
        \;\;\text{mod}\;\; (y^3 + y +1).
      $$
      
      After polynomial expansion and reduction, the result is $y^2$, which corresponds to `100` (element #4).
 
-- Division  
-   - Multiply by the multiplicative inverse.  
-   - Example: $\frac{6}{7} = 6 \times \frac{1}{7} = 6 \times 4 = 24$ in polynomial form, but effectively “$6 \times 4$” is `110 × 100 = 010` after mod reduction, so the result is `010` (which is element #2).
-
-A small portion of the multiplication table for $GF(2^3)$ might look like this:
+The multiplication table for $GF(2^3)$ might look like this:
 
 | $*$ | `000` | `001` | `010` | `011` | `100` | `101` | `110` | `111` |
-|------:|------:|------:|------:|------:|------:|------:|------:|------:|
-| `000` | `000` | `000` | `000` | `000` | `000` | `000` | `000` | `000` |
-| `001` | `000` | `001` | `010` | `011` | `100` | `101` | `110` | `111` |
-| `010` | `000` | `010` | `100` | `110` | `001` | `111` | `101` | `011` |
-| `011` | `000` | `011` | `110` | `101` | `111` | `100` | `001` | `010` |
-| ...   | ...   | ...   | ...   | ...   | ...   | ...   | ...   | ...   |
+|---------|-------|-------|-------|-------|-------|-------|-------|-------|
+| `000`   | `000` | `000` | `000` | `000` | `000` | `000` | `000` | `000` |
+| `001`   | `000` | `001` | `010` | `011` | `100` | `101` | `110` | `111` |
+| `010`   | `000` | `010` | `100` | `110` | `011` | `001` | `111` | `101` |
+| `011`   | `000` | `011` | `110` | `101` | `111` | `100` | `001` | `010` |
+| `100`   | `000` | `100` | `011` | `111` | `110` | `010` | `101` | `001` |
+| `101`   | `000` | `101` | `001` | `100` | `010` | `111` | `011` | `110` |
+| `110`   | `000` | `110` | `111` | `001` | `101` | `011` | `010` | `100` |
+| `111`   | `000` | `111` | `101` | `010` | `001` | `110` | `100` | `011` |
+
+**Division**
+
+Division in $GF(2^n)$ can seem unusual at first. In general, division in $GF(2^n)$ is done by multiplying by the multiplicative inverse.
+
+Let's see exactly how to compute:
+
+$$
+\frac{6}{7} \quad\text{in}\quad GF(2^3).
+$$
+
+
+**Step 1: Represent Numbers as Binary & Polynomials**
+
+Let's map each number to its 3-bit binary string and then to the corresponding polynomial in $y$:
+
+| Decimal | Binary | Polynomial       |
+|---------|--------|------------------|
+| 6   | `110`  | $y^2 + y$      |
+| 7   | `111`  | $y^2 + y + 1$  |
+
+Our goal is to compute, in $GF(2^3)$:
+
+$$
+\frac{6}{7} \;=\; 6 \;\times\; 7^{-1},
+$$
+where $7^{-1}$ is defined by $7 \times 7^{-1} = 1$.
+
+
+
+**Step 2: Find the Inverse of 7 ($7^{-1}$)**
+
+We test all non-zero elements to find $\alpha$ such that $7 \times \alpha = 1$.
+
+
+Each product $7 \times \alpha$ is computed using polynomial multiplication modulo $y^3 + y + 1$ (the irreducible polynomial). Here’s how:
+
+1. $7 \times 1$ (binary `001`)  
+   $$
+   (y^2 + y + 1) \times 1 = y^2 + y + 1 \quad (\text{= 7, binary `111`}).
+   $$
+
+2. $7 \times 2$ (binary `010` = $y$)  
+   $$
+   (y^2 + y + 1) \times y = y^3 + y^2 + y.
+   $$  
+   Reduce $y^3$ using $y^3 \equiv y + 1$:  
+   $$
+   (y + 1) + y^2 + y = y^2 + 1 \quad (\text{= 5, binary `101`}).
+   $$
+
+3. $7 \times 5$ (binary `101` = $y^2 + 1$)  
+   $$
+   (y^2 + y + 1)(y^2 + 1) = y^4 + y^3 + y^2 + y^2 + y + 1.
+   $$  
+   Simplify ($y^2 + y^2 = 0$) and reduce $y^4 = y^2 + y$, $y^3 = y + 1$:  
+   $$
+   (y^2 + y) + (y + 1) + y + 1 = 1 \quad (\text{= 1, binary `001`}).
+   $$  
+   This confirms $7^{-1} = 5$.
+
+**Inverse Test Results**
+
+
+| Candidate $\alpha$ | Compute $7 \times \alpha$ | Result |
+|------------------------|--------------------------------|--------|
+| `001` (1)              | 7                              | ≠ 1    |
+| `010` (2)              | 5                              | ≠ 1    |
+| `011` (3)              | 4                              | ≠ 1    |
+| `100` (4)              | 6                              | ≠ 1    |
+| **`101` (5)**          | **1**                          | **✅ = 1** |
+| `110` (6)              | 2                              | ≠ 1    |
+| `111` (7)              | 3                              | ≠ 1    |
+
+
+**Step 3: Perform the Division $\,6 \div 7\,$**
+
+Now compute:  
+$$
+6 \div 7 = 6 \times 5 = (y^2 + y)(y^2 + 1).
+$$
+
+**Polynomial Multiplication**
+$$
+(y^2 + y)(y^2 + 1) = y^4 + y^3 + y^2 + y.
+$$
+
+**Reduction Modulo $y^3 + y + 1$**
+1. Substitute $y^4 = y^2 + y$ and $y^3 = y + 1$:  
+   $$
+   (y^2 + y) + (y + 1) + y^2 + y.
+   $$  
+2. Simplify (coefficients are mod 2):  
+   $$
+   \cancel{y^2} + \cancel{y} + \cancel{y} + 1 + \cancel{y^2} + y = y + 1 \quad (\text{= 3, binary `011`}).
+   $$
+
+
+Hence we get,
+$$
+\frac{6}{7} = 3 \quad \text{in} \quad GF(2^3).
+$$  
+
+*(Binary: `110 ÷ 111 = 011`)*
+
 
 
 
