@@ -878,7 +878,7 @@ As data volumes skyrocket, erasure coding becomes a must-have. With the knowledg
 # Appendix & Further Reading
 
 - Full $GF(2^n)$ Implementation Examples: Libraries like [galois (Python)](https://pypi.org/project/galois/) and [Intel ISA-L Erasure Coding (C)](https://github.com/intel/isa-l) offer production-grade building blocks.  
-- [Cachy matrices.](https://en.wikipedia.org/wiki/Cauchy_matrix)
+- [Cauchy matrices.](https://en.wikipedia.org/wiki/Cauchy_matrix)
 - [Local reconstruction codes.](https://www.usenix.org/system/files/conference/atc12/atc12-final181_0.pdf)
 - [Hamming codes - the origin of error correction part 1 by 3blue1brown.](https://www.youtube.com/watch?v=X8jsijhllIA)
 - [Hamming codes - the origin of error correction part 2 by 3blue1brown.](https://www.youtube.com/watch?v=b3NxrZOu_CE)
