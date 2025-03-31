@@ -98,32 +98,31 @@ $$
 
 And we know in advance the **expected degree of P(x).**
 
-For example, if the expected degree of P(x) is 100, and we evaluate it over 1000 points, then:
+For example, if the expected degree of P(x) is 100, and we evaluate it over 1000 points: if the prover submits fake polynomials P′ and Q’ of **degree ≤ 100**, they only have a 10% chance of cheating successfully. Because two polynomials of degree `d` can match on **at most `d` points**.
 
-- Two polynomials of degree `d` can match on **at most `d` points**.
-- If the prover submits a fake polynomial P′ of **degree ≤ 100**, they only have a 10% chance of cheating successfully.
-
-However, what if they use a **higher-degree** polynomial?
+However, what if they use **higher-degree** polynomials?
 
 ### Step 4: How to Cheat With a High-Degree Polynomial
 
 If the prover commits to a polynomial with **much higher degree** than expected, they can easily bypass the check.
 
-Instead of committing to the correct P(x), they use a fake P’(x) of high degree. Then, they **compute a fake quotient**:
+Instead of committing to the correct P(x), they use a fake P’(x). Then, they **compute a fake quotient**:
 
 $$
-Q(i)=\frac{P'(i)}{Z(i)}
+Q'(i)=\frac{P'(i)}{Z(i)}
 $$
 
 Since they **control P’**, they can make sure this condition still holds!
 
 This allows them to **pass verification without actually enforcing any constraints**—breaking the proof system.
 
+**But Q’ will inevitably end up being of degree higher than 100.**
+
 Want to see this in action? Check out the script [low_degree.sage](https://github.com/teddav/fri_sage/blob/main/low_degree.sage), where I generate a fake P(x) and trick the verification process. 🚀
 
-### Why Must P(x) Be Low-Degree?
+### Why Must P(x) and Q(x) Be Low-Degree?
 
-The entire security of FRI **relies on the fact that P(x) has a bounded degree**. If the prover could commit to a high-degree polynomial, they could create a fake quotient Q(x) that satisfies all checks while encoding **false or meaningless constraints**.
+The entire security of FRI **relies on the fact that P(x) and Q(x) have a bounded degree**. If the prover could commit to a high-degree polynomial, they could create a fake quotient Q(x) that satisfies all checks while encoding **false or meaningless constraints**.
 
 By enforcing a strict degree bound, we ensure that **any incorrect polynomial will be detected with high probability,** making FRI a sound and reliable way to prove polynomial correctness.
 
