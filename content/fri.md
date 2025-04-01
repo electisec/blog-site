@@ -1,3 +1,13 @@
+---
+title: "FRI: Fast Reed-Solomon IOP of Proximity"
+subtitle: "A Polynomial Commitment Scheme Explained"
+gh-repo: electisec/blog-site
+tags: [cryptography, algebra, polynomial]
+author: teddav
+twitter: https://x.com/0xteddav
+date: 2025-03-31
+---
+
 # FRI: A Polynomial Commitment Scheme Explained
 
 ## Introduction
