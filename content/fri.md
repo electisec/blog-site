@@ -15,7 +15,7 @@ date: 2025-03-31
 FRI (Fast Reed-Solomon Interactive Oracle Proof) is a **polynomial commitment scheme**. Let's break that down:
 
 - **Polynomial**: If you don't know what this is, this article might not be for you… sorry 😕
-- **Commitment Scheme**: You choose a value and commit to it (e.g., with a hash function). Once committed, you can't change it. Later, you reveal it to prove what you committed to. However, in FRI, you don’t fully reveal it—that’s the magic!
+- **Commitment Scheme**: You choose a value and commit to it (e.g., with a hash function). Once committed, you can't change it. Later, you reveal it to prove what you committed to. However, in FRI, you don’t fully reveal it, that’s the magic!
 - **Polynomial Commitment Scheme**: You pick a polynomial and commit to it.
 
 FRI enables a prover to commit to a polynomial and convince a verifier that the polynomial satisfies certain properties, mainly that it has a **low degree**.
@@ -52,7 +52,7 @@ Process:
 Before diving into the details, here’s a high-level overview of how FRI works:
 
 1. **Start with a polynomial** `P(x)`
-2. **Choose a domain**—for example, values from 1 to 100.
+2. **Choose a domain:** for example, values from 1 to 100.
 3. **Extend the domain** using techniques from **Reed-Solomon codes**.
 4. **Evaluate P(x) at all points** in the extended domain.
 5. **Build a Merkle tree** from these evaluations to commit to them.
@@ -62,13 +62,13 @@ Don’t worry if this seems abstract for now, each step will be explained in det
 
 ## What’s this “low degree” thing?
 
-At its core, **FRI is all about proving that the initial polynomial has a bounded degree.** However, we don’t want to reveal the polynomial itself, so we need a special way to commit to it that convinces the verifier **without leaking the entire polynomial**.
+At its core, **FRI is all about proving that the initial polynomial has a bounded degree.** However, we don’t want to reveal the polynomial itself, so we need a special way to commit to it that convinces the verifier **without leaking the entire polynomial and without having to evaluate it entirely.**
 
 ### Step 1: Constructing the Polynomial P(x)
 
-The polynomial P(x) isn’t just any random polynomial—it encodes something specific.
+The polynomial P(x) isn’t just any random polynomial, it encodes something specific.
 
-For example, in a **STARK proof**, P(x) enforces constraints on an execution trace (see the last part of this article: ["Bonus: STARK Trace Polynomial"](https://www.notion.so/teddav/LINK)).
+For example, in a **STARK proof**, P(x) enforces constraints on an execution trace (see the last part of this article: ["Bonus: STARK Trace Polynomial"](https://www.notion.so/teddav/LINK)). The entire computation is compiled into this polynomial representation.
 
 To check that P(x) correctly encodes these constraints, we compute its quotient by the **zero polynomial**. If you’re unfamiliar with this concept, I highly recommend **Vitalik’s introduction to SNARKs**: [**Introduction to SNARKs**](https://vitalik.eth.limo/general/2021/01/26/snarks.html).
 
@@ -77,7 +77,7 @@ Here’s a **quick recap:**
 We want to ensure that P(x) evaluates to 0 over a specific domain, say $x \in [1,9]$
 
 1. Compute the **zero polynomial** over that domain: $Z(x)=(x-1)(x-2)...(x-9)$
-2. If P(x)) is correctly enforcing the constraints, then it should be **divisible by** Z(x) with no remainder.
+2. If P(x)) is correctly enforcing the constraints, then it should be **divisible by** Z(x) with no remainder. This works because Z(x) is purposefully chosen to be evaluate to zero at those exact points of evaluation
 3. This gives us a quotient polynomial
 
 $$
@@ -88,7 +88,7 @@ $$
 
 To commit to P(x), we evaluate **P(x), Q(x), and Z(x)** over an **extended domain**.
 
-This is where **Reed-Solomon encoding** comes in (if you're unfamiliar with it, check out my article: ["Reed-Solomon Codes"](https://blog.electisec.tech/reed-solomon)). It introduces **redundancy** that prevents cheating—more on that below.
+This is where **Reed-Solomon encoding** comes in (if you're unfamiliar with it, check out my article: ["Reed-Solomon Codes"](https://blog.electisec.tech/reed-solomon)). It introduces **redundancy** that prevents cheating, more on that below.
 
 The verifier then picks a **random point** `r` from the domain and checks:
 
@@ -124,7 +124,7 @@ $$
 
 Since they **control P’**, they can make sure this condition still holds!
 
-This allows them to **pass verification without actually enforcing any constraints**—breaking the proof system.
+This allows them to **pass verification without actually enforcing any constraints,** breaking the proof system.
 
 **But Q’ will inevitably end up being of degree higher than 100.**
 
@@ -146,7 +146,9 @@ FRI shifts verification effort from the verifier to the prover. Instead of naive
 
 The prover starts with a large polynomial and iteratively reduces its degree in multiple rounds until it reaches a degree that is acceptable for the verifier. This process is a **degree reduction step** and is a fundamental part of FRI.
 
-At each round, the prover commits to the polynomial by computing a **Merkle tree** from its evaluations (not coefficients!). The Merkle root serves as the commitment, ensuring that the prover cannot change their values later.
+At each round, the prover commits to the polynomial by computing a **Merkle tree** from its evaluations (not coefficients!) at an n-th root of unity.
+
+The Merkle root serves as the commitment, ensuring that the prover cannot change their values later.
 
 Now, let’s see how we transform a polynomial step by step.
 
@@ -466,7 +468,7 @@ Sorry! I haven’t had time to make this part nicely and well commented yet, so 
 
 ## Resources and A**cknowledgements**
 
-Thanks [@qpzm](https://x.com/qpzmly), [@oba](https://x.com/obatirou), [@nico_mnbl](https://x.com/nico_mnbl) and [@xenoliss](https://x.com/xenoliss) for proofreading the article and/or answering my questions about FRI 😊
+Thanks [@qpzm](https://x.com/qpzmly), [@oba](https://x.com/obatirou) and [@nico_mnbl](https://x.com/nico_mnbl) for proofreading the article and/or answering my questions about FRI 😊
 
 **Great resources:**
 

@@ -44,7 +44,7 @@ The core idea is to expand the data being sent, making it more resilient to erro
 
 Going back to our QR code example, the image consists of many black and white squares. Imagine you have a QR code ready to scan, and you count 400 squares in total.
 
-The reality is that your camera doesn’t actually need all 400 squares to understand the data. It might only require 300 (for example). The extra squares are there to compensate for potential data loss—such as a damaged or partially obstructed image.
+The reality is that your camera doesn’t actually need all 400 squares to understand the data. It might only require 300 (for example). The extra squares are there to compensate for potential data loss, such as a damaged or partially obstructed image.
 
 Finally, an RS decoding algorithm takes these squares and reconstructs the correct data, even if some are missing or incorrect.
 
@@ -600,8 +600,8 @@ WOW 🔥 That was awesome! I hope you enjoyed it as much as I did 😁
 
 ## Conclusion
 
-We've successfully explored how Reed-Solomon encoding and decoding work, from encoding a message into a polynomial, detecting errors, and finally correcting them using the Berlekamp-Welch algorithm. These principles aren't just theoretical—they form the backbone of error correction in real-world applications like CDs, QR codes, and space communications.
+We've successfully explored how Reed-Solomon encoding and decoding work, from encoding a message into a polynomial, detecting errors, and finally correcting them using the Berlekamp-Welch algorithm. These principles aren't just theoretical, they form the backbone of error correction in real-world applications like CDs, QR codes, and space communications.
 
 But beyond classical error correction, these ideas are crucial in cryptographic proof systems. For example, in the Fast Reed-Solomon Interactive Oracle Proof (FRI) protocol, a variant of Reed-Solomon encoding is used to efficiently check the low-degree property of a polynomial. Instead of sending the full polynomial, FRI relies on random sampling and error correction techniques to convince a verifier that a function is close to a low-degree polynomial, enabling succinct and scalable zero-knowledge proofs (ZKPs). This approach underpins modern cryptographic systems like STARKs, making polynomial commitment schemes efficient even for very large computations.
 
-At its core, Reed-Solomon coding is more than just error correction—it's a fundamental tool in both classical and modern computation, bridging the worlds of coding theory, cryptography, and proof systems. Whether you're recovering a corrupted message or proving the validity of a computation in a blockchain, the power of polynomials remains undeniable. 🚀
+At its core, Reed-Solomon coding is more than just error correction, it's a fundamental tool in both classical and modern computation, bridging the worlds of coding theory, cryptography, and proof systems. Whether you're recovering a corrupted message or proving the validity of a computation in a blockchain, the power of polynomials remains undeniable. 🚀
