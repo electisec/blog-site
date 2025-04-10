@@ -77,7 +77,7 @@ Here’s a **quick recap:**
 We want to ensure that P(x) evaluates to 0 over a specific domain, say $x \in [1,9]$
 
 1. Compute the **zero polynomial** over that domain: $Z(x)=(x-1)(x-2)...(x-9)$
-2. If P(x)) is correctly enforcing the constraints, then it should be **divisible by** Z(x) with no remainder. This works because Z(x) is purposefully chosen to be evaluate to zero at those exact points of evaluation
+2. If P(x) is correctly enforcing the constraints, then it should be **divisible by** Z(x) with no remainder. This works because Z(x) is purposefully chosen to be evaluate to zero at those exact points of evaluation
 3. This gives us a quotient polynomial
 
 $$

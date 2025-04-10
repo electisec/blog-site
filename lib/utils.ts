@@ -41,9 +41,6 @@ function cleanLatexComments(content: string): string {
     return markers.inline + (inlineBlocks.length - 1);
   });
   
-  // Clean LaTeX comments from remaining content
-  content = content.replace(/(%[^\n]*$)/gm, '');
-  
   // Restore inline code blocks
   content = content.replace(new RegExp(markers.inline + '(\\d+)', 'g'), (_, index) => {
     return inlineBlocks[parseInt(index)];
@@ -102,7 +99,7 @@ export async function processMarkdown(content: string) {
   
   // Clean up LaTeX comments while preserving code blocks
   const cleanedContent = cleanLatexComments(markdownContent);
-  
+
   const processedContent = await unified()
     .use(remarkParse)
     .use(remarkGfm)
