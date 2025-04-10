@@ -303,9 +303,9 @@ Now, just for fun, let’s introduce an error and see how we can still recover t
 
 ## Decoding
 
-There are several ways to decode Reed-Solomon codes. Today we’ll use the [Berlekamp–Welch algorithm](https://en.wikipedia.org/wiki/Berlekamp%E2%80%93Welch_algorithm).
+There are several ways to decode Reed-Solomon codes. Today we’ll use the [Berlekamp–Welch algorithm](https://en.wikipedia.org/wiki/Berlekamp-Welch_algorithm).
 
-To make things easier, I’ll start with [this example](https://en.wikipedia.org/wiki/Reed%E2%80%93Solomon_error_correction#Berlekamp_Welch_decoder) from Wikipedia and break it down step by step.
+To make things easier, I’ll start with [this example](https://en.wikipedia.org/wiki/Reed-Solomon_error_correction#Berlekamp_Welch_decoder) from Wikipedia and break it down step by step.
 
 Once we understand the process, we’ll apply the same algorithm to our own example to recover the original message.
 

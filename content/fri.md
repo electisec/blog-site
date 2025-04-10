@@ -35,7 +35,7 @@ There are several polynomial commitment schemes. What makes FRI special?
 
 FRI is used in **STARKs** (Scalable Transparent Arguments of Knowledge) to commit to the **execution trace** of a computation.
 
-1. **Data Availability & Danksharding**
+2. **Data Availability & Danksharding**
 
 FRI is also used in **data availability sampling**. Instead of sending an entire data blob to a client, a validator commits to the data using FRI, and clients can verify data integrity without downloading everything.
 
