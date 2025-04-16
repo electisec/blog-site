@@ -68,7 +68,7 @@ At its core, **FRI is all about proving that the initial polynomial has a bounde
 
 The polynomial P(x) isn’t just any random polynomial, it encodes something specific.
 
-For example, in a **STARK proof**, P(x) enforces constraints on an execution trace (see the last part of this article: ["Bonus: STARK Trace Polynomial"](https://www.notion.so/teddav/LINK)). The entire computation is compiled into this polynomial representation.
+For example, in a **STARK proof**, P(x) enforces constraints on an execution trace (see the last part of this article: "Bonus: STARK Trace Polynomial"). The entire computation is compiled into this polynomial representation.
 
 To check that P(x) correctly encodes these constraints, we compute its quotient by the **zero polynomial**. If you’re unfamiliar with this concept, I highly recommend **Vitalik’s introduction to SNARKs**: [**Introduction to SNARKs**](https://vitalik.eth.limo/general/2021/01/26/snarks.html).
 
