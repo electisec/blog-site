@@ -401,6 +401,12 @@ This ensures that each step in the protocol is consistent with the expected fold
 
 That’s all! You should be a FRI expert by now! 🎉🧠
 
+## Visual summary
+
+Here’s a great visual summary by [Stefano De Angelis](https://x.com/_deanstef) from his article [Practical notes on the FRI low degree test](https://hackmd.io/@deanstef/SJTT3MDhC)
+
+![FRI summary](../public/binius-article/fri-summary.png)
+
 ## Small fields
 
 Earlier, I mentioned that when working over **small fields**, the challenge $\alpha$ should be sampled from an **extension field** rather than the base field. This ensures sufficient randomness and prevents certain attacks.
