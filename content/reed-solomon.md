@@ -311,7 +311,7 @@ Once we understand the process, we’ll apply the same algorithm to our own exam
 
 Here’s the Wikipedia example:
 
-![wikipedia example](../public/reed-solomon/wikipedia.png)
+![wikipedia example](../public/binius-article/rs-wikipedia.png)
 
 ### Setup
 
@@ -392,7 +392,7 @@ $$
 
 If we put this into a matrix you get the following:
 
-![solve matrix](../public/reed-solomon/matrix.png)
+![solve matrix](../public/binius-article/rs-matrix.png)
 
 ### Solve the matrix
 
