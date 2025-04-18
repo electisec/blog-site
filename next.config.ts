@@ -18,6 +18,7 @@ const nextConfig: NextConfig = {
         fullySpecified: false,
       },
     });
+    
     return config;
   },
   async redirects() {

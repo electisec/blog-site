@@ -12,6 +12,7 @@ import { visit } from 'unist-util-visit';
 import { clsx, type ClassValue } from "clsx"
 import { twMerge } from "tailwind-merge"
 
+
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
@@ -40,9 +41,6 @@ function cleanLatexComments(content: string): string {
     return markers.inline + (inlineBlocks.length - 1);
   });
   
-  // Clean LaTeX comments from remaining content
-  content = content.replace(/(%[^\n]*$)/gm, '');
-  
   // Restore inline code blocks
   content = content.replace(new RegExp(markers.inline + '(\\d+)', 'g'), (_, index) => {
     return inlineBlocks[parseInt(index)];
@@ -59,11 +57,21 @@ function cleanLatexComments(content: string): string {
 function remarkCodeBlocks() {
   return (tree: any) => {
     visit(tree, 'code', (node: any) => {
-      // Add a pre class that highlight.js can target
+      // Set up data structure if it doesn't exist
       node.data = node.data || {};
-      node.data.hProperties = {
-        className: `language-${node.lang || 'text'}`,
-      };
+      node.data.hProperties = node.data.hProperties || {};
+      
+      // Special handling for mermaid code blocks
+      if (node.lang === 'mermaid') {
+        // For mermaid, we need to transform this differently
+        // Mark this node as a mermaid diagram for special handling in rehype
+        node.data.mermaidDiagram = true;
+        // Set the class to mermaid without the language- prefix
+        node.data.hProperties.className = 'mermaid no-highlight';
+      } else {
+        // Standard handling for other code blocks
+        node.data.hProperties.className = `language-${node.lang || 'text'}`;
+      }
     });
   };
 }
@@ -91,7 +99,7 @@ export async function processMarkdown(content: string) {
   
   // Clean up LaTeX comments while preserving code blocks
   const cleanedContent = cleanLatexComments(markdownContent);
-  
+
   const processedContent = await unified()
     .use(remarkParse)
     .use(remarkGfm)
