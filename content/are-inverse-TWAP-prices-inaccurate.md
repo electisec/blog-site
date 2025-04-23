@@ -48,7 +48,7 @@ $$
 TWAP = {(19*12) + (20*12) + (22*12) + (22*12) \over (12+12+12+12)} = 20.75 
 $$
 
-This price action and the average can be seen in this chart. The red lines indicate the price during each block and the green line indicates the average price over the blocks. All the code to generate these example charts is included in [this repository](https://github.com/YAcademy-Residents/Inverse-TWAP-plots).
+This price action and the average can be seen in this chart. The red lines indicate the price during each block and the green line indicates the average price over the blocks. All the code to generate these example charts is included in [this repository](https://github.com/electisec/Inverse-TWAP-plots).
 
 ![Example Price Chart](../public/inverse-twap/plot-example.png)
 
