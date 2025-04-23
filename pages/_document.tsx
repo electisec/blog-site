@@ -17,10 +17,7 @@ export default function Document() {
 
         <meta property="og:type" content="website" />
         <meta property="og:url" content="https://blog.electisec.tech" />
-        <meta
-          property="og:title"
-          content="Electisec (previously yAcademy & yAudit)"
-        />
+        <meta property="og:title" content="Electisec" />
         <meta
           property="og:description"
           content="ZK & Smart Contract Security"
@@ -51,7 +48,7 @@ export default function Document() {
       <body>
         <Main />
         <NextScript />
-        
+
         <Script
           strategy="afterInteractive"
           src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"
@@ -60,7 +57,7 @@ export default function Document() {
           strategy="afterInteractive"
           src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/solidity.min.js"
         />
-        
+
         {/* Initialize highlight.js after libraries are loaded */}
         <Script id="highlight-init" strategy="afterInteractive">
           {`
@@ -69,8 +66,12 @@ export default function Document() {
             }
           `}
         </Script>
-        <Script type="module" id="mermaid-init" src='https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs'>
-        {`
+        <Script
+          type="module"
+          id="mermaid-init"
+          src="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs"
+        >
+          {`
             
               mermaid.initialize({ startOnLoad: true });
             
