@@ -1,6 +1,6 @@
 ---
-title: "FRI: Fast Reed-Solomon IOP of Proximity"
-subtitle: "A Polynomial Commitment Scheme Explained"
+title: "FRI: Folding Polynomials and Catching Cheaters"
+subtitle: "Folding and Merkle trees, understand the magic behind STARKs"
 gh-repo: electisec/blog-site
 tags: [cryptography, algebra, polynomial]
 author: teddav
@@ -8,7 +8,7 @@ twitter: https://x.com/0xteddav
 date: 2025-03-31
 ---
 
-# FRI: A Polynomial Commitment Scheme Explained
+# FRI: Folding Polynomials and Catching Cheaters
 
 ## Introduction
 
@@ -394,7 +394,7 @@ To verify that the folding was done correctly:
 Finally, we verify the correctness of the FRI protocol using the equation:
 
 $$
-f_{i+1}(x^2)=\frac{f_i(x)+f_i(-x)}{2}+\alpha_i\frac{f_i(x)-f_i(-x)}{2x}
+f_{i+1}(x^2)=\frac{f_i(x)+f_i(-x)}{2}+\alpha_0\frac{f_i(x)-f_i(-x)}{2x}
 $$
 
 This ensures that each step in the protocol is consistent with the expected folding process.
