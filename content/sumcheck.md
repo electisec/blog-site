@@ -33,11 +33,7 @@ $$
 <aside>
 💡
 
-A **multivariate polynomial** is typically written as:
-
-$$
-f(\vec{x})
-$$
+A **multivariate polynomial** is typically written as: $f(\vec{x})$
 
 where $\vec{x}$ is a vector of variables, ex: $\vec{x} = (x_1, x_2, \dots, x_n)$.
 Its length corresponds to the number of input variables in the function.
