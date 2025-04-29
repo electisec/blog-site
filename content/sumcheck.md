@@ -1,6 +1,6 @@
 ---
-title: "Sum-Check Protocol"
-subtitle: "Understanding the Sum-Check Protocol: A Step-by-Step Guide"
+title: "Sum-Check: The Backbone of ZK Proofs"
+subtitle: "Compressing Computation One Bit at a Time"
 gh-repo: electisec/blog-site
 tags: [cryptography, algebra, polynomial]
 author: teddav
@@ -8,7 +8,7 @@ twitter: https://x.com/0xteddav
 date: 2025-05-01
 ---
 
-# Understanding the Sum-Check Protocol: A Step-by-Step Guide
+# Sum-Check: The Backbone of ZK Proofs
 
 The Sum-Check Protocol is a fundamental tool in cryptographic proofs, particularly in zero-knowledge proofs (ZKPs) and verifiable computation. It allows a verifier to efficiently check that a prover has correctly summed up evaluations of a polynomial over a boolean hypercube without computing every evaluation explicitly.
 
