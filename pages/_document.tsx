@@ -16,7 +16,7 @@ export default function Document() {
         <meta name="robots" content="follow, index" />
 
         <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://blog.electisec.tech" />
+        <meta property="og:url" content="https://blog.electisec.com" />
         <meta property="og:title" content="Electisec" />
         <meta
           property="og:description"
@@ -25,13 +25,13 @@ export default function Document() {
         <meta property="og:site_name" content="Electisec" />
         <meta
           property="og:image"
-          content="https://blog.electisec.tech/logo.svg"
+          content="https://blog.electisec.com/logo.svg"
         />
 
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:site" content="@electisec" />
         <meta name="twitter:creator" content="@electisec" />
-        <meta name="twitter:image" content="https://electisec.tech/logo.svg" />
+        <meta name="twitter:image" content="https://electisec.com/logo.svg" />
 
         <link rel="icon" href="/favicon.ico" />
         <link
