@@ -2,6 +2,7 @@
 
 import React from "react";
 import { CalendarIcon, MailIcon, PencilIcon, BookCopyIcon } from "lucide-react";
+import { useTheme } from "@/lib/ThemeContext";
 
 import { cn } from "@/lib/utils";
 import { buttonVariants } from "@/components/ui/button";
@@ -15,11 +16,17 @@ import {
 import { Dock, DockIcon } from "@/components/ui/dock";
 
 export default function Footer() {
+  const { theme } = useTheme();
+
   return (
-    <div className="h-full flex flex-col bg-gray-100 justify-center p-16 items-center relative">
-      <img alt="" src="/logo.svg" className="h-[5rem]" />
+    <div className="h-full flex flex-col bg-background justify-center p-16 items-center relative">
+      <img
+        alt="Electisec Logo"
+        src={theme === 'light' ? "/logo.svg" : "/darklogo.svg"}
+        className="h-[5rem]"
+      />
       <DockDemo />
-      <p className="text-sm text-zinc-500 mt-10 text-center">
+      <p className="text-sm text-body mt-10 text-center">
         Copyright © 2025 Electisec. All rights reserved.
       </p>
     </div>
@@ -130,7 +137,7 @@ const DATA = {
 
 export function DockDemo() {
   return (
-    <div className="relative flex flex-col items-center justify-center text-black">
+    <div className="relative flex flex-col items-center justify-center text-title">
       <TooltipProvider>
         <Dock direction="middle">
           {DATA.navbar.map((item) => (

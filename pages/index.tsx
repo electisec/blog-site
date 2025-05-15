@@ -91,19 +91,16 @@ export default function Home({ blogs }: HomeProps) {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-background">
       <main className="max-w-6xl mx-auto py-6 sm:px-6 lg:px-8">
-        <div className="px-4 sm:px-0 mb-8 text-gray-400">
+        <div className="px-4 sm:px-0 mb-8 text-foreground/70">
           <SearchBar onSearch={handleSearch} />
           <div className="flex flex-wrap gap-2 mx-auto mt-4 justify-center">
             {tags.map((tag, index) => (
               <button
                 key={index}
                 className={
-                  "inline-flex items-center px-2.5 py-0.5 rounded-full text-md font-medium bg-emeraldlight bg-opacity-25 text-darkgreen hover:bg-opacity-5 duration-700" +
-                  (selectedTags.includes(tag)
-                    ? " bg-emerald bg-opacity-25 text-darkgreen"
-                    : "")
+                  "inline-flex items-center px-2.5 py-0.5 rounded-full text-md font-medium bg-emeraldlight bg-opacity-20 text-button hover:bg-opacity-5"
                 }
                 onClick={() => handleTagSelection(tag)}
               >
@@ -120,7 +117,7 @@ export default function Home({ blogs }: HomeProps) {
             ))
           ) : (
             <div className="col-span-full text-center py-12">
-              <p className="text-gray-500">
+              <p className="text-foreground/60">
                 {searchQuery
                   ? "No blogs found matching your search."
                   : "No blogs available."}

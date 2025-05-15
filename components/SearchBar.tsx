@@ -17,11 +17,11 @@ const SearchBar: React.FC<SearchBarProps> = ({ onSearch }) => {
   return (
     <div className="relative max-w-2xl mx-auto">
       <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-        <Search className="h-5 w-5 text-gray-400" />
+        <Search className="h-5 w-5 text-body" />
       </div>
       <input
         type="text"
-        className="block w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md leading-5 bg-white placeholder-gray-500 focus:outline-none focus:placeholder-gray-400 focus:ring-1 focus:ring-emeraldlight sm:text-sm"
+        className="block w-full pl-10 pr-3 py-2 border border-button rounded-md leading-5 bg-background focus:outline-none focus:button focus:ring-1 focus:ring-primary text-title sm:text-sm"
         placeholder="Search blog posts..."
         value={query}
         onChange={handleSearch}

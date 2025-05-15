@@ -24,15 +24,15 @@ export default function ReportPage({
   twitter
 }: ReportPageProps) {
   return (
-    <main className="min-h-screen bg-gray-50">
+    <main className="min-h-screen bg-background">
       <article className="max-w-6xl mx-auto px-4 py-10">
         <Link href="/" className="inline-block mb-4">
-          <h2 className="text-xl text-black">← Back to Blogs</h2>
+          <h2 className="text-xl text-title">← Back to Blogs</h2>
         </Link>
 
-        <div className="bg-white shadow p-6 sm:px-6">
-          <header className="flex lg:flex-row md:flex-row flex-col justify-between lg:items-center md:items-center gap-2 items-left mb-6 text-black">
-            <span>By <a href={twitter} target="_blank" className="font-semibold text-darkgreen hover:underline">{author}</a></span>
+        <div className="bg-primary-foreground shadow p-6 sm:px-6 rounded-lg">
+          <header className="flex lg:flex-row md:flex-row flex-col justify-between lg:items-center md:items-center gap-2 items-left mb-6 text-body">
+            <span>By <a href={twitter} target="_blank" className="font-semibold text-button hover:underline">{author}</a></span>
             <span>
               {new Date(date).toLocaleDateString("en-US", {
                 year: "numeric",
@@ -43,7 +43,7 @@ export default function ReportPage({
               {tags.map((tag, index) => (
                 <span
                   key={index}
-                  className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-emeraldlight bg-opacity-25 text-darkgreen"
+                  className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-emeraldlight bg-opacity-20 text-button"
                 >
                   {tag}
                 </span>
@@ -52,7 +52,7 @@ export default function ReportPage({
           </header>
 
           <div
-            className="prose prose-lg max-w-none prose-table:shadow-lg prose-table:border prose-td:p-2 prose-th:p-2 prose-th:bg-gray-100"
+            className="prose prose-lg max-w-none prose-table:shadow-lg prose-table:border prose-td:p-2 prose-th:p-2 prose-a:text-title"
             dangerouslySetInnerHTML={{ __html: content }}
           />
         </div>

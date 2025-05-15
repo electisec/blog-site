@@ -2,15 +2,46 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@media (prefers-color-scheme: dark) {
+@layer base {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: #fdfdfd;
+    --foreground: #f3f3f3;
+    --primary: #15803d;
+    --primary-foreground: #ffffff;
+    --secondary: #f5f5f5;
+    --secondary-foreground: #171717;
+    --accent: #3ee680;
+    --accent-foreground: #15803d;
+    --border: #e5e7eb;
+    --input: #e5e7eb;
+    --button-text: #15803d;
+    --title: #080444;
+    --body: #7e7e7e;
+    --transition-duration: 0.3s;
+    --transition-timing: cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .dark {
+    --background: #021e1a;
+    --foreground: #032823;
+    --primary: #3ee680;
+    --primary-foreground: #032823;
+    --secondary: #1a1a1a;
+    --secondary-foreground: #ededed;
+    --accent: #15803d;
+    --accent-foreground: #3ee680;
+    --border: #2a2a2a;
+    --input: #2a2a2a;
+    --button-text: #3ee680;
+    --title: #ffffff;
+    --body: #ffffff63;
+  }
+
+  /* Apply transition to all elements */
+  * {
+    transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, transform, box-shadow, opacity;
+    transition-timing-function: var(--transition-timing);
+    transition-duration: var(--transition-duration);
   }
 }
 
@@ -20,18 +51,18 @@ body {
 }
 
 pre {
-  background: #f5f5f5 !important;
+  background: var(--background) !important;
 }
 
 pre code {
-  color: black !important;
+  color: var(--secondary-foreground) !important;
 }
 
 aside {
-  color: black !important;
-  background: #f5f5f5 !important;
+  color: var(--secondary-foreground) !important;
+  background: var(--background) !important;
   padding: 2rem !important;
-  border: round 1rem #e5e7eb !important;
+  border: round 1rem var(--border) !important;
 }
 
 /* Remove display: inline-block and adjust wrapping behavior */
@@ -51,37 +82,68 @@ code {
   max-width: 100%;
 }
 
-.prose a {
-  color: #15803d;
+/* Prose styling */
+.prose {
+  color: var(--secondary-foreground);
+}
+
+.prose a, .prose p strong, .prose li strong {
+  color: var(--primary);
 }
 
 .prose a:hover {
   text-decoration: underline;
 }
 
+.prose p, .prose li, .prose blockquote {
+  color: var(--secondary-foreground);
+}
+
+.prose h1, .prose h2, .prose h3, .prose h4, .prose h5, .prose h6 {
+  color: var(--title);
+}
+
+.prose pre {
+  border-radius: 0.375rem;
+  overflow: hidden;
+}
+
+/* Inline code styling */
+.prose :not(pre) > code {
+  color: var(--primary) !important;
+  background-color: var(--secondary);
+  padding: 0.2em 0.4em;
+  border-radius: 0.25rem;
+  font-size: 0.875em;
+}
+
+/* Table styling */
 .prose table {
   table-layout: auto;
   font-size: 0.875rem;
 }
 
 .prose table th {
-  background-color: #f9fafb;
-  color: #1f2937;
+  background-color: var(--secondary);
+  color: var(--secondary-foreground);
   font-weight: 500;
 }
 
 .prose table td {
-  border-top: 1px solid #e5e7eb;
+  border-top: 1px solid var(--border);
+  color: var(--body);
 }
 
-/* Differentiate between inline and block LaTeX */
-/* For inline LaTeX */
+.prose img {
+  border-radius: 0.375rem;
+}
+
+/* LaTeX styling */
 .katex {
-  font-size: 1.1em !important;  /* Slightly larger than normal text */
+  font-size: 1.1em !important;
   display: inline !important;
 }
 
-/* For display/block LaTeX */
 .katex-display {
   display: block !important;
   text-align: center !important;
@@ -91,7 +153,7 @@ code {
   overflow-y: hidden;
 }
 
-/* Remove the centering from paragraphs containing inline LaTeX */
+/* LaTeX paragraph styling */
 p:has(.katex:not(.katex-display)) {
   display: block;
   text-align: left;
@@ -100,7 +162,6 @@ p:has(.katex:not(.katex-display)) {
   white-space: normal;
 }
 
-/* Keep block LaTeX paragraphs centered */
 p:has(.katex-display) {
   display: block;
   text-align: center;
@@ -112,17 +173,17 @@ p:has(.katex-display) {
   clear: both;
 }
 
-/* For very small screens */
+/* Responsive styling */
 @media (max-width: 450px) {
   .prose table {
     font-size: 0.75rem;
   }
-  
+
   .prose h1 {
     font-size: 2rem !important;
     line-height: normal !important;
   }
-  
+
   .prose table td,
   .prose table th {
     padding-left: 0.5rem;
@@ -130,17 +191,4 @@ p:has(.katex-display) {
     padding-top: 0.25rem;
     padding-bottom: 0.25rem;
   }
-}
-
-code.inline-code-block::before,
-code.inline-code-block::after {
-  content: "" !important;
-}
-
-code.inline-code-block {
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
-  background-color: rgba(175, 184, 193, 0.2);
-  padding: 0.2em 0.4em;
-  border-radius: 4px;
-  font-size: 0.875em;
 }
