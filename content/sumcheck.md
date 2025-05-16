@@ -10,6 +10,8 @@ date: 2025-05-01
 
 # Sum-Check: The Backbone of ZK Proofs
 
+_Huge thanks to [Oba](https://x.com/obatirou), [Ziemann](https://x.com/ziemannzk) and [Nico](https://x.com/nico_mnbl) for their help and feedback! ❤️_
+
 The Sum-Check Protocol is a fundamental tool in cryptographic proofs, particularly in zero-knowledge proofs (ZKPs) and verifiable computation. It allows a verifier to efficiently check that a prover has correctly summed up evaluations of a polynomial over a boolean hypercube without computing every evaluation explicitly.
 
 If that sounds confusing, don't worry, that’s exactly why this article exists.
@@ -63,7 +65,7 @@ This polynomial is multilinear and has degree **3**. Notice that the degree of t
 
 Multilinear polynomials are especially important in Sum-Check because the protocol works efficiently with them.
 
-Here’s a small Sage script for experimenting
+Here’s a [small Sage script](https://github.com/teddav/sumcheck-article/blob/main/multivar.sage) for experimenting
 
 ```python
 F = GF(17)
@@ -74,35 +76,56 @@ assert(P.degree() == 7)
 
 P = R.random_element(degree=5)
 print("deg 5 poly", P)
-print("P * z", P * z)
+
+print("\nP * z = ", P * z)
 
 print("----------")
 
 P = R.random_element(degree=2)
-print(P)
-print(P(1,2,3))
+print("random P:", P)
+print("P(1,2,3):", P(1,2,3))
 
 print("----------")
 
 # how are terms sorted?
 P = 6*x*y - 6*z^2 - x^2 + y^2 - 2*y + 6*x + z + z^3 + x*z + y*z
-print(P.dict())
 print(P)
+print(P.dict())
 
 print("----------")
-
+print("Ordering 'degrevlex'")
 # we can get it sorted in a different order
 # here it's degrevlex, which is "degree reverse lexicographic order"
 # https://doc.sagemath.org/html/en/reference/polynomial_rings/sage/rings/polynomial/term_order.html
 R.<x, y, z> = PolynomialRing(F, order="degrevlex")
-# P = 6*x*y - 6*z^2 - x^2 + y^2 - 2*y + 6*x + z + z^3 + x*z + y*z
-# let's use the same polynomial
-P = R(P)
-print(P)
 
-print("Multilinear")
-P = 5*x*y + 7*y + x*y*z + 7
-print(P)
+# let's use the same polynomial
+# P = 6*x*y - 6*z^2 - x^2 + y^2 - 2*y + 6*x + z + z^3 + x*z + y*z
+print("P = ", R(P))
+
+print("\nOther example, with multilinear terms")
+print(5*x*y + 7*y + x*y*z + 7)
+```
+
+which outputs:
+
+```bash
+$ sage multivar.sage
+deg 5 poly -4*x^3*y^2 + 5*x^2*y^2 + 6*x^2 + 2*y^3*z - 2*z^4
+
+P * z =  -4*x^3*y^2*z + 5*x^2*y^2*z + 6*x^2*z + 2*y^3*z^2 - 2*z^5
+----------
+random P: -5*x^2 + 3*y^2 - z^2 - 7*z + 2
+P(1,2,3): 13
+----------
+-x^2 + 6*x*y + x*z + 6*x + y^2 + y*z - 2*y + z^3 - 6*z^2 + z
+{(2, 0, 0): 16, (1, 1, 0): 6, (1, 0, 1): 1, (1, 0, 0): 6, (0, 2, 0): 1, (0, 1, 1): 1, (0, 1, 0): 15, (0, 0, 3): 1, (0, 0, 2): 11, (0, 0, 1): 1}
+----------
+Ordering 'degrevlex'
+P =  z^3 - x^2 + 6*x*y + y^2 + x*z + y*z - 6*z^2 + 6*x - 2*y + z
+
+Other example, with multilinear terms
+x*y*z + 5*x*y + 7*y + 7
 ```
 
 ### **2. Boolean hypercube**
@@ -178,7 +201,7 @@ Since `f` has 3 variables, we use the **3D boolean hypercube**:
 [[0, 0, 0], [0, 0, 1], [0, 1, 0], [0, 1, 1], [1, 0, 0], [1, 0, 1], [1, 1, 0], [1, 1, 1]]
 ```
 
-Now, we **evaluate `f` at every point**:
+Now, we **evaluate `f` at every point and sum up**:
 
 ```python
 f(0, 0, 0) + f(0, 0, 1)
@@ -212,7 +235,7 @@ bool_hypercube = list(itertools.product([0, 1], repeat=dimension))
 
 This gives the same result, but works for **any** number of dimensions!
 
-My gift: a Sage script to evaluate a polynomial over a boolean hypercube:
+My gift: a Sage script to evaluate a polynomial over a boolean hypercube
 
 ```python
 import itertools
@@ -235,19 +258,31 @@ S = sum([P(i) for i in cube])
 print("Sum of the polynomial over the hypercube:", S)
 ```
 
+Output:
+
+```bash
+$ sage hypercube.sage
+P: 6*a*b*c + 5*a*b + 4*a*c + 2*b*c + 3*a + b + 7
+Sum of the polynomial over the hypercube: 15
+```
+
 ### **4. What is a "multilinear extension" (MLE)?**
 
 You’ll often see the term **“multilinear extension”** in papers and documentation. At first, this confused me, but it’s just a fancy way of saying **a multilinear polynomial that accepts more than boolean inputs.**
 
 To get the MLE of a function, we interpolate a multilinear polynomial from $\{0,1\}^n$ inputs.
 
-This interpolated polynomial is **initially only defined over {0,1} inputs**. However, we can evaluate this polynomial at **non-boolean values** (like `2`, `3.5`, or `-1`), effectively "extending" it beyond the hypercube.
+This interpolated polynomial is **initially only defined over {0,1} inputs**. However, we can evaluate this polynomial at **non-boolean values** (like `2`, `3.5`, or `-1`), effectively "extending" it beyond the boolean hypercube.
 
-This "extension" will be crucial in the sum-check Protocol, allowing the prover to reduce the sum efficiently.
+This "extension" will be crucial in the Sumcheck protocol, allowing the prover to reduce the sum efficiently.
 
-If we start with a function `$f(x_1,...x_n)$` defined over the boolean hypercube, we can find many multivariate polynomials over $\mathbb{F}$ that agree with `f` on boolean inputs.
+If we start with a function $f(x_1,...x_n)$ defined over the boolean hypercube, we can find many multivariate polynomials over $\mathbb{F}$ that agree with `f` on boolean inputs.
 
-However, there’s exactly **one** polynomial that **both agrees with `f` on the hypercube and is multilinear** (has degree at most 1 in each variable): **this unique multilinear polynomial is what we call the multilinear extension of $f$.**
+However, there’s exactly **one** polynomial that **both agrees with `f` on the boolean hypercube and is multilinear** (has degree at most 1 in each variable): **this unique multilinear polynomial is what we call the multilinear extension of $f$.**
+
+Just as Lagrange interpolation uniquely determines a polynomial that passes through a given set of points.
+
+> For more details, check out Chapter 3.5: “Low-Degree and Multilinear Extensions” from Justin Thaler’s book: [Proofs, Arguments, and Zero-Knowledge](https://people.cs.georgetown.edu/jthaler/ProofsArgsAndZK.pdf). There's also [a lecture](https://people.cs.georgetown.edu/jthaler/IPsandextensions.pdf) that focuses specifically on this topic.
 
 The MLE of a function is often written with `~`. So the MLE of $f(x)$ will be written as $\tilde{f}(x)$.
 
@@ -312,6 +347,13 @@ assert(P(points[0]) == values[0])
 assert(P(points[1]) == values[1])
 assert(P(points[2]) == values[2])
 assert(P(points[3]) == values[3])
+```
+
+Output:
+
+```bash
+$ sage mle.sage
+P:  2*a*b + 4*a + 2*b + 3
 ```
 
 Pretty cool, right? 😎 This approach can easily be extended to higher dimensions.
@@ -384,13 +426,13 @@ The Sum-Check Protocol has many applications, which we’ll explore later. Howev
 
 If you’re familiar with how modern proof systems work, you might know that a large part of their computational cost comes from polynomial interpolation, often using the Fast Fourier Transform (FFT).
 
-With Sum-check, verifying a polynomial over the boolean hypercube becomes significantly more efficient. Instead of interpolating a high-degree univariate polynomial, we can work with a multilinear polynomial, which is much easier to handle.
+With Sumcheck, verifying a polynomial over the boolean hypercube becomes significantly more efficient.
+
+Instead of interpolating a high-degree univariate polynomial, we can work with a multilinear polynomial, which is much easier to handle.
 
 In fact, the Sum-Check Protocol allows the verifier to be convinced in just **n steps** (linear in the number of variables).
 
-For example, in **PLONK**, Sum-Check can replace the divisibility test (or quotient test) and the KZG polynomial commitment, leading to performance improvements. That’s what HyperPlonk does.
-
-TO IMPROVE
+For example, in **PLONK**, Sumcheck can replace the divisibility test (or quotient test) and the KZG polynomial commitment (based on pairings), leading to performance improvements. That’s what HyperPlonk does.
 
 ### **How Many Variables Does My Polynomial Need?**
 
@@ -452,6 +494,8 @@ $$
 
 If this equation holds, we can go on to the next step.
 
+_⚠️ But notice: at this point, the Prover could still be faking things. This check alone doesn’t guarantee correctness. The security of the protocol comes from the steps that follow._
+
 ### Step 3: Choosing a random point
 
 Once the verifier is convinced that $g_1(x)$ is correct, they choose a random point `r1` and ask the prover to evaluate P at $x_1=r_1$, reducing the number of variables:
@@ -460,7 +504,7 @@ $$
 P(r_1,x_2)
 $$
 
-The essentially fixes $x_1$ and leaves only $x_2$ as a variable.
+This essentially fixes $x_1$ and leaves only $x_2$ as a variable.
 
 But why do we need to sample a random point?
 
@@ -468,15 +512,26 @@ This is the heart of the protocol and it relies on the **Schwartz–Zippel lemma
 
 Roughly speaking:
 
-> If you have two different polynomials `P(x)` and `Q(x)`, the chance that they accidentally agree at a random point `a` is very small.
+> If you have two different polynomials `P(x)` and `Q(x)`, the chance that they accidentally agree at a random point `a` is **very small**.
 >
-> More precisely: if `P(x)` has degree `p` and `Q(x)` has degree `q`, they can only be equal at at most $\max(p,q)$ points.
+> More precisely: if `P(x)` has degree `p` and `Q(x)` has degree `q`, they can only be equal at most at $\max(p,q)$ points.
+>
+> Remember that `p` and `q` are going to be really small compared to the entire domain.
+> So if `a` is picked at random in $\mathbb{F}$, the chance that $P(a)=Q(a)$ is at most:
+>
+> $$
+> \Pr[P(a)=Q(a)] \leq \frac{max(p,q)}{|\mathbb{F}|}
+> $$
+>
+> This tiny probability is what makes the protocol secure: unless you knew `a` in advance, you’re almost certainly caught if you try to cheat.
 
 So picking a random `r` ensures that if the prover tried to cheat (by pretending a fake `P` or faking the intermediate polynomials `g`), the verifier would catch it with high probability.
 
 You can find a deeper explanation on Rareskills’ blog: https://www.rareskills.io/post/schwartz-zippel-lemma
 
 **In short: randomness forces the prover to stay honest, otherwise they almost certainly get caught.**
+
+And remember: this interactive protocol can be made **non-interactive** using the **Fiat–Shamir transform**, replacing the verifier's randomness with a hash. That's how we get succinct, trustless proofs for the real world.
 
 ### **Next Round: Continuing the Process**
 
@@ -557,13 +612,23 @@ r2 = 43
 assert g2(r2) == P(r1, r2)
 ```
 
-The comments should be clear enough 😉
+The comments should be clear enough 😉 and the ouput will be:
+
+```bash
+$ sage sumcheck.sage
+2 variables
+H = 9
+g1 = 3*x + 3
+g1(0) + g1(1) = 9 (should equal 9)
+g2 = 32*x + 32
+g2(0) + g2(1) = 96 ( should equal 96)
+```
 
 `g1 = Rx(g1(x, 0))` is purely for clarity. It casts `g1` from a multivariate polynomial ring (`R`) to a univariate ring (`Rx`). This makes it explicit that `g1` is now a polynomial in a single variable.
 
 You’ll find another example with 3 variables on my Github: https://github.com/teddav/sumcheck-article/blob/main/sumcheck.sage
 
-When exposing the protocol previously, we forgot one important step: check the degree of `g`. If the verifier forgets, the prover can easily cheat. Let’s see how.
+When exposing the protocol previously, we forgot one important step: **check the degree of `g`. If the verifier forgets, the prover can easily cheat**. Let’s see how.
 
 ## Trick the Verifier?
 
@@ -633,6 +698,8 @@ We are working in a small field $\mathbb{F}_{101}$, so it's possible to create a
 Here's how we can demonstrate the issue with the code:
 
 ```python
+print("\nAllow g1 to be a higher degree polynomial")
+# Now, let's try to trick the verifier with a higher degree polynomial
 points = [(0, 1), (1, H-1)]
 
 # we interpolate a polynomial where the condition is verified for every point in the field
@@ -640,7 +707,23 @@ points += [(i, P(i, 0) + P(i, 1)) for i in range(2, 101)]
 fake_g1 = Rx.lagrange_polynomial(points)
 print(f"fake_g1 degree: {fake_g1.degree()}")
 
+# The fake g1 passes the check!
 assert g2(0) + g2(1) == fake_g1(r1)
+```
+
+Output:
+
+```bash
+$ sage sumcheck_cheat.sage
+P = 15*x1*x2 + 50*x1 + 11
+H = 58
+g1 = 14*x + 22
+fake_g1 = 56*x + 1
+g2 = 55*x + 26
+g2(0) + g2(1) == fake_g1(r1)? False
+
+Allow g1 to be a higher degree polynomial
+fake_g1 degree: 99
 ```
 
 To prevent such exploits, the verifier must check the **degree** of the polynomial `g` at each step.
@@ -690,15 +773,15 @@ $$
 
 In this expression, the sum is over boolean inputs `x`, while `z` can be any point in the field, since the MLE is defined over $\mathbb{F}$.
 
-Now, if $f(x)=0$ for all boolean `x`, then `$\tilde{f}(z)$` is the zero polynomial (meaning it evaluates to zero for **all $z \in \mathbb{F}^n$**). So in particular, it must hold that:
+Now, if $f(x)=0$ for all boolean `x`, then $\tilde{f}(z)$ is the zero polynomial (meaning it evaluates to zero for **all $z \in \mathbb{F}^n$**). So in particular, it must hold that:
 
 $$
 \tilde{f}(r)=0
 $$
 
-for any randomly chosen point `r` (picked by the verifier): **this is what we want to prove.**
+for any randomly chosen point `r` (picked by the verifier).
 
-But how do we prove that with Sumcheck?
+**This is what we want to prove.** But how do we prove that with Sumcheck?
 
 We start by turning the definition of $\tilde{f}(r)$ into a sum over the hypercube, a format that Sumcheck can handle. To do this, we “reverse” the MLE expression: fix `r`, and treat `eq(x, r)` as a known function to the verifier.
 
@@ -718,7 +801,7 @@ $$
 \displaystyle\sum_{x \in \{0,1\}^n}{g(x)}=\displaystyle\sum_{x \in \{0,1\}^n}{f(x)*eq(x,r)}=\tilde{f}(r)
 $$
 
-So the sum of `g(x)` over the cube equals `$\tilde{f}(r)$`, which we expect to be zero.
+So the sum of `g(x)` over the cube equals $\tilde{f}(r)$, which we expect to be zero.
 
 At this point, the verifier and prover can run the Sumcheck protocol on `g(x)`.
 
@@ -737,7 +820,7 @@ If you're not familiar with AIR, check out the [STARK by hand tutorial](https://
 The steps are:
 
 - **Interpolate** each column of the execution trace over the boolean hypercube → obtain multilinear polynomials.
-- **Construct** the constraint polynomial `$P$`, designed so that $P(x) = 0$ for every point on the hypercube
+- **Construct** the constraint polynomial `P`, designed so that $P(x) = 0$ for every point on the hypercube
 - **Run Zerocheck** on P to prove that all constraints are satisfied.
 
 In other words: Zerocheck lets us efficiently verify that our trace satisfies all the AIR constraints without checking every point individually.
@@ -838,6 +921,24 @@ assert g2(x2=r_prime[1]) == S_prime
 print("sumcheck passed")
 ```
 
+```bash
+$ sage zerocheck-air.sage
+P = -35*x1^2*x2 + 7*x1*x2^2 + 45*x1^2 + 28*x1*x2 - 3*x2^2 - 45*x1 + 3*x2
+P_mle = 0
+eq_r = -3*x1*x2 + 30*x1 + 44*x2 - 36
+S = 4*x1^3*x2^2 - 21*x1^2*x2^3 + 27*x1^3*x2 + 14*x1*x2^3 + 37*x1^3 - 27*x1^2*x2 - 28*x1*x2^2 - 31*x2^3 - 41*x1^2 + 31*x1*x2 + 38*x2^2 + 4*x1 - 7*x2
+SUM: 0
+===== SUMCHECK =====
+g1_deg_bound = 3
+g2_deg_bound = 3
+g1 = 4*x1^3 - 29*x1^2 + 25*x1
+g2 = -14*x2^3 - 45*x2^2 - 44*x2 - 48
+Verifier recomputes S
+we receive P(x1=r_prime[0], x2=r_prime[1]) from polynomial commitment
+and the verifier can easily recompute eq_r himself
+sumcheck passed
+```
+
 We made it to the end! You should be able to understand why we use Sumcheck, and how it works.
 
 Sumcheck is a beautifully simple yet powerful protocol: it transforms a complex global claim ("this sum over many points equals X") into a small, interactive protocol involving only polynomials of low degree.
@@ -845,270 +946,6 @@ Sumcheck is a beautifully simple yet powerful protocol: it transforms a complex 
 By carefully using randomness and the structure of multilinear extensions, it allows the verifier to be convinced with high probability while doing only a tiny amount of work.
 
 Mastering Sumcheck gives you a solid foundation to understand modern proof systems, and appreciate the cleverness hidden behind their efficiency.
-
-## Bonus: Intro to GKR
-
-Now let’s talk about GKR. I won’t go too deep into the details here. The goal is to keep this section relatively light, and I’ll link to some resources if you want to dive deeper.
-
-The GKR protocol, introduced by Goldwasser, Kalai, and Rothblum in 2008, is an interactive proof system for verifying the correctness of computations represented as arithmetic circuits. It’s a natural extension of the Sumcheck protocol and works especially well for computations that can be expressed as layered circuits.
-
-Suppose you have a computation that takes a large input and applies several layers of arithmetic operations to produce an output. Re-running the entire computation just to verify the output would be expensive. But what if the verifier could efficiently check the result without redoing all the work or blindly trusting the prover? Sounds familiar, right? That’s the Sumcheck spirit, and GKR builds on that.
-
-### Layered circuit
-
-GKR assumes an arithmetic circuit structured into `d` layers.
-
-To keep things consistent, we’ll label the top layer (the output) as layer `0`, and increase the index as we go down to the input layer, which is layer `d`. Each gate in layer `i` performs an arithmetic operation (either addition or multiplication) on the outputs of two gates in layer `i + 1`.
-
-I made a simple circuit as an example:
-
-```mermaid
-graph BT
-	subgraph "layer 2 (input)"
-	a
-	b
-	c
-	d
-	end
-
-	subgraph layer 1
-	l1_0
-	l1_1
-	l1_2
-	l1_3
-	end
-
-	subgraph "layer 0 (output)"
-	l0_0
-	l0_1
-	end
-
-	add
-	mul
-
-
-	a --> l1_0
-	a --> l1_1
-	b --> l1_0
-	b --> l1_2
-	c --> l1_1
-	c --> l1_2
-	d --> l1_3
-	d --> l1_3
-
-	l1_0 --> l0_0
-	l1_1 --> l0_0
-	l1_2 --> l0_1
-	l1_3 --> l0_1
-
-	a("L2_00: 7")
-	b("L2_01: 5")
-	c("L2_10: 3")
-	d("L2_11: 6")
-	l1_0("L1_00: 12 = 7 + 5")
-	l1_1("L1_01: 21 = 7 * 3")
-	l1_2("L1_10: 15 = 5 * 3")
-	l1_3("L1_11: 12 = 6 + 6")
-	l0_0("L0_0: 33 = 12 + 21")
-	l0_1("L0_1: 79 = (12 * 15) % 101")
-
-	style add fill:blue,color:#fff
-	style l1_0 fill:blue,color:#fff
-	style l1_3 fill:blue,color:#fff
-	style l0_0 fill:blue,color:#fff
-
-	style mul fill:green,color:#fff
-	style l1_1 fill:green,color:#fff
-	style l1_2 fill:green,color:#fff
-	style l0_1 fill:green,color:#fff
-```
-
-Layer 2 is our input layer [7, 5, 3, 6], and the circuit outputs [33, 79] (operations are in $\mathbb{F}_{101}$).
-
-Since we’re working with multivariate polynomials, we use binary encodings for gate indices over the boolean hypercube (ex: `00`, `01`,…). That’s why I indicated `_00`, `_01`, …
-
-The relationships between layer 2 and layer 1 gates can be written as:
-
-$$
-L_1(00) = L_2(00)+L_2(01) \\
-L_1(01) = L_2(00)*L_2(10) \\
-L_1(10) = L_2(01)*L_2(10) \\
-L_1(11) = L_2(11)+L_2(11)
-$$
-
-But these aren’t in a form we can use directly with Sumcheck. To apply it, we need to express each layer as a polynomial relation involving a sum over the boolean cube.
-
-Something like:
-
-$$
-L_1=\displaystyle\sum_{b \in {\{0,1\}}^2}L_2(b)
-$$
-
-### Selector polynomials
-
-We’ll define selectors that activate only when a gate applies a specific operation. In our simple circuit, we have 2 types of gates: `add` and `mul`.
-
-For instance, to compute the value at gate `a` in layer `i`, which connects to gates `b` and `c` in layer `i+1`, we write:
-
-$$
-L_1=\displaystyle\sum_{b \in {\{0,1\}}^2,c \in {\{0,1\}}^2}
-\begin{pmatrix}
-\text{ \ \ \ } add(a,b,c)*(L_2(b)+L_2(c)) \\
-+ \text{ } mul(a,b,c)*(L_2(b)*L_2(c))
-\end{pmatrix}
-$$
-
-These selector functions act like indicator functions: they evaluate to `1` when the triple `(a, b, c)` corresponds to a valid gate connection for that operation, and `0` otherwise.
-
-`add` selector acts like this:
-
-$$
-\widetilde{add}=\begin{cases}
-   1 &\text{if } L_i(a)=L_{i+1}(b)+L_{i+1}(c) \\
-   0 &\text{otherwise}
-\end{cases}
-$$
-
-Same for the mul selector.
-
-### Multilinear extensions
-
-To apply Sumcheck, we need polynomial selectors, so we take the multilinear extensions of these indicator functions. That’s why I added a `~` on top of `add` and `mul`.
-
-In our example, `a`, `b`, and `c` each represent 2-bit indices (since each layer has 4 gates). So the selectors are boolean functions over 6 variables: $(a_1, a_2, b_1, b_2, c_1, c_2)$.
-
-The MLE of `add` will look like this:
-
-$$
-\widetilde{add}(a_1,a_2,b_1,b_2,c_1,c_2)=((1-a_1)(1-a_2)(1-b_1)(1-b_2)(1-c_1)c_2) + (a_1*a_2*b_1*b_2*c_1*c_2)
-$$
-
-This evaluates to `1` at inputs like `(00, 00, 01)` and `(11, 11, 11)`, the two `add` gates in our circuit.
-
-$$
-add(0,0,\text{ }0,0,\text{ }0,0)=0 \\
-add(0,0,\text{ }0,0,\text{ }0,1)=1 \\
-add(0,0,\text{ }0,0,\text{ }1,0)=0 \\
-add(0,0,\text{ }0,0,\text{ }1,1)=0 \\
-add(0,0,\text{ }0,1,\text{ }0,0)=0 \\
-... \\
-add(1,1,\text{ }1,1,\text{ }0,0)=0 \\
-add(1,1,\text{ }1,1,\text{ }0,1)=0 \\
-add(1,1,\text{ }1,1,\text{ }1,0)=0 \\
-add(1,1,\text{ }1,1,\text{ }1,1)=1 \\
-$$
-
-Similarly, the `mul` selector is:
-
-$$
-\widetilde{mul}(a_1,a_2,b_1,b_2,c_1,c_2)=((1-a_1)a_2(1-b_1)(1-b_2)c_1(1-c_2))+(a_1(1-a_2)(1-b_1)b_2c_1(1-c_2))
-$$
-
-Again, this evaluates to `1` for the multiplication gates in our circuit, and `0` everywhere else.
-
-### Layer `i` equation
-
-With selectors and MLEs in hand, we now define the value of each gate in layer `i` as:
-
-$$
-L_i(x)=\displaystyle\sum_{b,c \in {\{0,1\}}^{l_{i+1}}}
-\begin{pmatrix}
-\text{ \ \ \ } \widetilde{add}(x,b,c)*(\widetilde{L_{i+1}}(b)+\widetilde{L_{i+1}}(c)) \\
-+ \text{ } \widetilde{mul}(x,b,c)*(\widetilde{L_{i+1}}(b)*\widetilde{L_{i+1}}(c))
-\end{pmatrix}
-$$
-
-We now have a Sumcheck-friendly expression for each layer!
-
-### Protocol
-
-We now have everything we need to run the GKR protocol.
-
-The protocol proceeds layer by layer. Notice that to verify the computation at layer `i` we must assume that the values at layer `i+1` are correct.
-
-Starting from the output layer, the verifier and prover use the **Sumcheck protocol** to verify that the layer’s values are computed correctly, **assuming** the next layer's values are correct.
-
-Since the verifier **only knows the inputs and the final output**, they recursively apply Sumcheck to each layer’s equation until reaching the input layer, which the verifier can check directly.
-
-Let’s run GKR on our circuit.
-
-> **Notation:**
-> I’ll use lowercase `$l_i$` to denote the MLE of the values at layer `i`, and uppercase `$L_i$` to denote the layer’s equation computed from the next layer `i + 1`.
-
-1. Step 1: start at the output layer
-
-We start at layer 0 (the output layer).
-
-The Verifier knows the output values and can compute its MLE: $\widetilde{l_0}$
-
-2. Step 2: sampling a random point
-
-Verifier samples a random point $r_0 \in \mathbb{F}^{n_0}$
-where $n_i=\log_2(\text{\#values at layer i})$
-
-If the field is small, $r_0$ will be sampled from an extension.
-
-The verifier then computes $\widetilde{l_0}(r_0)$
-
-Prover now wants to convince the Verifier that:
-
-$$
-\widetilde{l_0}(r_0) \stackrel{?}{=} \displaystyle\sum_{b,c \in {\{0,1\}}^{n_1}} L_0(r_0,b,c)
-$$
-
-3. Step 3: Sumcheck
-
-We run Sumcheck on the right-hand side of this equation.
-
-During sumcheck we’ll sample random values for `b` and `c` (again, in a small field this is sampled from an extension field).
-
-Recall: to compute $L_0(r_0,b,c)$, you need the value of $L_1(b)$ and $L_1(c)$.
-
-At the end of Sumcheck, the prover reduces the sum to:
-
-$$
-C_0=\displaystyle\sum_{b,c \in {\{0,1\}}^{l_{i+1}}}
-\begin{pmatrix}
-\text{ \ \ \ } add_{r_0}(b,c)*(L_1(b)+L_1(c)) \\
-+ \text{ } mul_{r_0}(b,c)*(L_1(b)*L_1(c))
-\end{pmatrix}
-$$
-
-In order to verify the result, the Verifier will recompute $add_{r_0}$ and $mul_{r_0}$ himself, because the wiring of the circuit is fixed and known in advance by both the Verifier and the Prover.
-
-But he needs the Prover to convince him that the values of $L_1(b)$ and $L_1(c)$ are correct.
-
-4. Step 4: recursion to the next layer
-
-Thus, we now recurse: we must convince the Verifier that $L_1(b)$ and $L_1(c)$ are correctly computed from $L_2$.
-
-$$
-L_1(b)=\displaystyle\sum_{x,y \in {\{0,1\}}^{n_2}}
-\begin{pmatrix}
-\text{ \ \ \ } add(b,x,y)*(L_2(x)+L_2(y)) \\
-+ \text{ } mul(b,x,y)*(L_2(x)*L_2(y))
-\end{pmatrix}
-$$
-
-and same thing for $L_1(c)$ (I changed the variable’s names to make it clear what we’re doing).
-
-At this point, the Verifier needs the values of $L_2$ which he can compute himself from the known input values (in our example circuit).
-
-If the circuit was bigger we would keep recursing.
-
-5. Step 4bis: optimization
-
-Ok I lied a little bit… Strictly speaking, we do **not** need to prove $L_1(b)$ and $L_1(c)$ **separately**.
-
-Instead, to save communication and rounds, we compute a **random linear combination**:
-
-$$
-\alpha L_1(b)+\beta L_1(c)
-$$
-
-Then, we run **Sumcheck only once** per layer, verifying this combined value.
-
-See this script: https://github.com/teddav/sumcheck-article/blob/main/gkr.sage
 
 ## Resources
 
@@ -1120,8 +957,6 @@ https://hackmd.io/@CPerezz/BJXq7U9Bn
 
 https://anoma.net/research/superspartan-by-hand
 
-https://research.chainsafe.io/blog/gkr/
+https://www.youtube.com/watch?v=N1-67VPrsbA
 
-https://taueflambda.dev/posts/gkr/
-
-https://github.com/PolyhedraZK/awesome-expander/blob/main/blogs/gkr-by-hand.ipynb
+https://www.youtube.com/watch?v=gfy8rotcas4
