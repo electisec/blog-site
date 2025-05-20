@@ -15,7 +15,7 @@ Our first leet-speaker is 🥁🥁🥁 [Drastic Watermelon](https://x.com/waterm
 
 Watermelon is a proud nerd with a passion for breaking stuff&mdash;for the greater good of course. From audits to audit competitions, he does it all.
 
-We chat with 🍉 and see how the seeds of web3 security were planted (no pun intended😅).
+We chat with 🍉 and see how the seeds of web3 security were planted (no pun intended 😅).
 
 <img src="../public/watermelon.jpeg" width="70%"  style="display: block; margin: 0 auto" />
 
