@@ -26,11 +26,11 @@ I graduated from university a couple of months after joining Electisec. Before, 
 I first heard about Electisec when I met two DAO members in Bogotá at Devcon 6. They showed me what a fellowship looked like and what previous fellows had achieved after participating. Needless to say, as soon as I got back home, I immediately started preparing for the next smart contract fellowship 🤓.
 
 ## How did the fellowship shape your security career? 🌱
-Before the fellowship, my auditing experience was mostly solo competitions. While that helped me sharpen my individual skills, the [Electisec Fellowship](https://electisec.tech/fellowships) introduced me to a new way of working—collaborative auditing. Working with a team allowed me to see different approaches to problem-solving, learn from my peers, and develop my own auditing style.
+Before the fellowship, my auditing experience was mostly solo competitions. While that helped me sharpen my individual skills, the [Electisec Fellowship](https://electisec.com/fellowships) introduced me to a new way of working—collaborative auditing. Working with a team allowed me to see different approaches to problem-solving, learn from my peers, and develop my own auditing style.
 
 One of the *biggest takeaways* from the fellowship was understanding how I like to work: brainstorming, throwing out all my ideas, and bouncing thoughts off teammates. This collaborative experience helped me form professional relationships that continue to this day. Eventually, my journey through the fellowship opened the door to becoming an Electisec smart contract resident auditor, giving me a career path I genuinely love.
 
-I have audited several protocols for Electisec since then, like [Sickle](https://reports.electisec.tech/reports/05-2024-Sickle-3) and [Sofa Protocol](https://reports.electisec.tech/reports/01-2025-Sofa-Protocol).
+I have audited several protocols for Electisec since then, like [Sickle](https://reports.electisec.com/reports/05-2024-Sickle-3) and [Sofa Protocol](https://reports.electisec.com/reports/01-2025-Sofa-Protocol).
 
 ## What's the one thing you wish you did differently when starting your auditing journey? 🤔
 Looking back, I wish I had gone *all-in* a lot sooner. When I first started competing in audit contests, I'd dedicate 2-3 hours per day: somehow I hadn't understood that my competition was putting in 8+ hours per day and treating competitions as a full-time job.
