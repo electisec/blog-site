@@ -17,7 +17,7 @@ Watermelon is a proud nerd with a passion for breaking stuff&mdash;for the great
 
 We chat with 🍉 and see how the seeds of web3 security were planted (no pun intended 😅).
 
-<img src="../public/watermelon.jpeg" width="70%"  style="display: block; margin: 0 auto" />
+<img src="/watermelon.jpeg" width="70%"  style="display: block; margin: 0 auto" />
 
 ## Tell us about your journey to Electisec 🛣️
 
