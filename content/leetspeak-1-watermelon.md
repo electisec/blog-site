@@ -1,6 +1,6 @@
 ---
 title: "Electisec leet-speak #1 ft. Drastic Watermelon"
-subtitle: "Know more about our resident auditors who make Electisec special"
+subtitle: "Get to know our resident auditors who make Electisec special"
 gh-repo: electisec/blog-site
 tags: [resident-spotlight]
 author: nexus
