@@ -25,13 +25,13 @@ export default function Document() {
         <meta property="og:site_name" content="Electisec" />
         <meta
           property="og:image"
-          content="https://blog.electisec.com/logo.svg"
+          content="https://electisec.com/twitter.png"
         />
 
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:site" content="@electisec" />
         <meta name="twitter:creator" content="@electisec" />
-        <meta name="twitter:image" content="https://electisec.com/logo.svg" />
+        <meta name="twitter:image" content="https://electisec.com/twitter.png" />
 
         <link rel="icon" href="/favicon.ico" />
         <link
