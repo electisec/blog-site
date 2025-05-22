@@ -173,6 +173,12 @@ p:has(.katex-display) {
   clear: both;
 }
 
+/* inline code */
+code.inline-code-block::before,
+code.inline-code-block::after {
+  content: "" !important;
+}
+
 /* Responsive styling */
 @media (max-width: 450px) {
   .prose table {
