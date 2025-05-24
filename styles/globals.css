@@ -5,6 +5,7 @@
 @layer base {
   :root {
     --background: #fdfdfd;
+    --aside: #e9e9e9;
     --foreground: #f3f3f3;
     --primary: #15803d;
     --primary-foreground: #ffffff;
@@ -22,6 +23,7 @@
   }
 
   .dark {
+    --aside: #021e1a;
     --background: #021e1a;
     --foreground: #032823;
     --primary: #3ee680;
@@ -51,7 +53,7 @@ body {
 }
 
 pre {
-  background: var(--background) !important;
+  background: var(--aside) !important;
 }
 
 pre code {
@@ -60,7 +62,7 @@ pre code {
 
 aside {
   color: var(--secondary-foreground) !important;
-  background: var(--background) !important;
+  background: var(--aside) !important;
   padding: 2rem !important;
   border: round 1rem var(--border) !important;
 }
