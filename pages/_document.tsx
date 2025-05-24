@@ -40,10 +40,6 @@ export default function Document() {
           integrity="sha384-n8MVd4RsNIU0tAv4ct0nTaAbDJwPJzDEaqSD1odI+WdtXRGWt2kTvGFasHpSy3SV"
           crossOrigin="anonymous"
         />
-        <link
-          rel="stylesheet"
-          href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github.min.css"
-        />
       </Head>
       <body>
         <Main />
@@ -62,19 +58,23 @@ export default function Document() {
         <Script id="highlight-init" strategy="afterInteractive">
           {`
             window.onload = function() {
+              // Initialize syntax highlighting
               hljs.highlightAll();
+
+              // Make hljs available globally for theme switching
+              window.hljs = hljs;
             }
           `}
         </Script>
+
+        {/* Initialize mermaid diagrams */}
         <Script
           type="module"
           id="mermaid-init"
           src="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs"
         >
           {`
-            
-              mermaid.initialize({ startOnLoad: true });
-            
+            mermaid.initialize({ startOnLoad: true });
           `}
         </Script>
         <Script
