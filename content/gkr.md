@@ -286,13 +286,21 @@ $$
 
 Then we apply Sumcheck **once per layer** to verify this combined value. This reduces the number of rounds and communication cost.
 
+## Try It Yourself
+
+The GKR protocol might seem simple at first glance, but truly understanding it takes a bit of time and experimentation.
+
+To help with that, I wrote a full Sage script that walks through the exact circuit we discussed in this article:
+
+https://github.com/teddav/sumcheck-article/blob/main/gkr.sage
+
+This article was just a high-level walkthrough. If you really want it to click, I recommend spending time with the code 😊
+
 ## Summary
 
 - GKR applies Sumcheck recursively from output to input.
 - Each layer’s correctness is reduced to verifying a low-degree polynomial identity.
 - By combining values with randomness, the protocol remains efficient and secure.
-
-This article was brief. If there’s something you still don’t understand, I wrote the entire example with Sage: https://github.com/teddav/sumcheck-article/blob/main/gkr.sage
 
 💬 Questions or feedback? Feel free to DM me: [@0xteddav](https://x.com/0xteddav)
 
