@@ -68,12 +68,13 @@ export default function Document() {
           </Script>
 {/* Load mermaid library */}
 <Script
-  type="module"
+          type="module"
+          id="mermaid-init"
   src="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs"
 />
 
 {/* Initialize mermaid with theme matching your CSS variables */}
-<Script type="module">
+<Script type="module" id="mermaid">
   {`
     import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
     
