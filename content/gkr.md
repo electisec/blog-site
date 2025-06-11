@@ -26,63 +26,66 @@ I made a simple circuit as an example:
 
 ```mermaid
 graph BT
-	subgraph "layer 2 (input)"
-	a
-	b
-	c
-	d
-	end
+    subgraph "layer 2 (input)"
+        a("L2 (00): 7")
+        b("L2 (01): 5")
+        c("L2 (10): 3")
+        d("L2 (11): 6")
+    end
 
-	subgraph layer 1
-	l1_0
-	l1_1
-	l1_2
-	l1_3
-	end
+    subgraph "layer 1"
+        l1_0("L1 (00): 12 = 7 + 5")
+        l1_1("L1 (01): 21 = 7 * 3")
+        l1_2("L1 (10): 15 = 5 * 3")
+        l1_3("L1 (11): 12 = 6 + 6")
+    end
 
-	subgraph "layer 0 (output)"
-	l0_0
-	l0_1
-	end
+    subgraph "layer 0 (output)"
+        l0_0("L0 (0): 33 = 12 + 21")
+        l0_1("L0 (1): 79 = (12 * 15) % 101")
+    end
 
-	add
-	mul
+    %% Legend positioned below
+    subgraph "Legend"
+        legend_add("Addition Operations")
+        legend_mul("Multiplication Operations")
+    end
 
+    %% Connections from input to layer 1
+    a --> l1_0
+    a --> l1_1
+    b --> l1_0
+    b --> l1_2
+    c --> l1_1
+    c --> l1_2
+    d --> l1_3
+    d --> l1_3
 
-	a --> l1_0
-	a --> l1_1
-	b --> l1_0
-	b --> l1_2
-	c --> l1_1
-	c --> l1_2
-	d --> l1_3
-	d --> l1_3
+    %% Connections from layer 1 to output
+    l1_0 --> l0_0
+    l1_1 --> l0_0
+    l1_2 --> l0_1
+    l1_3 --> l0_1
 
-	l1_0 --> l0_0
-	l1_1 --> l0_0
-	l1_2 --> l0_1
-	l1_3 --> l0_1
+    %% Invisible connection to position legend below
+    l0_0 -.-> legend_add
+    l0_1 -.-> legend_mul
 
-	a("L2 (00): 7")
-	b("L2 (01): 5")
-	c("L2 (10): 3")
-	d("L2 (11): 6")
-	l1_0("L1 (00): 12 = 7 + 5")
-	l1_1("L1 (01): 21 = 7 * 3")
-	l1_2("L1 (10): 15 = 5 * 3")
-	l1_3("L1 (11): 12 = 6 + 6")
-	l0_0("L0 (0): 33 = 12 + 21")
-	l0_1("L0 (1): 79 = (12 * 15) % 101")
+    %% Styling for addition operations (blue)
+    style l1_0 fill:#2563eb,color:#fff
+    style l1_3 fill:#2563eb,color:#fff
+    style l0_0 fill:#2563eb,color:#fff
+    style legend_add fill:#2563eb,color:#fff
 
-	style add fill:blue,color:#fff
-	style l1_0 fill:blue,color:#fff
-	style l1_3 fill:blue,color:#fff
-	style l0_0 fill:blue,color:#fff
+    %% Styling for multiplication operations (green)
+    style l1_1 fill:#16a34a,color:#fff
+    style l1_2 fill:#16a34a,color:#fff
+    style l0_1 fill:#16a34a,color:#fff
+    style legend_mul fill:#16a34a,color:#fff
 
-	style mul fill:green,color:#fff
-	style l1_1 fill:green,color:#fff
-	style l1_2 fill:green,color:#fff
-	style l0_1 fill:green,color:#fff
+    %% Hide the positioning arrows
+    linkStyle 12 stroke:transparent
+    linkStyle 13 stroke:transparent
 ```
 
 Layer 2 is our input layer [7, 5, 3, 6], and the circuit outputs [33, 79] (operations are in $\mathbb{F}_{101}$).
