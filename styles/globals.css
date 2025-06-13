@@ -97,8 +97,21 @@ code {
   text-decoration: underline;
 }
 
+/* Updated to exclude mermaid elements */
+.prose p:not(:has(.mermaid)), 
+.prose li:not(:has(.mermaid)), 
+.prose blockquote:not(:has(.mermaid)) {
+  color: var(--secondary-foreground);
+}
+
+/* Alternative approach - more explicit exclusion */
 .prose p, .prose li, .prose blockquote {
   color: var(--secondary-foreground);
+}
+
+.prose .mermaid,
+.prose .mermaid * {
+  color: unset !important;
 }
 
 .prose h1, .prose h2, .prose h3, .prose h4, .prose h5, .prose h6 {
