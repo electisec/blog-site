@@ -1,6 +1,6 @@
 ---
 title: "From Layered to General: How Virgo++ Broke the Linear Time Barrier in GKR"
-subtitle: "Subset wiring and claim combination: the path to $O(|C|)$ GKR"
+subtitle: "Subset wiring and claim combination: the path to linear time GKR"
 gh-repo: electisec/blog-site
 tags: [cryptography, algebra, polynomial]
 author: flyingnobita
@@ -20,9 +20,9 @@ One of the significant limitations of the original GKR protocol is that it can o
 2. The prover time also increases by a factor of $d$, i.e. $O(d|C|)$
 3. Common use cases, such as R1CS circuits, cannot be used directly as they need to be converted to layered circuits first
 
-> [!note] General Circuit vs Layered Circuit
+> ### General Circuit vs Layered Circuit
 >
-> ![General vs Layered Circuit](libra__virgo__general-vs-layered-circuit.png "General vs Layered Circuit")
+> ![General vs Layered Circuit](../public/virgo-article/libra__virgo__general-vs-layered-circuit.png "General vs Layered Circuit")
 >
 > When discussing circuits in the GKR protocol, we refer to **layered circuits** as arithmetic circuits with gates of two inputs (_fan-in 2_) from the layer above. In contrast, **general circuits** have gates that can take inputs from any layers above.
 >
@@ -36,7 +36,8 @@ Yes, of course, this is what we will be discussing next.
 
 To accept general circuits, the GKR protocol needs two main changes in the underlying sum-check protocol. Let's examine each one.
 
-> [!note] Notation: Layers above and below
+> ### Notation: Layers above and below
+>
 > Throughout this blog post, we refer to the layers $i+1$ as being _above_ the layer $i$, and layers $i-1$ as being _below_. Looking at the diagram, this may seem counterintuitive at first. However, you must realize that the diagram itself is also upside down because the layer $0$ is at the top and the layer $d$ is at the bottom.
 >
 > We use this convention because it is consistent with the research papers that we have reviewed.
@@ -257,7 +258,7 @@ $$
 
 Here is an example to illustrate the above two ideas:
 
-![Layers in Virgo++](libra__virgo__example.png "Layers in Virgo++")
+![Layers in Virgo++](../public/virgo-article/libra__virgo__example.png "Layers in Virgo++")
 
 | Layer $j$ | Gates Feeding $g_{10}$                    | Padded Size | Bit-length $s_{1,j}$ |
 | --------- | ----------------------------------------- | ----------- | -------------------- |
@@ -416,8 +417,6 @@ Given the improvements we have discussed, let's sum it up nd see how our improve
 ## Conclusion
 
 What makes Virgo++ particularly elegant is how it solves the general circuit problem without fundamentally changing the GKR protocol's structure. By recognizing that most gates in upper layers are irrelevant to any given gate below, and by using the sum-check protocol not just for the main computation but also for combining claims, the authors achieve something that seemed inherently quadratic in just $O(|C|)$ time. The protocol maintains the same security guarantees as the original GKR while being dramatically more efficient. For practitioners, this means you can now apply GKR directly to your existing circuit representations without worrying about the dd d-factor blowup from adding relay gates—a game-changer for verifiable computation in practice.
-
-## Reference
 
 [^1]: [Delegating Computation: Interactive Proofs for Muggles](https://www.microsoft.com/en-us/research/wp-content/uploads/2016/12/2008-DelegatingComputation.pdf) by Goldwasser et al. (2008)
 [^2]: [Doubly Efficient Interactive Proofs for General Arithmetic Circuits with Linear Prover Time (a.k.a. Virgo++)](https://eprint.iacr.org/2020/1247.pdf) by Zhang et al., (2021)
