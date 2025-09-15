@@ -22,7 +22,7 @@ One of the significant limitations of the original GKR protocol is that it can o
 
 > ### General Circuit vs Layered Circuit
 >
-> ![General vs Layered Circuit](../public/virgo-article/libra__virgo__general-vs-layered-circuit.png "General vs Layered Circuit")
+> ![General vs Layered Circuit](../public/virgo-article/virgo__general-vs-layered-circuit.png "General vs Layered Circuit")
 >
 > When discussing circuits in the GKR protocol, we refer to **layered circuits** as arithmetic circuits with gates of two inputs (_fan-in 2_) from the layer above. In contrast, **general circuits** have gates that can take inputs from any layers above.
 >
@@ -258,7 +258,7 @@ $$
 
 Here is an example to illustrate the above two ideas:
 
-![Layers in Virgo++](../public/virgo-article/libra__virgo__example.png "Layers in Virgo++")
+![Layers in Virgo++](../public/virgo-article/virgo__example.png "Layers in Virgo++")
 
 | Layer $j$ | Gates Feeding $g_{10}$                    | Padded Size | Bit-length $s_{1,j}$ |
 | --------- | ----------------------------------------- | ----------- | -------------------- |
