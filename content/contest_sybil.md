@@ -106,7 +106,7 @@ To quantify this impact, we can consider a scenario where there are 3 legitimate
 - Normal points per submission (3 legitimate submissions + 1 from sybilooor) : $0.9^3 / 4 = 0.182$ 
 - Points with sybil attack (3 legitimate submissions + 2 from sybilooor) : $0.9^4 / 5 = 0.131$ 
 
-This represents an absolute reduction of $0.182 - 0.131 = 0.051$ points assigned to the issue. In relative terms, it represents a $(0.131 - 0.182) / 0.182 = -28 \\%$ variation.  
+This represents an absolute reduction of $0.182 - 0.131 = 0.051$ points assigned to the issue. In relative terms, it represents a $ (0.131 - 0.182) / 0.182 = -28$% variation.  
 
 Executing the same calculation for $n \in [3, 20)$ and $k \in [2, 19)$, we get the following values: (notice that examining the $k = n$ case would make little sense..)
 
