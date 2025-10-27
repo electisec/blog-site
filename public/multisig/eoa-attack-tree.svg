@@ -1,0 +1,67 @@
+<svg width="600" height="250" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <style>
+      .title { font-family: Arial, sans-serif; font-size: 16px; font-weight: bold; fill: #2d3748; }
+      .goal { font-family: Arial, sans-serif; font-size: 14px; font-weight: bold; fill: #e53e3e; }
+      .method { font-family: Arial, sans-serif; font-size: 12px; fill: #4a5568; }
+      .vector { font-family: Arial, sans-serif; font-size: 11px; fill: #718096; }
+      .box { fill: none; stroke: #2d3748; stroke-width: 2; }
+      .goal-box { fill: #fed7d7; stroke: #e53e3e; stroke-width: 2; }
+      .method-box { fill: #e2e8f0; stroke: #4a5568; stroke-width: 1; }
+      .vector-box { fill: #f7fafc; stroke: #718096; stroke-width: 1; }
+      .line { stroke: #4a5568; stroke-width: 1; }
+    </style>
+  </defs>
+  
+  <!-- Background -->
+  <rect x="0" y="0" width="600" height="250" fill="white" stroke="none"/>
+  
+  <!-- Title -->
+  <text x="300" y="25" text-anchor="middle" class="title">Attack Tree: Compromise EOA Wallet</text>
+  
+  <!-- Goal -->
+  <rect x="225" y="50" width="150" height="40" class="goal-box" rx="5"/>
+  <text x="300" y="75" text-anchor="middle" class="goal">Steal EOA Funds</text>
+  
+  <!-- OR connection line -->
+  <line x1="300" y1="90" x2="300" y2="110" class="line"/>
+  
+  <!-- Method level -->
+  <rect x="225" y="110" width="150" height="35" class="method-box" rx="3"/>
+  <text x="300" y="132" text-anchor="middle" class="method">Compromise Private Key</text>
+  
+  <!-- Attack vector lines -->
+  <line x1="300" y1="145" x2="300" y2="165" class="line"/>
+  
+  <!-- Vector level -->
+  <line x1="75" y1="165" x2="530" y2="165" class="line"/>
+  <line x1="75" y1="165" x2="75" y2="180" class="line"/>
+  <line x1="150" y1="165" x2="150" y2="180" class="line"/>
+  <line x1="225" y1="165" x2="225" y2="180" class="line"/>
+  <line x1="300" y1="165" x2="300" y2="180" class="line"/>
+  <line x1="375" y1="165" x2="375" y2="180" class="line"/>
+  <line x1="450" y1="165" x2="450" y2="180" class="line"/>
+  <line x1="530" y1="165" x2="530" y2="180" class="line"/>
+  
+  <!-- Attack vectors -->
+  <rect x="40" y="180" width="70" height="30" class="vector-box" rx="2"/>
+  <text x="75" y="198" text-anchor="middle" class="vector">Malware</text>
+  
+  <rect x="115" y="180" width="70" height="30" class="vector-box" rx="2"/>
+  <text x="150" y="198" text-anchor="middle" class="vector">Phishing</text>
+  
+  <rect x="190" y="180" width="70" height="30" class="vector-box" rx="2"/>
+  <text x="225" y="198" text-anchor="middle" class="vector">Keylogger</text>
+  
+  <rect x="265" y="180" width="70" height="30" class="vector-box" rx="2"/>
+  <text x="300" y="198" text-anchor="middle" class="vector">Weak RNG</text>
+  
+  <rect x="340" y="180" width="70" height="30" class="vector-box" rx="2"/>
+  <text x="375" y="198" text-anchor="middle" class="vector">Leak Seed</text>
+  
+  <rect x="415" y="180" width="70" height="30" class="vector-box" rx="2"/>
+  <text x="450" y="198" text-anchor="middle" class="vector">Bruteforce</text>
+  
+  <rect x="490" y="180" width="80" height="30" class="vector-box" rx="2"/>
+  <text x="530" y="198" text-anchor="middle" class="vector">Side Channel</text>
+</svg>
