@@ -17,7 +17,7 @@ Multisignature wallets have become the gold standard for securing large amounts 
 - **Python script**: Want to run analysis locally without a web browser? This script has you covered.
 - **Open sourced repository**: The GitHub repository containing all of the above is available at https://github.com/electisec/multisig-security
 
-There are limitations to what this automated tooling was able to accomplish. For example, it is not possible to determine whether multisig signers of a multisig properly follow a [secure signing process](https://frameworks.securityalliance.org/wallet-security/secure-multisig-signing-process), whether the addresses on a multisig are hardware wallets or EOA, and because https://revoke.cash/ has no public API, this tool cannot automatically display a multisig's unused allowances that could put value at risk if the contract with a non-zero allowance is hacked or malicious. Additionally, some of the checks in this tool do not clearly indicated the configuration is good or bad. Examples of this include whether a Safe has an optional module installed and whether a signer of a multisig is a contract. Such cases require deeper manual investigation to reach proper conclusions. Therefore, this tool should NOT be considered anything close to a comprehensive analysis of a multisig's security posture, but instead should be considered as a quick and easy way to identify glaring errors in a multisig's configuration.
+There are limitations to what this automated tooling was able to accomplish. For example, it is not possible to determine whether multisig signers of a multisig properly follow a [secure signing process](https://frameworks.securityalliance.org/wallet-security/secure-multisig-signing-process), whether the addresses on a multisig are hardware wallets or EOA, and because https://revoke.cash/ has no public API, this tool cannot automatically display a multisig's unused token allowances that could put value at risk if the contract with a non-zero allowance is hacked or malicious. Additionally, some of the checks in this tool do not clearly indicate the configuration is good or bad. Examples of this include whether a Safe has an optional module installed and whether a signer of a multisig is a contract. Such cases require deeper manual investigation to reach proper conclusions. Therefore, this tool should NOT be considered anything close to a comprehensive analysis of a multisig's security posture, but instead should be considered as a quick and easy way to identify glaring errors in a multisig's configuration.
 
 ## Background: Why Multisigs Improve Security
 
@@ -31,7 +31,7 @@ Why do DAO treasuries, institutions, and other large asset holders put in the ef
 
 If we consider two hypothetical multisigs, one with a 1-of-10 multisig and one with a 7-of-10 multisig, we should consider the 7-of-10 multisig is more secure because more signers need to be compromised for the multisig funds to become vulnerable.
 
-But the signer threshold is the most simple configuration parameter in multisig security. There are many configuration parameters, but before diving into them individually, let's see what "tools you can use" comes out of this research.
+But the signer threshold is the most simple configuration parameter in multisig security. There are many configuration parameters, but before diving into them individually, let's take a look at the tools that came out of this research.
 
 ## Tools Overview
 
@@ -43,13 +43,13 @@ The primary interface is a user-friendly web application intended for manual ana
 
 ### 2. Web Application API
 
-For developers and services that wish to integrate multisig security analysis into their own applications, the web app also offers a REST API endpoint. This allows programmatic access to all security analysis functionality. You can access the API with the same URL that the "share" button, but with "api/" added to the URL. For example, https://safe.electisec.com/api/1/0x73b047fe6337183A454c5217241D780a932777bD/ is an example of an API URL that returns the analysis results in JSON format.
+For developers and services that wish to integrate multisig security analysis into their own applications, the web app also offers a REST API endpoint. This allows programmatic access to all security analysis functionality. You can access the API with the same URL that the "share" button uses, but with "api/" added to the URL. For example, https://safe.electisec.com/api/1/0x73b047fe6337183A454c5217241D780a932777bD/ is an example of an API URL that returns the analysis results in JSON format.
 
 ### 3. Python Script
 
 For users who prefer local command-line tools, want to do batch analysis research on many multisigs, or look to integrate this tool with an existing local toolchain, a standalone Python script offers the same comprehensive security analysis functionality. The script is located in the [python_script directory](https://github.com/electisec/multisig-security/tree/main/python_script). If you will use the script a lot, you will probably find some benefit if you change the default RPC endpoints, because the script defaults are public endpoints from https://chainlist.org/.
 
-The only external dependency of this script it the popular requests library, so before running the script, use `pip3 install requests`.
+The only external dependency of this script is the popular requests library, so before running the script, use `pip3 install requests`.
 
 #### Single Safe Analysis
 
@@ -159,7 +159,7 @@ Modules extend Safe functionality but also increase the attack surface and compl
 
 **Worst case:** Multiple modules installed increases the attack surface significantly. Each module represents additional code that could contain vulnerabilities, and the interactions between modules can create unexpected security risks.
 
-**Why it matters:** While modules can provide useful functionality, they introduce additional complexity and potential attack vectors. Each module should be carefully audited and its necessity weighed against the security risks it introduces. The results of this test require manual examination to properly assess, because the existence of modules is notnecessarily a problem.
+**Why it matters:** While modules can provide useful functionality, they introduce additional complexity and potential attack vectors. Each module should be carefully audited and its necessity weighed against the security risks it introduces. The results of this test require manual examination to properly assess, because the existence of modules is not necessarily a problem.
 
 ## 8. Transaction Guard Configuration
 
@@ -247,6 +247,6 @@ This check only appears when the Safe is deployed on multiple chains and analyze
 
 ## Conclusion
 
-Multisig security extends far beyond simply using a multisig contract. Configuration choices around thresholds, version management, operational practices, and deployment strategies all significantly impact the security posture of these critical infrastructure components. These choices are not completed when the multisig is first created either, because the contract can be upgraded to newer contract versions when they become available.
+Multisig security extends far beyond simply using a multisig contract. Configuration choices around thresholds, version management, operational practices, and deployment strategies all significantly impact the security posture of these critical infrastructure components. Multisig maintenance is not done when the multisig is first created, because the contract can be upgraded to newer contract versions when they become available. There is a completely separate topic of [multisig opsec](https://frameworks.securityalliance.org/wallet-security/secure-multisig-signing-process) that is out of scope of this research that also requires substantial attention to follow security best practices.
 
 By analyzing the results of these 14 security tests, teams can identify and address unwanted multisig risks before they become problems. Any multisig user or owner should at least take a glance at the results of this tool, as any unknown risks should be addressed.
