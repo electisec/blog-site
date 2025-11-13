@@ -30,7 +30,7 @@ export default function ReportPage({
           <h2 className="text-xl text-title">← Back to Blogs</h2>
         </Link>
 
-        <div className="bg-primary-foreground shadow p-6 sm:px-6 rounded-lg">
+        <div className="bg-primary-foreground shadow p-6 sm:px-6 ">
           <header className="flex lg:flex-row md:flex-row flex-col justify-between lg:items-center md:items-center gap-2 items-left mb-6 text-body">
             <span>By <a href={twitter} target="_blank" className="font-semibold text-button hover:underline">{author}</a></span>
             <span>

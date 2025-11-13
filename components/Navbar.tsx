@@ -9,7 +9,7 @@ import { useTheme } from "@/lib/ThemeContext";
 // Button component for consistent styling
 function Button({ text }: { text: string }) {
   return (
-    <button className="px-6 py-3 rounded-xl text-sm text-zinc-400 hover:text-emeraldlight hover:bg-white hover:bg-opacity-5">
+    <button className="px-6 py-3 text-sm text-zinc-400 hover:text-deepblue dark:hover:text-deepblue hover:bg-white hover:bg-opacity-5 dark:hover:bg-white dark:hover:bg-opacity-10 transition-all duration-700">
       {text}
     </button>
   );
@@ -24,7 +24,7 @@ const Navbar = () => {
       <nav className="w-full flex h-18 items-center justify-between top-0 py-6">
         {/* Logo section */}
         <div className="flex flex-row gap-4 text-primary items-center text-xl lg:ml-[20vw] ml-4">
-          <Link href="https://electisec.com/">
+          <Link href="https://yaudit.dev/">
             <img
               alt="Logo"
               src={theme === 'light' ? "/logo.svg" : "/darklogo.svg"}
@@ -35,7 +35,7 @@ const Navbar = () => {
 
         {/* Mobile menu button */}
         <button
-          className="px-8 py-3 rounded-xl lg:hidden"
+          className="px-8 py-3 lg:hidden"
           onClick={() => setMenuOpen(!menuOpen)}
         >
           <MenuOutlined />
@@ -43,29 +43,29 @@ const Navbar = () => {
 
         {/* Desktop menu */}
         <div className="hidden lg:flex flex-row items-center gap-1 lg:mr-[20vw]">
-          <Link href="https://reports.electisec.com/">
+          <Link href="https://reports.yaudit.dev/">
             <Button text="Reports" />
           </Link>
-          <Link href="https://blog.electisec.com/">
-            <button className="px-6 py-3 rounded-xl text-sm hover:text-darkgreen text-bold text-emeraldlight">
+          <Link href="https://blog.yaudit.dev/">
+            <button className="px-6 py-3 text-sm text-deepblue dark:text-deepblue font-bold hover:bg-white hover:bg-opacity-5 dark:hover:bg-white dark:hover:bg-opacity-10 transition-all duration-700">
               Blog
             </button>
           </Link>
-          <Link href="https://research.electisec.com/">
+          <Link href="https://research.yaudit.dev/">
             <Button text="Research" />
           </Link>
 
-          <Link href="https://electisec.com/fellowships">
+          <Link href="https://yaudit.dev/fellowships">
             <Button text="Fellowships" />
           </Link>
-          <Link href="https://electisec.com/services">
+          <Link href="https://yaudit.dev/services">
             <Button text="Services" />
           </Link>
-          <Link href="https://electisec.com/team">
+          <Link href="https://yaudit.dev/team">
             <Button text="Team" />
           </Link>
-          <Link href="https://electisec.com/contact-us">
-            <button className="px-8 py-3 rounded-xl text-md font-bold bg-emeraldlight bg-opacity-20 text-button hover:bg-opacity-5">
+          <Link href="https://yaudit.dev/contact-us">
+            <button className="px-8 py-3 text-md font-bold bg-deepblue text-white hover:bg-white hover:text-deepblue hover:border hover:border-deepblue dark:hover:bg-white dark:hover:text-deepblue transition-all duration-700">
               Contact
             </button>
           </Link>
@@ -83,54 +83,54 @@ const Navbar = () => {
           <div className="pt-8 mx-auto flex flex-col p-8 gap-2">
             <button
               onClick={() => setMenuOpen(false)}
-              className="text-green-400"
+              className="text-deepblue"
             >
               <CloseCircleOutlined style={{ fontSize: "2rem" }} />
             </button>
 
-            <Link href="https://reports.electisec.com/">
-              <button className="p-6 rounded-xl w-full text-xl text-zinc-400 hover:text-emeraldlight hover:bg-darkgreen hover:bg-opacity-5">
+            <Link href="https://reports.yaudit.dev/">
+              <button className="p-6 w-full text-xl text-zinc-400 hover:text-deepblue dark:hover:text-deepblue hover:bg-white hover:bg-opacity-5 dark:hover:bg-white dark:hover:bg-opacity-10 transition-all duration-700">
                 Reports
               </button>
             </Link>
-            <Link href="https://blog.electisec.com/">
-              <button className="p-6 rounded-xl w-full text-xl text-emeraldlight hover:bg-darkgreen hover:bg-opacity-5">
+            <Link href="https://blog.yaudit.dev/">
+              <button className="p-6 w-full text-xl text-deepblue dark:text-deepblue font-bold hover:bg-white hover:bg-opacity-5 dark:hover:bg-white dark:hover:bg-opacity-10 transition-all duration-700">
                 Blog
               </button>
             </Link>
-            <Link href="https://research.electisec.com/">
-              <button className="p-6 rounded-xl w-full text-xl text-zinc-400 hover:text-emeraldlight hover:bg-darkgreen hover:bg-opacity-5">
+            <Link href="https://research.yaudit.dev/">
+              <button className="p-6 w-full text-xl text-zinc-400 hover:text-deepblue dark:hover:text-deepblue hover:bg-white hover:bg-opacity-5 dark:hover:bg-white dark:hover:bg-opacity-10 transition-all duration-700">
                 Research
               </button>
             </Link>
-            <Link href="https://electisec.com/fellowships">
+            <Link href="https://yaudit.dev/fellowships">
               <button
                 onClick={() => setMenuOpen(false)}
-                className="p-6 rounded-xl w-full text-xl text-zinc-400 hover:text-emeraldlight hover:bg-darkgreen hover:bg-opacity-5"
+                className="p-6 w-full text-xl text-zinc-400 hover:text-deepblue dark:hover:text-deepblue hover:bg-white hover:bg-opacity-5 dark:hover:bg-white dark:hover:bg-opacity-10 transition-all duration-700"
               >
                 Fellowships
               </button>
             </Link>
-            <Link href="https://electisec.com/services">
+            <Link href="https://yaudit.dev/services">
               <button
                 onClick={() => setMenuOpen(false)}
-                className="p-6 rounded-xl w-full text-xl text-zinc-400 hover:text-emeraldlight hover:bg-white hover:bg-opacity-5"
+                className="p-6 w-full text-xl text-zinc-400 hover:text-deepblue dark:hover:text-deepblue hover:bg-white hover:bg-opacity-5 dark:hover:bg-white dark:hover:bg-opacity-10 transition-all duration-700"
               >
                 Services
               </button>
             </Link>
-            <Link href="https://electisec.com/team">
+            <Link href="https://yaudit.dev/team">
               <button
                 onClick={() => setMenuOpen(false)}
-                className="p-6 rounded-xl w-full text-xl text-zinc-400 hover:text-emeraldlight hover:bg-white hover:bg-opacity-5"
+                className="p-6 w-full text-xl text-zinc-400 hover:text-deepblue dark:hover:text-deepblue hover:bg-white hover:bg-opacity-5 dark:hover:bg-white dark:hover:bg-opacity-10 transition-all duration-700"
               >
                 Team
               </button>
             </Link>
-            <Link href="https://electisec.com/contact-us">
+            <Link href="https://yaudit.dev/contact-us">
               <button
                 onClick={() => setMenuOpen(false)}
-                className="p-6 rounded-xl w-full text-xl text-emeraldlight text-bold hover:bg-darkgreen hover:bg-opacity-5"
+                className="p-6 w-full text-xl bg-deepblue text-white hover:bg-white hover:text-deepblue hover:border hover:border-deepblue dark:hover:bg-white dark:hover:text-deepblue transition-all duration-700"
               >
                 Contact
               </button>

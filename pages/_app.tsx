@@ -17,7 +17,7 @@ export default function App({ Component, pageProps }: AppProps) {
   return (
     <>
       <Head>
-        <title>Electisec Blogs</title>
+        <title>yAudit Blogs</title>
       </Head>
 
       <ThemeProvider>
