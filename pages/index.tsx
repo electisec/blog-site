@@ -100,7 +100,7 @@ export default function Home({ blogs }: HomeProps) {
               <button
                 key={index}
                 className={
-                  "inline-flex items-center px-2.5 py-0.5 rounded-full text-md font-medium bg-emeraldlight bg-opacity-20 text-button hover:bg-opacity-5"
+                  "inline-flex items-center px-2.5 py-0.5 text-md font-medium bg-deepblue text-white hover:bg-white hover:text-deepblue hover:border hover:border-deepblue dark:hover:bg-white dark:hover:text-deepblue transition-all duration-700"
                 }
                 onClick={() => handleTagSelection(tag)}
               >

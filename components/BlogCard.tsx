@@ -1,6 +1,5 @@
 import React from "react";
 import Link from "next/link";
-// import { useRouter } from "next/router";
 
 interface BlogCardProps {
   title: string;
@@ -33,7 +32,7 @@ const ReportCard: React.FC<BlogCardProps> = ({
 
   return (
     <div
-      className="bg-primary-foreground flex flex-row justify-between rounded-lg shadow hover:shadow-lg transition-shadow overflow-hidden hover:cursor-pointer"
+      className="bg-primary-foreground flex flex-row justify-between shadow hover:shadow-lg transition-shadow overflow-hidden hover:cursor-pointer"
       onClick={() => {
         // router.push(`/${slug}`)
         window.location.replace(`/${slug}`)
@@ -52,7 +51,7 @@ const ReportCard: React.FC<BlogCardProps> = ({
           {tags.map((tag, index) => (
             <span
               key={index}
-              className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-emeraldlight bg-opacity-20 text-button"
+              className="inline-flex items-center px-2.5 py-0.5 text-xs font-medium bg-deepblue text-white dark:bg-deepblue dark:text-white"
             >
               {tag}
             </span>

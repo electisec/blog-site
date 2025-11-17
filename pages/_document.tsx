@@ -9,29 +9,29 @@ export default function Document() {
         <meta name="description" content="ZK & Smart Contract Security" />
         <meta
           name="keywords"
-          content="Electisec, Zero Knowledge, Smart Contract Security, Blockchain Security, Ethereum, Cryptography, DeFi"
+          content="yAudit, Zero Knowledge, Smart Contract Security, Blockchain Security, Ethereum, Cryptography, DeFi"
         />
         <meta name="referrer" content="origin" />
-        <meta name="creator" content="Electisec Team" />
+        <meta name="creator" content="yAudit Team" />
         <meta name="robots" content="follow, index" />
 
         <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://blog.electisec.com" />
-        <meta property="og:title" content="Electisec" />
+        <meta property="og:url" content="https://blog.yaudit.dev" />
+        <meta property="og:title" content="yAudit" />
         <meta
           property="og:description"
           content="ZK & Smart Contract Security"
         />
-        <meta property="og:site_name" content="Electisec" />
+        <meta property="og:site_name" content="yAudit" />
         <meta
           property="og:image"
-          content="https://electisec.com/twitter.png"
+          content="https://yaudit.dev/twitter.png"
         />
 
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:site" content="@electisec" />
-        <meta name="twitter:creator" content="@electisec" />
-        <meta name="twitter:image" content="https://electisec.com/twitter.png" />
+        <meta name="twitter:site" content="@yaudit" />
+        <meta name="twitter:creator" content="@yaudit" />
+        <meta name="twitter:image" content="https://yaudit.dev/twitter.png" />
 
         <link rel="icon" href="/favicon.ico" />
         <link
@@ -83,19 +83,19 @@ export default function Document() {
       light: {
         theme: 'base',
         themeVariables: {
-          primaryColor: '#15803d',
+          primaryColor: '#0055FF',
           primaryTextColor: '#ffffff',
           primaryBorderColor: '#e5e7eb',
-          lineColor: '#15803d',
+          lineColor: '#0055FF',
           secondaryColor: '#f5f5f5',
-          tertiaryColor: '#3ee680',
+          tertiaryColor: '#0055FF',
           background: '#fdfdfd',
           mainBkg: '#f3f3f3',
           secondBkg: '#f5f5f5',
           tertiaryBkg: '#e9e9e9',
-          primaryTextColor: '#171717',
-          pie1: '#15803d',
-          pie2: '#3ee680',
+          primaryTextColor: '#000000',
+          pie1: '#0055FF',
+          pie2: '#0055FF',
           pie3: '#f5f5f5',
           pie4: '#e9e9e9'
         }
@@ -104,20 +104,20 @@ export default function Document() {
         theme: 'base',
         themeVariables: {
           darkMode: true,
-          primaryColor: '#3ee680',
-          primaryTextColor: '#032823',
+          primaryColor: '#0055FF',
+          primaryTextColor: '#ffffff',
           primaryBorderColor: '#2a2a2a',
-          lineColor: '#3ee680',
+          lineColor: '#0055FF',
           secondaryColor: '#1a1a1a',
-          tertiaryColor: '#15803d',
+          tertiaryColor: '#0055FF',
           background: '#021e1a',
           mainBkg: '#032823',
           secondBkg: '#1a1a1a',
           tertiaryBkg: '#021e1a',
           primaryTextColor: '#ededed',
           secondaryTextColor: '#ffffff63',
-          pie1: '#3ee680',
-          pie2: '#15803d',
+          pie1: '#0055FF',
+          pie2: '#0055FF',
           pie3: '#032823',
           pie4: '#1a1a1a'
         }
