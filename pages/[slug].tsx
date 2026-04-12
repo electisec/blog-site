@@ -42,7 +42,7 @@ export default function ReportPage({
   return (
     <>
       <Head>
-        <title>{title} | yAudit Blog</title>
+        <title>{`${title} | yAudit Blog`}</title>
         <meta name="description" content={ogDescription} />
 
         {/* Open Graph / Facebook */}
