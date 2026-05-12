@@ -5,7 +5,6 @@
 /.pnp
 .pnp.*
 # pnpm
-pnpm-lock.yaml
 
 # testing
 /coverage
