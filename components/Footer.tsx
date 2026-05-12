@@ -25,7 +25,7 @@ export default function Footer() {
       />
       <DockDemo />
       <p className="text-sm text-body mt-10 text-center">
-        Copyright © 2025 yAudit. All rights reserved.
+        Copyright © 2026 yAudit. All rights reserved.
       </p>
     </div>
   );
